@@ -26,14 +26,11 @@ public static class ShapeParser
 		from str in Token.EqualTo(SToken.String)
 		select (Expression)new StringLiteral(str.Span);
 
-	private static TokenListParser<SToken, Expression> Literal { get; } =
-		from literal in
-			NumberLiteral
-			.Or(StringLiteral)
-		select literal;
 	static TokenListParser<SToken, Expression> NormalIdentifier { get; } =
 		from id in Token.EqualTo(SToken.Identifier)
 		select (Expression)new Identifier(id.Span);
+
+
 
 	static TokenListParser<SToken, Expression> ThrowawayIdentifier { get; } =
 		from id in Token.EqualTo(SToken.Underscore)
@@ -45,6 +42,13 @@ public static class ShapeParser
 			ThrowawayIdentifier
 			.Or(NormalIdentifier)
 		select e;
+
+	private static TokenListParser<SToken, Expression> Literal { get; } =
+		from literal in
+			NumberLiteral
+				.Or(StringLiteral)
+				.Or(Identifier)
+		select literal;
 	
 	static TokenListParser<SToken, Expression> IDTuple { get; }=
 		from a in Identifier

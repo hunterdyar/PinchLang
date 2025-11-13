@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinch-Lang", "Pinch-Lang\Pinch-Lang.csproj", "{9BC18026-996E-48B0-A773-467B0C085895}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGALDotNet", "CGALDotNet\CGALDotNet\CGALDotNet.csproj", "{31CF9AC9-08FD-4E78-B334-4EC0FEB76E6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGALDotNetGeometry", "CGALDotNetGeometry\CGALDotNetGeometry\CGALDotNetGeometry.csproj", "{681F5755-D7A0-408D-8949-7A4B3894B4CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PinchLangTests", "PinchLangTests\PinchLangTests.csproj", "{D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +18,17 @@ Global
 		{9BC18026-996E-48B0-A773-467B0C085895}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BC18026-996E-48B0-A773-467B0C085895}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BC18026-996E-48B0-A773-467B0C085895}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31CF9AC9-08FD-4E78-B334-4EC0FEB76E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31CF9AC9-08FD-4E78-B334-4EC0FEB76E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31CF9AC9-08FD-4E78-B334-4EC0FEB76E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31CF9AC9-08FD-4E78-B334-4EC0FEB76E6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{681F5755-D7A0-408D-8949-7A4B3894B4CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{681F5755-D7A0-408D-8949-7A4B3894B4CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{681F5755-D7A0-408D-8949-7A4B3894B4CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{681F5755-D7A0-408D-8949-7A4B3894B4CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

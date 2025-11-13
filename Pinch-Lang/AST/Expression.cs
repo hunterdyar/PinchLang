@@ -83,39 +83,6 @@ public class StringLiteral : Literal
 		return Value.ToString(); 
 	}
 }
-public class IntegerLiteral : Literal
-{
-	public TextSpan TextValue;
-	public int Value;
-
-	public IntegerLiteral(TextSpan val)
-	{
-		TextValue = val;
-		Value = int.Parse(val.ToString());
-	}
-
-	public override string ToString()
-	{
-		return Value.ToString();
-	}
-}
-
-public class DoubleLiteral : Literal
-{
-	public TextSpan TextValue;
-	public double Value;
-
-	public DoubleLiteral(TextSpan val)
-	{
-		TextValue = val;
-		Value = double.Parse(val.ToString());
-	}
-
-	public override string ToString()
-	{
-		return Value.ToString(CultureInfo.InvariantCulture);
-	}
-}
 
 public class Operator : Expression
 {

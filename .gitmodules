@@ -1,0 +1,6 @@
+[submodule "CGALDotNet"]
+	path = CGALDotNet
+	url = https://github.com/Scrawk/CGALDotNet.git
+[submodule "CGALDotNetGeometry"]
+	path = CGALDotNetGeometry
+	url = https://github.com/Scrawk/CGALDotNetGeometry.git
