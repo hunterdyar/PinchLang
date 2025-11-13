@@ -1,6 +1,8 @@
-﻿using CGALDotNetGeometry.Shapes;
+﻿using CGALDotNetGeometry.Numerics;
+using CGALDotNetGeometry.Shapes;
 using Pinch_Lang.Walker;
 using ShapesDeclare.AST;
+using Svg;
 
 namespace Pinch_Lang.Engine;
 
@@ -44,15 +46,14 @@ public abstract class Shape2D : StackItem
 	{
 	}
 
-
 	protected virtual bool ShapeHasProperty()
 	{
 		return false;
 	}
 
-
+	public abstract void RenderToSVGParent(ref SvgElementCollection parent);
 }
-public class Shape2D<T> : Shape2D where T : IShape2f
+public abstract class Shape2D<T> : Shape2D where T : IShape2f
 {
 	protected T _shape;
 	public Shape2D(Environment env, T shape) : base(env)
@@ -67,6 +68,8 @@ public class Shape2D<T> : Shape2D where T : IShape2f
 		//check if OUR shape has this property, then set it as needed.
 		DoSetProperty(propName, item);
 	}
+
+	
 }
 
 public class Circle : Shape2D<Circle2f>
@@ -81,7 +84,28 @@ public class Circle : Shape2D<Circle2f>
 		{
 			var r = ValueItem.AsNumber(item);
 			_shape.Radius = (float)r;
+		}else if (propName == "center_x")
+		{
+			var cx = ValueItem.AsNumber(item);
+			_shape.Center = new Point2f(cx, _shape.Center.y);
+		}
+		else if (propName == "center_y")
+		{
+			var cy = ValueItem.AsNumber(item);
+			_shape.Center = new Point2f(_shape.Center.x, cy);
 		}
 		DoSetProperty(propName, item);
+	}
+
+	public override void RenderToSVGParent(ref SvgElementCollection parent)
+	{
+		var c = new SvgCircle()
+		{
+			CenterX = new SvgUnit(SvgUnitType.None, _shape.Center.x),
+			CenterY = new SvgUnit(SvgUnitType.None, _shape.Center.y),
+			Radius = new SvgUnit(SvgUnitType.None, _shape.Radius)
+		};
+
+		parent.Add(c);
 	}
 }

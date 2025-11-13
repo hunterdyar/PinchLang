@@ -81,11 +81,13 @@ public static class ShapeParser
 	static TokenListParser<SToken, Statement> Declaration { get; }=
 		from ide in IDTuple
 		from exprs in Expression.Many()
+		from _ in NewLine
 		select (Statement)new ShapeDeclaration((IDTuple)ide, exprs);
 	
 	static TokenListParser<SToken, Statement> FunctionCall { get; }=
 		from id in Identifier
 		from exprs in Expression.Many()
+		from _ in NewLine
 		select (Statement)new FunctionCall((Identifier) id, exprs);
 
 	//'pushable' right now is just declarations i guess. groups and stuff later?
@@ -97,17 +99,25 @@ public static class ShapeParser
 	static TokenListParser<SToken, Statement> Pop { get; } =
 		from _ in Token.EqualTo(SToken.Dot)
 		select (Statement)new Pop();
-	
-	static TokenListParser<SToken, Statement> Statement { get; }=
+
+	private static TokenListParser<SToken, Statement> NewLine =
+		from s in Token.EqualTo(SToken.Newline).AtLeastOnce()
+		select AST.Statement.Empty;
+	static TokenListParser<SToken, Statement> Statement { get; } =
+		from _1 in NewLine.Many()
 		from s in Push.Try()
 			.Or(Pop)
 			.Or(FunctionCall)
 			.Or(Declaration) //has to be after Push, since they both look for Dec first.
+		from _2 in NewLine.Many()
+
 		select s;
 
 	static TokenListParser<SToken, Section> Section { get; }=
 		from h in Header
+		from _1 in NewLine.Many()
 		from stmnts in Statement.Many()
+		from _2 in NewLine.Many()//gobble gobble the ws.
 		select new Section(h, stmnts);
 
 	static TokenListParser<SToken, Root> Root { get; } =

@@ -1,12 +1,12 @@
 ﻿using CGALDotNetGeometry.Shapes;
 using Pinch_Lang.Walker;
 using ShapesDeclare.AST;
+using Svg;
 
 namespace Pinch_Lang.Engine;
 
 public class Environment
 {
-	private List<IShape2f> _shapes = new List<IShape2f>();
 
 	public Dictionary<string, StackItem> Declarations => _declarations;
 	private Dictionary<string, StackItem> _declarations = new Dictionary<string, StackItem>();
@@ -26,11 +26,6 @@ public class Environment
 	public void Execute(Root root)
 	{
 		StatementWalker.Walk(root);
-	}
-	//list of properties, modules, etc variable resolver, etc.
-	public void AddShape(IShape2f circle)
-	{
-		_shapes.Add(circle);	
 	}
 	
 	public void DeclareShape(string shapeName, Shape2D shape)
@@ -55,5 +50,23 @@ public class Environment
 	public void Pop()
 	{
 		_shapeStack.RemoveAt(_shapeStack.Count-1);
+	}
+
+	//todo: this will be elsewhere.
+	public SvgDocument RenderSVG()
+	{
+		SvgDocument doc = new SvgDocument();
+		SvgElementCollection parent = doc.Children;
+		foreach (var kvp in Declarations)
+		{
+			var val = kvp.Value;
+			if (val is Shape2D shape)
+			{
+				
+				shape.RenderToSVGParent(ref parent);
+			}
+		}
+
+		return doc;
 	}
 }

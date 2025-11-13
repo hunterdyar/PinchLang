@@ -2,6 +2,7 @@
 using Pinch_Lang.Engine;
 using ShapesDeclare;
 using ShapesDeclare.AST;
+using Svg;
 using Environment = Pinch_Lang.Engine.Environment;
 
 namespace PinchLangTests;
@@ -46,7 +47,48 @@ public class Tests
 		e.Execute(root);
 		
 		Assert.That(e.Declarations["c1"] != null);
-		var c = (Shape2D<Circle2f>)e.Declarations["c1"];
+		var c = (Circle)e.Declarations["c1"];
 		Assert.That(ValueItem.AsNumber(c.Properties["radius"]) == 20);
+	}
+
+	[Test]
+	public void ShapesNoPushPop()
+	{
+		var i = """
+		        [shapes]
+		        c1:circle 0 0 10
+		        c2:circle 10 10 20
+		        """;
+		var p = ShapeParser.TryParse(i, out Root root, out var error);
+		if (!p)
+		{
+			Assert.Fail(error);
+		}
+	}
+
+
+	[Test]
+	public void WalkerSVG()
+	{
+		var i = """
+		        [shapes]
+		        c1:circle 0 0 10 >
+		        set radius 20
+		        .
+		        
+		        c2:circle 10 10 20 > 
+		        .
+		        """;
+		var p = ShapeParser.TryParse(i, out Root root, out var error);
+		if (!p)
+		{
+			Assert.Fail();
+		}
+
+		var e = new Environment();
+
+		e.Execute(root);
+		var svg = e.RenderSVG();
+		Assert.That(svg.Children.Count == 2);
 	}
 }

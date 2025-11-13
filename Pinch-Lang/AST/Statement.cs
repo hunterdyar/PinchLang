@@ -5,7 +5,7 @@ namespace ShapesDeclare.AST;
 
 public class Statement
 {
-	
+	public static Statement Empty = new Statement();
 }
 
 public class ShapeDeclaration : Statement

@@ -24,5 +24,5 @@ public enum SToken
 	[Token(Category = "Literal")] String,
 	[Token(Category = "Literal")] Integer,
 	[Token(Category = "Literal")] Double,
-
+	[Token(Category = "Whitespace")] Newline,
 }

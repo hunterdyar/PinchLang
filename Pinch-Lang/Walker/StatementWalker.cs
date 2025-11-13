@@ -56,7 +56,7 @@ public class StatementWalker
 		if (shapeType == "circle")
 		{
 			var c = new CGALDotNetGeometry.Shapes.Circle2f(0,0,0);
-			var shape = new Shape2D<Circle2f>(_environment, c);
+			var shape = new Circle(_environment, c);
 			var args = shapeDeclaration.Expressions;
 			if (args.Length == 0)
 			{
@@ -67,6 +67,7 @@ public class StatementWalker
 				shape.SetProperty("radius", args[0]);
 			}else if (args.Length == 2)
 			{
+				//todo: support for vec2's
 				shape.SetProperty("center_x", args[0]);
 				shape.SetProperty("center_y", args[1]);
 			}else if (args.Length == 3)
@@ -94,6 +95,8 @@ public class StatementWalker
 			case "set":
 				Builtins.Set(_environment, functionCall.Arguments);
 				break;
+			default:
+				throw new Exception($"Unknown function or module '{functionCall.Name}'");
 		}
 	}
 }

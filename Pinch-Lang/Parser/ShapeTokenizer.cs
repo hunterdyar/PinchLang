@@ -11,11 +11,19 @@ public static class ShapeTokenizer
 {
 	public static Tokenizer<SToken> Tokenizer = new TokenizerBuilder<SToken>()
 		//COMMENTS
+		//have to put newline before whitespace ignoring.
+		.Match(Span.EqualTo(Environment.NewLine), SToken.Newline)
+		.Match(Span.EqualTo("\r\n"), SToken.Newline)
+		.Match(Span.EqualTo("\n"), SToken.Newline)
+
+		.Ignore(Span.WhiteSpace)//hmmmmmm is this breaking newline?
+	//	.Ignore(Character.In([' ', '\t']))
 		.Ignore(Span.WhiteSpace)
 		.Ignore(Comment.CPlusPlusStyle)
 		.Ignore(Comment.CStyle)
 		.Ignore(Comment.ShellStyle)
 		
+
 		//OPERATORS and SUGAR
 		.Match(Character.EqualTo(':'), SToken.Colon)
 		.Match(Character.EqualTo('>'), SToken.ChevRight)
@@ -59,4 +67,15 @@ public static class ShapeTokenizer
 
 		return Result.Value(SToken.Identifier, r.Location, r.Remainder);
 	}
+
+	// public static Result<SToken> SWhitespace(TextSpan sp)
+	// {
+	// 	
+	// 	if (!r.HasValue)
+	// 	{
+	// 		return Result.Empty<SToken>(sp);
+	// 	}
+	//
+	// 	return Result.Value(SToken.Identifier, r.Location, r.Remainder);
+	// }
 }
