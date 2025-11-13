@@ -1,0 +1,68 @@
+[Things]
+//id:type list-of-properties.
+
+//define it
+//not happy with how "COLOR" might work... tbd on "static stuff" syntax.
+c1:circle 0 0 50 Col.red
+
+//put an instance of it on the stack. These changes only affect this one (which isn't even rendered right now)
+c1 >
+set y 5
+.
+
+//put its global property reference on the stack (@). These changes will stick around.
+@c1 >
+set x 5
+.
+
+
+c1:circle >
+//set takes whatever is on the stack, searches for 1 for the property name, sets its value to 2.
+set radius @rz
+set x 5
+set y 5
+.
+
+//colons define a tuple. Often used for a bit of metadata or supplementary information, or in "key:value" settings.
+rz:expr >
+ @center.width/3
+.
+
+banana:int >
+    scope private
+.
+
+//square brackets are for lists of things.
+ramp0:texture >
+    set width (percent 1)//parenthesis only disambiguate ooo
+    set height 100% //% is shorthand for percent/100.  
+	gen.rampH [
+	    //ramp takes a list of number:color k:v's
+		0.0 : col.black
+		0.5 : col.red
+		1.0 : col[1,1,1]
+	]
+.
+
+//groups collect everything after them on the stack into a list of items (tree nodes, really)
+g1:group >
+	convex-hull >
+		c1
+		grad0
+	.
+.
+
+[Constraints]
+
+[Comments]
+
+Anything we type in this section is ignored except another new section header.
+
+[Canvas]
+//at the start of canvas, clear the stack from processing (well, set a marker). Now, we start rendering.
+g1 >
+dy = -50
+g1 >
+dy = 50
+
+//at the end of canvas), implicitly pop everything off of the stack.

@@ -1,0 +1,6 @@
+[Shapes]
+
+c1:circle 5 5 50 > 
+set radius 10
+.
+

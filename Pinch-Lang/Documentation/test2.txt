@@ -1,0 +1,45 @@
+
+(def c1 (circle 0 0 50 red))
+
+(set c1.radius 3)
+
+c1 >
+(set radius 3)
+.
+
+@c1 >
+(set x 5)
+.
+
+
+c1:circle >
+(set radius @rz)
+(set x 5)
+(set y 5)
+.
+
+(def rz (expr (div @center.width 3)))
+
+ramp0:texture >
+    (set width (percent 1))
+    (set height 100% )
+	(content gen.rampH [
+		(0.0 col.black)
+		(0.5 col.red)
+		(1.0 col[1,1,1])
+	])
+.
+
+g1:group >
+	convex-hull >
+		c1
+		grad0
+	.
+.
+
+canvas >
+	g1
+	g1 >
+		dy = 50
+	.
+.

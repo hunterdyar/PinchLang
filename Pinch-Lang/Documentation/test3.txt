@@ -1,0 +1,25 @@
+﻿EXPRESSION
+ Identifier
+
+STATEMENT
+ SHAPEDEC
+ FUNCDEC
+
+IDENTIFIER (char+char-or-digit)
+hello. circle. etc.
+
+TUPLE
+| IDTUPLE
+| ExpTUPLE
+
+IDTUPLE
+Identifier:Identifier
+
+ExpTuple
+Expression:Expression
+
+SHAPE DECLARATION
+IDTuple where tuple.b is shape keyword.
+
+Function DECLARATION
+Identifier 0-or-more Expressions as params.
