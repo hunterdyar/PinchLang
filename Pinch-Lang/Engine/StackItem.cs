@@ -1,5 +1,6 @@
 ﻿using NetTopologySuite.Geometries;
 using NetTopologySuite.Shape;
+using NetTopologySuite.Utilities;
 using Pinch_Lang.Walker;
 using ShapesDeclare.AST;
 using Svg;
@@ -42,53 +43,74 @@ public abstract class Shape : StackItem
 	public abstract void RenderToSVGParent(ref SvgElementCollection parent);
 }
 
-
-public class Rect : Shape
+public class Circle : Shape
 {
-	private Coordinate _min;
-	private Coordinate _max;
-	public Rect(Environment env, Coordinate min, Coordinate max) : base(env)
+	//todo:remove coord and center and replace with factory wrapper.
+	private Coordinate _center;
+	private double _radius;
+	private GeometricShapeFactory _factory = new GeometricShapeFactory();
+
+	public Circle(Environment env, Coordinate center, double radius) : base(env)
 	{
-		_min = min;
-		_max = max;
+		_center = center;
+		_radius = radius;
 	}
 
 	public override Geometry GetGeometry()
 	{
-		return Geometry.DefaultFactory.CreatePolygon([
-			_min, new Coordinate(_min.X, _max.Y), _max, new Coordinate(_max.X, _min.Y)
-		]);
-	}
-
-	public override void SetProperty(string propName, ValueItem item)
-	{
-		// if (propName == "radius")
-		// {
-		// 	var r = ValueItem.AsNumber(item);
-		// 	_shape.Radius = (float)r;
-		// }else if (propName == "center_x")
-		// {
-		// 	var cx = ValueItem.AsNumber(item);
-		// 	_shape.Center = new Point2f(cx, _shape.Center.y);
-		// }
-		// else if (propName == "center_y")
-		// {
-		// 	var cy = ValueItem.AsNumber(item);
-		// 	_shape.Center = new Point2f(_shape.Center.x, cy);
-		// }
+		_factory.Width = _radius * 2;
+		_factory.Height = _radius * 2;
+		_factory.Centre = _center;
+		
+		return _factory.CreateCircle();
 	}
 
 	public override void RenderToSVGParent(ref SvgElementCollection parent)
 	{
-		var c = new SvgRectangle()
-		{
-			X = new SvgUnit(SvgUnitType.None,(float)_min.X),
-			Y = new SvgUnit(SvgUnitType.None,(float)_min.Y),
-			Width = new SvgUnit(SvgUnitType.None, (float)(_max.X-_min.X)),
-			Height = new SvgUnit(SvgUnitType.None, (float)(_max.Y - _min.Y)),
-		};
+		throw new NotImplementedException();
+	}
+
+	public override void SetProperty(string propName, ValueItem item)
+	{
+		throw new NotImplementedException();
+	}
+}
+public class Rect : Shape
+{
+	private Polygon _polygon;
+	public Rect(Environment env, Coordinate min, Coordinate max) : base(env)
+	{
+		_polygon = Geometry.DefaultFactory.CreatePolygon([
+			min, new Coordinate(min.X, max.Y), max, new Coordinate(max.X, min.Y)
+		]);
+	}
+
+	public override Geometry GetGeometry()
+	{
+		return _polygon;
+	}
+
+	public override void SetProperty(string propName, ValueItem item)
+	{
+		throw new NotImplementedException();
+	}
+
+	public override void RenderToSVGParent(ref SvgElementCollection parent)
+	{
 		
-		parent.Add(c);
+		// var r = new SvgPolygon()
+		// {
+		// 	Points	= points
+		// }
+		// var c = new SvgRectangle()
+		// {
+		// 	X = new SvgUnit(SvgUnitType.None,(float)min.X),
+		// 	Y = new SvgUnit(SvgUnitType.None,(float)min.Y),
+		// 	Width = new SvgUnit(SvgUnitType.None, (float)(_max.X-_min.X)),
+		// 	Height = new SvgUnit(SvgUnitType.None, (float)(_max.Y - _min.Y)),
+		// };
+		
+		//parent.Add(c);
 	}
 	
 }

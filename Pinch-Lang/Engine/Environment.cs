@@ -1,4 +1,6 @@
-﻿using Pinch_Lang.Walker;
+﻿using NetTopologySuite.Shape;
+using NetTopologySuite.Utilities;
+using Pinch_Lang.Walker;
 using ShapesDeclare.AST;
 using Svg;
 
@@ -6,7 +8,6 @@ namespace Pinch_Lang.Engine;
 
 public class Environment
 {
-
 	public Dictionary<string, StackItem> Declarations => _declarations;
 	private Dictionary<string, StackItem> _declarations = new Dictionary<string, StackItem>();
 
