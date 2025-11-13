@@ -1,5 +1,4 @@
-﻿using CGALDotNetGeometry.Shapes;
-using Pinch_Lang.Walker;
+﻿using Pinch_Lang.Walker;
 using ShapesDeclare.AST;
 using Svg;
 
@@ -28,7 +27,7 @@ public class Environment
 		StatementWalker.Walk(root);
 	}
 	
-	public void DeclareShape(string shapeName, Shape2D shape)
+	public void DeclareShape(string shapeName, Shape shape)
 	{
 		if (shapeName == "_")
 		{
@@ -60,9 +59,8 @@ public class Environment
 		foreach (var kvp in Declarations)
 		{
 			var val = kvp.Value;
-			if (val is Shape2D shape)
+			if (val is Shape shape)
 			{
-				
 				shape.RenderToSVGParent(ref parent);
 			}
 		}

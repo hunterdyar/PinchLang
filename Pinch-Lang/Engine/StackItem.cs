@@ -1,5 +1,5 @@
-﻿using CGALDotNetGeometry.Numerics;
-using CGALDotNetGeometry.Shapes;
+﻿using NetTopologySuite.Geometries;
+using NetTopologySuite.Shape;
 using Pinch_Lang.Walker;
 using ShapesDeclare.AST;
 using Svg;
@@ -8,41 +8,26 @@ namespace Pinch_Lang.Engine;
 
 public abstract class StackItem
 {
-	public Dictionary<string, ValueItem> Properties => _properties;
-	protected Dictionary<string, ValueItem> _properties;
 	protected Environment _environment;
 
 	protected StackItem(Environment env)
 	{
 		_environment = env;
 	}
-	public void SetProperty(string propName, Expression expression)
+
+	public virtual void SetProperty(string propName, Expression expression)
 	{
-		LazyInitProperties();
-		var val = _environment.ExprWalker.WalkExpression(expression);
-		_properties[propName] = val;
+		var item = _environment.ExprWalker.WalkExpression(expression);
+		SetProperty(propName, item);
 	}
 
 	public abstract void SetProperty(string propName, ValueItem item);
 
-	protected void DoSetProperty(string propName, ValueItem item)
-	{
-		_properties[propName] = item;
-	}
-
-	protected void LazyInitProperties()
-	{
-		if (_properties == null)
-		{
-			_properties = new Dictionary<string, ValueItem>();
-		}
-	}
-
 }
 
-public abstract class Shape2D : StackItem
+public abstract class Shape : StackItem
 {
-	protected Shape2D(Environment env) : base(env)
+	protected Shape(Environment env) : base(env)
 	{
 	}
 
@@ -51,61 +36,59 @@ public abstract class Shape2D : StackItem
 		return false;
 	}
 
-	public abstract void RenderToSVGParent(ref SvgElementCollection parent);
-}
-public abstract class Shape2D<T> : Shape2D where T : IShape2f
-{
-	protected T _shape;
-	public Shape2D(Environment env, T shape) : base(env)
-	{
-		_shape = shape;
-	}
-
-	public override void SetProperty(string propName, ValueItem item)
-	{
-		LazyInitProperties();
-		
-		//check if OUR shape has this property, then set it as needed.
-		DoSetProperty(propName, item);
-	}
+	public abstract Geometry GetGeometry();
 
 	
+	public abstract void RenderToSVGParent(ref SvgElementCollection parent);
 }
 
-public class Circle : Shape2D<Circle2f>
+
+public class Rect : Shape
 {
-	public Circle(Environment env, Circle2f shape) : base(env, shape)
+	private Coordinate _min;
+	private Coordinate _max;
+	public Rect(Environment env, Coordinate min, Coordinate max) : base(env)
 	{
+		_min = min;
+		_max = max;
+	}
+
+	public override Geometry GetGeometry()
+	{
+		return Geometry.DefaultFactory.CreatePolygon([
+			_min, new Coordinate(_min.X, _max.Y), _max, new Coordinate(_max.X, _min.Y)
+		]);
 	}
 
 	public override void SetProperty(string propName, ValueItem item)
 	{
-		if (propName == "radius")
-		{
-			var r = ValueItem.AsNumber(item);
-			_shape.Radius = (float)r;
-		}else if (propName == "center_x")
-		{
-			var cx = ValueItem.AsNumber(item);
-			_shape.Center = new Point2f(cx, _shape.Center.y);
-		}
-		else if (propName == "center_y")
-		{
-			var cy = ValueItem.AsNumber(item);
-			_shape.Center = new Point2f(_shape.Center.x, cy);
-		}
-		DoSetProperty(propName, item);
+		// if (propName == "radius")
+		// {
+		// 	var r = ValueItem.AsNumber(item);
+		// 	_shape.Radius = (float)r;
+		// }else if (propName == "center_x")
+		// {
+		// 	var cx = ValueItem.AsNumber(item);
+		// 	_shape.Center = new Point2f(cx, _shape.Center.y);
+		// }
+		// else if (propName == "center_y")
+		// {
+		// 	var cy = ValueItem.AsNumber(item);
+		// 	_shape.Center = new Point2f(_shape.Center.x, cy);
+		// }
 	}
 
 	public override void RenderToSVGParent(ref SvgElementCollection parent)
 	{
-		var c = new SvgCircle()
+		var c = new SvgRectangle()
 		{
-			CenterX = new SvgUnit(SvgUnitType.None, _shape.Center.x),
-			CenterY = new SvgUnit(SvgUnitType.None, _shape.Center.y),
-			Radius = new SvgUnit(SvgUnitType.None, _shape.Radius)
+			X = new SvgUnit(SvgUnitType.None,(float)_min.X),
+			Y = new SvgUnit(SvgUnitType.None,(float)_min.Y),
+			Width = new SvgUnit(SvgUnitType.None, (float)(_max.X-_min.X)),
+			Height = new SvgUnit(SvgUnitType.None, (float)(_max.Y - _min.Y)),
 		};
-
+		
 		parent.Add(c);
 	}
+	
 }

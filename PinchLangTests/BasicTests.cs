@@ -1,5 +1,4 @@
-﻿using CGALDotNetGeometry.Shapes;
-using Pinch_Lang.Engine;
+﻿using Pinch_Lang.Engine;
 using ShapesDeclare;
 using ShapesDeclare.AST;
 using Svg;
@@ -46,9 +45,9 @@ public class Tests
 		
 		e.Execute(root);
 		
-		Assert.That(e.Declarations["c1"] != null);
-		var c = (Circle)e.Declarations["c1"];
-		Assert.That(ValueItem.AsNumber(c.Properties["radius"]) == 20);
+		Assert.That(e.Declarations["r1"] != null);
+		var c = (Rect)e.Declarations["r1"];
+		// Assert.That(ValueItem.AsNumber(c.Properties["radius"]) == 20);
 	}
 
 	[Test]
@@ -56,8 +55,8 @@ public class Tests
 	{
 		var i = """
 		        [shapes]
-		        c1:circle 0 0 10
-		        c2:circle 10 10 20
+		        r1:rect 0 0 10 10
+		        r2:rect 5 5 20 20
 		        """;
 		var p = ShapeParser.TryParse(i, out Root root, out var error);
 		if (!p)
@@ -72,11 +71,10 @@ public class Tests
 	{
 		var i = """
 		        [shapes]
-		        c1:circle 0 0 10 >
-		        set radius 20
+		        r1:rect 0 0 10 10 >
 		        .
 		        
-		        c2:circle 10 10 20 > 
+		        r2:rect 10 10 20 20 > 
 		        .
 		        """;
 		var p = ShapeParser.TryParse(i, out Root root, out var error);

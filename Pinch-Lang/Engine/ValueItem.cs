@@ -77,15 +77,3 @@ public class IdentifierValue : ValueItem
 		_value = value.ToStringValue();
 	}
 }
-
-
-public class ColorValue : ValueItem
-{
-	public CGALDotNetGeometry.Colors.ColorRGBA Value
-	{
-		get => _value;
-		set => _value = value;
-	}
-
-	private CGALDotNetGeometry.Colors.ColorRGBA _value;
-}
