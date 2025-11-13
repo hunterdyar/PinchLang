@@ -4,27 +4,27 @@ namespace Pinch_Lang.Engine;
 
 public class ValueItem
 {
-	public static double AsNumber(ValueItem valueItem)
+	public double AsNumber()
 	{
-		switch (valueItem)
+		switch (this)
 		{
 			case NumberValue numberValue:
 				return numberValue.Value;
 			default:
-				throw new InvalidCastException($"Cannot convert {valueItem} to number");
+				throw new InvalidCastException($"Cannot convert {this} to number");
 		}
 	}
 
-	public static string AsStringOrID(ValueItem item)
+	public string AsStringOrID()
 	{
-		switch (item)
+		switch (this)
 		{
 			case StringValue sv:
 				return sv.Value;
 			case IdentifierValue iv:
 				return iv.Value;
 			default:
-				throw new InvalidCastException($"Cannot convert {item} to name or string");
+				throw new InvalidCastException($"Cannot convert {this} to name or string");
 		}
 	}
 }

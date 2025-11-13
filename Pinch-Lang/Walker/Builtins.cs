@@ -9,7 +9,7 @@ public static class Builtins
 	public static void Set(Environment env, Expression[] args)
 	{
 		var propNameItem = env.ExprWalker.WalkExpression(args[0]);
-		var propName = ValueItem.AsStringOrID(propNameItem);
+		var propName = propNameItem.AsStringOrID();
 		
 		//get top of shapestack
 		var si = env.Top();

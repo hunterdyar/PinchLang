@@ -34,7 +34,7 @@ public class StatementWalker
 		switch (statement)
 		{
 			case ShapeDeclaration shapeDeclaration:
-				WalkShapeDeclare(shapeDeclaration);
+				var x = WalkShapeDeclare(shapeDeclaration);
 				break;
 			case FunctionCall functionCall:
 				WalkFunctionCall(functionCall);
@@ -56,43 +56,22 @@ public class StatementWalker
 		var args = shapeDeclaration.Expressions;
 		if (shapeType == "circle")
 		{
-			// var c = new CGALDotNetGeometry.Shapes.Circle2f(0,0,0);
-			// var shape = new Circle(_environment, c);
-			// var args = shapeDeclaration.Expressions;
-			// if (args.Length == 0)
-			// {
-			// 	//all good!
-			// }else if (args.Length == 1)
-			// {
-			// 	//radius
-			// 	shape.SetProperty("radius", args[0]);
-			// }else if (args.Length == 2)
-			// {
-			// 	//todo: support for vec2's
-			// 	shape.SetProperty("center_x", args[0]);
-			// 	shape.SetProperty("center_y", args[1]);
-			// }else if (args.Length == 3)
-			// {
-			// 	shape.SetProperty("center_x", args[0]);
-			// 	shape.SetProperty("center_y", args[1]);
-			// 	shape.SetProperty("radius", args[2]);
-			// }
-			// else
-			// {
-			// 	throw new Exception("Invalid number of arguments for Circle. Expected 1 (r), 2(x,y) or 3(x,y,r)");
-			// }
-			//
-			// _environment.DeclareShape(shapeName, shape);
-			// return shape;
+			var cx = _environment.ExprWalker.WalkExpression(args[0]).AsNumber();
+			var cy = _environment.ExprWalker.WalkExpression(args[1]).AsNumber();
+			var radius = _environment.ExprWalker.WalkExpression(args[2]).AsNumber();
+			var circle = new Circle(_environment, new Coordinate(cx, cy), radius);
+			_environment.DeclareShape(shapeName, circle);
+			return circle;
 		}else if (shapeType == "rect")
 		{
 			if (args.Length == 4)
 			{
-				var min_x = ValueItem.AsNumber(_environment.ExprWalker.WalkExpression(args[0]));
-				var min_y = ValueItem.AsNumber(_environment.ExprWalker.WalkExpression(args[1]));
-				var max_x = ValueItem.AsNumber(_environment.ExprWalker.WalkExpression(args[2]));
-				var max_y = ValueItem.AsNumber(_environment.ExprWalker.WalkExpression(args[3]));
+				var min_x = _environment.ExprWalker.WalkExpression(args[0]).AsNumber();
+				var min_y = _environment.ExprWalker.WalkExpression(args[1]).AsNumber();
+				var max_x = _environment.ExprWalker.WalkExpression(args[2]).AsNumber();
+				var max_y = _environment.ExprWalker.WalkExpression(args[3]).AsNumber();
 				var rect = new Rect(_environment, new Coordinate(min_x, min_y), new Coordinate(max_x, max_y));
+				_environment.DeclareShape(shapeName, rect);
 				return rect;
 			}
 		}

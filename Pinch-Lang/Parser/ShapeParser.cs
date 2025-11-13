@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using ShapesDeclare.AST;
 using Superpower;
+using Superpower.Model;
 using Superpower.Parsers;
 using Expression = ShapesDeclare.AST.Expression;
 using Identifier = ShapesDeclare.AST.Identifier;
@@ -81,17 +82,22 @@ public static class ShapeParser
 	static TokenListParser<SToken, Statement> Declaration { get; }=
 		from ide in IDTuple
 		from exprs in Expression.Many()
-		from _ in NewLine
 		select (Statement)new ShapeDeclaration((IDTuple)ide, exprs);
+
+	public static TokenListParser<SToken, Statement> StandaloneDeclaration { get; } =
+		from dec in Declaration.Try()
+		from _ in NewLine
+		select dec;
 	
-	static TokenListParser<SToken, Statement> FunctionCall { get; }=
+	public static TokenListParser<SToken, Statement> FunctionCall { get; }=
 		from id in Identifier
 		from exprs in Expression.Many()
+		//if atEnd, allow...
 		from _ in NewLine
 		select (Statement)new FunctionCall((Identifier) id, exprs);
 
 	//'pushable' right now is just declarations i guess. groups and stuff later?
-	private static TokenListParser<SToken, Statement> Push { get; } =
+	public static TokenListParser<SToken, Statement> Push { get; } =
 		from sb in Declaration
 		from _ in Token.EqualTo(SToken.ChevRight)
 		select (Statement)new Push((ShapeDeclaration)sb);
@@ -107,13 +113,13 @@ public static class ShapeParser
 		from _1 in NewLine.Many()
 		from s in Push.Try()
 			.Or(Pop)
+			.Or(StandaloneDeclaration) //has to be after Push, since they both look for Dec first.
 			.Or(FunctionCall)
-			.Or(Declaration) //has to be after Push, since they both look for Dec first.
 		from _2 in NewLine.Many()
 
 		select s;
 
-	static TokenListParser<SToken, Section> Section { get; }=
+	public static TokenListParser<SToken, Section> Section { get; }=
 		from h in Header
 		from _1 in NewLine.Many()
 		from stmnts in Statement.Many()
@@ -128,14 +134,15 @@ public static class ShapeParser
 	
 	public static bool TryParse(string input, [MaybeNullWhen(false)] out Root root, [MaybeNullWhen(true)]out string error)
 	{
-		var tokr = ShapeTokenizer.Tokenizer.TryTokenize(input);
-
+		//hackily add a newline to the end.
+		var tokr = ShapeTokenizer.Tokenizer.TryTokenize(input+Environment.NewLine);
 		if (!tokr.HasValue)
 		{
 			root = AST.Root.Empty;
 			error = tokr.ToString();
 			return false;
 		}
+
 		
 		var res = Program.TryParse(tokr.Value);
 		if (res.HasValue)

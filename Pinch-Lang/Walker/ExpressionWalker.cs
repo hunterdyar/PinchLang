@@ -25,7 +25,9 @@ public class ExpressionWalker
 			case Identifier id:
 				return new IdentifierValue(id.Value);
 			case BinaryOperator binOp:
-				throw new NotImplementedException("binopop");
+				throw new NotImplementedException("binaryOp not implemented");
+			case UnaryOperator unOp:
+				throw new NotImplementedException("unaryOp not implemented");
 		}
 
 		throw new NotImplementedException($"unable to walk {expression}");

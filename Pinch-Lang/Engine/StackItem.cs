@@ -72,7 +72,23 @@ public class Circle : Shape
 
 	public override void SetProperty(string propName, ValueItem item)
 	{
-		throw new NotImplementedException();
+		switch (propName)
+		{
+			case "radius":
+				var r = item.AsNumber();
+				_radius = r;
+				break;
+			case "centerx":
+				var cx = item.AsNumber();
+				_center.X = cx;
+				break;
+			case "centery":
+				var cy = item.AsNumber();
+				_center.Y = cy;
+				break;
+			default:
+				throw new Exception($"Invalid Argument {item} for Circle {propName}");
+		}
 	}
 }
 public class Rect : Shape
@@ -81,7 +97,8 @@ public class Rect : Shape
 	public Rect(Environment env, Coordinate min, Coordinate max) : base(env)
 	{
 		_polygon = Geometry.DefaultFactory.CreatePolygon([
-			min, new Coordinate(min.X, max.Y), max, new Coordinate(max.X, min.Y)
+			min, new Coordinate(min.X, max.Y), max, new Coordinate(max.X, min.Y),
+			min
 		]);
 	}
 

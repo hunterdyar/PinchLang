@@ -33,8 +33,13 @@ public class Tests
 		var i = """
 		        [shapes]
 		        c1:circle 0 0 10 >
+		        
 		        set radius 20
+		        
 		        .
+		        
+		        r1:rect 5 5 6 6
+		        
 		        """;
 		var p = ShapeParser.TryParse(i, out Root root, out var error);
 		if (!p)
