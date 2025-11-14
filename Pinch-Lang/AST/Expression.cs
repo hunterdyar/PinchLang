@@ -7,7 +7,8 @@ public enum IdentPrefix
 {
 	None,
 	Dot,
-	Underscore
+	Underscore,
+	At
 }
 public class Expression
 {

@@ -8,6 +8,7 @@ public enum SToken
 	[Token(Category = "Identifier")] Identifier,
 	[Token(Category = "Identifier")] DotIdentifier,
 	[Token(Category = "Identifier")] UnderscoreIdentifier,
+	[Token(Category = "Identifier")] AtIdentifier,
 	[Token(Example = ":")] Colon,
 	[Token(Example = ">")] ChevRight,
 	[Token(Example = ".")] Dot,

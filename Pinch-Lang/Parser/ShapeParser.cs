@@ -35,6 +35,10 @@ public static class ShapeParser
 		from id in Token.EqualTo(SToken.DotIdentifier)
 		select (Expression)new Identifier(id.Span, IdentPrefix.Dot);
 
+	static TokenListParser<SToken, Expression> AtIdentifier { get; } =
+		from id in Token.EqualTo(SToken.DotIdentifier)
+		select (Expression)new Identifier(id.Span, IdentPrefix.At);
+
 	static TokenListParser<SToken, Expression> UnderscoreIdentifier { get; } =
 		from id in Token.EqualTo(SToken.UnderscoreIdentifier)
 		select (Expression)new Identifier(id.Span, IdentPrefix.Underscore);
@@ -50,6 +54,7 @@ public static class ShapeParser
 			.Or(NormalIdentifier)
 			.Or(DotIdentifier)
 			.Or(UnderscoreIdentifier)
+			.Or(AtIdentifier)
 		select e;
 
 	private static TokenListParser<SToken, Expression> Literal { get; } =
@@ -116,7 +121,6 @@ public static class ShapeParser
 		from id in Identifier
 		from exprs in Expression.Many()
 		select ((Identifier)id, exprs);
-	
 		
 	public static TokenListParser<SToken, Statement> FunctionCallWithBlock { get; } =
 		from fn in FunctionCallFirstPart.Try()//Try allows us to succeed at parsing by trying with block before without block.
@@ -127,7 +131,6 @@ public static class ShapeParser
 		from fn in FunctionCallFirstPart
 		from _ in NewLine!.OptionalOrDefault(null)
 		select (Statement)new FunctionCall(fn.id, fn.args);
-
 	
 	//'pushable' right now is just declarations i guess. groups and stuff later?
 	public static TokenListParser<SToken, Statement> Push { get; } =

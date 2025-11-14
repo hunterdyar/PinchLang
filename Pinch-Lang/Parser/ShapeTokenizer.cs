@@ -26,6 +26,8 @@ public static class ShapeTokenizer
 		//Identifier
 		.Match(DotPrefixIdentifier, SToken.DotIdentifier)
 		.Match(UnderscorePrefixIdentifier, SToken.UnderscoreIdentifier)
+		.Match(AtPrefixIdentifier, SToken.AtIdentifier)
+
 		.Match(Identifier.CStyle, SToken.Identifier)
 
 		//OPERATORS and SUGAR
@@ -74,6 +76,7 @@ public static class ShapeTokenizer
 
 	public static Result<SToken> DotPrefixIdentifier(TextSpan sp) => PrefixIdentifier(sp, '.');
 	public static Result<SToken> UnderscorePrefixIdentifier(TextSpan sp) => PrefixIdentifier(sp, '_');
+	public static Result<SToken> AtPrefixIdentifier(TextSpan sp) => PrefixIdentifier(sp, '@');
 
 	private static Result<SToken> PrefixIdentifier(TextSpan sp, char prefix)
 	{
