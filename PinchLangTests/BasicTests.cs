@@ -54,6 +54,7 @@ public class Tests
 		var c = (Rect)e.Declarations["r1"];
 		// Assert.That(ValueItem.AsNumber(c.Properties["radius"]) == 20);
 	}
+	
 
 	[Test]
 	public void ShapesNoPushPop()

@@ -3,6 +3,12 @@ using Superpower.Model;
 
 namespace ShapesDeclare.AST;
 
+public enum IdentPrefix
+{
+	None,
+	Dot,
+	Underscore
+}
 public class Expression
 {
 	
@@ -11,9 +17,26 @@ public class Expression
 public class Identifier : Expression
 {
 	public TextSpan Value;
+	public  IdentPrefix Prefix = IdentPrefix.None;
 	public Identifier(TextSpan idSpan)
 	{
 		Value = idSpan;
+		Prefix = IdentPrefix.None;
+	}
+	public Identifier(TextSpan idSpan, IdentPrefix prefix)
+	{
+		//save the id not the _ or . or whatever. its awkward because this is something where we dont ignore whitespace, the . has to be connected.
+		//if we write our own lexer, this could be different.
+		if (prefix != IdentPrefix.None)
+		{
+			Value = idSpan.Skip(1);
+		}
+		else
+		{
+			Value = idSpan;
+		}
+		
+		Prefix = prefix;
 	}
 
 	public override string ToString()

@@ -31,17 +31,25 @@ public static class ShapeParser
 		from id in Token.EqualTo(SToken.Identifier)
 		select (Expression)new Identifier(id.Span);
 
+	static TokenListParser<SToken, Expression> DotIdentifier { get; } =
+		from id in Token.EqualTo(SToken.DotIdentifier)
+		select (Expression)new Identifier(id.Span, IdentPrefix.Dot);
 
-
+	static TokenListParser<SToken, Expression> UnderscoreIdentifier { get; } =
+		from id in Token.EqualTo(SToken.UnderscoreIdentifier)
+		select (Expression)new Identifier(id.Span, IdentPrefix.Underscore);
+	
 	static TokenListParser<SToken, Expression> ThrowawayIdentifier { get; } =
 		from id in Token.EqualTo(SToken.Underscore)
 		// from expr in Token.EqualTo(SToken.Identifier)
 		select (Expression)new ThrowawayIdentifier(id.Span);
-	
-	static TokenListParser<SToken, Expression> Identifier { get; } =
+
+	public static TokenListParser<SToken, Expression> Identifier { get; } =
 		from e in
 			ThrowawayIdentifier
 			.Or(NormalIdentifier)
+			.Or(DotIdentifier)
+			.Or(UnderscoreIdentifier)
 		select e;
 
 	private static TokenListParser<SToken, Expression> Literal { get; } =
@@ -95,6 +103,7 @@ public static class ShapeParser
 		//if atEnd, allow...
 		from _ in NewLine
 		select (Statement)new FunctionCall((Identifier) id, exprs);
+	
 
 	//'pushable' right now is just declarations i guess. groups and stuff later?
 	public static TokenListParser<SToken, Statement> Push { get; } =
@@ -106,7 +115,7 @@ public static class ShapeParser
 		from _ in Token.EqualTo(SToken.Dot)
 		select (Statement)new Pop();
 
-	private static TokenListParser<SToken, Statement> NewLine =
+	public static TokenListParser<SToken, Statement> NewLine =
 		from s in Token.EqualTo(SToken.Newline).AtLeastOnce()
 		select AST.Statement.Empty;
 	static TokenListParser<SToken, Statement> Statement { get; } =

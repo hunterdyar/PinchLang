@@ -6,6 +6,8 @@ public enum SToken
 {
 	None,
 	[Token(Category = "Identifier")] Identifier,
+	[Token(Category = "Identifier")] DotIdentifier,
+	[Token(Category = "Identifier")] UnderscoreIdentifier,
 	[Token(Example = ":")] Colon,
 	[Token(Example = ">")] ChevRight,
 	[Token(Example = ".")] Dot,

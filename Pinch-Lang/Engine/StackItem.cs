@@ -67,7 +67,8 @@ public class Circle : Shape
 
 	public override void RenderToSVGParent(ref SvgElementCollection parent)
 	{
-		throw new NotImplementedException();
+		
+		
 	}
 
 	public override void SetProperty(string propName, ValueItem item)

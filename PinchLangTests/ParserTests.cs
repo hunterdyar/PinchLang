@@ -67,6 +67,28 @@ public class ParserTests
 	}
 
 	[Test]
+	public void Identifiers()
+	{
+		var i = """
+		        basic BASIC _ _word .dot
+		        """;
+		
+		var t = Tokenize(i);
+		var p = ShapeParser.Identifier.Many().Invoke(t);
+		if (!p.HasValue)
+		{
+			Assert.Fail(p.ToString());
+		}
+		
+		Assert.That(p.Value.Length == 5);
+		Assert.That(p.Value[0].ToString(), Is.EqualTo("basic"));
+		Assert.That(p.Value[1].ToString(), Is.EqualTo("BASIC"));
+		Assert.That(p.Value[2].ToString(), Is.EqualTo("_"));
+		Assert.That(p.Value[3].ToString(), Is.EqualTo("word"));
+		Assert.That(p.Value[4].ToString(), Is.EqualTo("dot"));
+	}
+	
+	[Test]
 	public void SectionListTest()
 	{
 		var i = """

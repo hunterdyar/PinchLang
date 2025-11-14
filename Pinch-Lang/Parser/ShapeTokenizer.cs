@@ -23,6 +23,10 @@ public static class ShapeTokenizer
 		.Ignore(Comment.CStyle)
 		.Ignore(Comment.ShellStyle)
 		
+		//Identifier
+		.Match(DotPrefixIdentifier, SToken.DotIdentifier)
+		.Match(UnderscorePrefixIdentifier, SToken.UnderscoreIdentifier)
+		.Match(Identifier.CStyle, SToken.Identifier)
 
 		//OPERATORS and SUGAR
 		.Match(Character.EqualTo(':'), SToken.Colon)
@@ -45,8 +49,6 @@ public static class ShapeTokenizer
 		.Match(Numerics.Integer, SToken.Integer)
 		.Match(Numerics.DecimalDouble, SToken.Double)
 		
-		//Identifier
-		.Match(Identifier.CStyle, SToken.Identifier)
 		
 		//KEYWORDS
 		.Match(Span.EqualTo("set"), SToken.Set)
@@ -66,6 +68,30 @@ public static class ShapeTokenizer
 		}
 
 		return Result.Value(SToken.Identifier, r.Location, r.Remainder);
+	}
+
+	public static Result<SToken> DotPrefixIdentifier(TextSpan sp) => PrefixIdentifier(sp, '.');
+	public static Result<SToken> UnderscorePrefixIdentifier(TextSpan sp) => PrefixIdentifier(sp, '_');
+
+	private static Result<SToken> PrefixIdentifier(TextSpan sp, char prefix)
+	{
+		var first  = Character.EqualTo(prefix).Invoke(sp);
+		if (!first.HasValue)
+		{
+			//empty, don't parse anything
+			return Result.Empty<SToken>(sp);
+		}
+		
+		var second = Identifier.CStyle.Invoke(first.Remainder);
+		if (!second.HasValue)
+		{
+			//dont return second, since we dont want to consume first.
+			return Result.Empty<SToken>(sp);
+		}
+		//first.Location+second.Location
+		
+		//don't include prefix in text result.
+		return Result.Value(SToken.String,second.Location, second.Remainder);
 	}
 
 	// public static Result<SToken> SWhitespace(TextSpan sp)
