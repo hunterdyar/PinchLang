@@ -33,13 +33,9 @@ public class Tests
 		var i = """
 		        [shapes]
 		        c1:circle 0 0 10 >
-		        
 		        set radius 20
-		        
 		        .
-		        
 		        r1:rect 5 5 6 6
-		        
 		        """;
 		var p = ShapeParser.TryParse(i, out Root root, out var error);
 		if (!p)
@@ -50,7 +46,7 @@ public class Tests
 		
 		e.Execute(root);
 		
-		Assert.That(e.Declarations["r1"] != null);
+		Assert.That(e.Declarations.ContainsKey("r1"));
 		var c = (Rect)e.Declarations["r1"];
 		// Assert.That(ValueItem.AsNumber(c.Properties["radius"]) == 20);
 	}
@@ -69,6 +65,9 @@ public class Tests
 		{
 			Assert.Fail(error);
 		}
+
+		var e = new Environment();
+		e.Execute(root);
 	}
 
 

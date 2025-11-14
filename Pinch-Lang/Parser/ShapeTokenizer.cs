@@ -34,6 +34,8 @@ public static class ShapeTokenizer
 		.Match(Character.EqualTo('.'), SToken.Dot)
 		.Match(Character.EqualTo('('), SToken.LParen)
 		.Match(Character.EqualTo(')'), SToken.RParen)
+		.Match(Character.EqualTo('{'), SToken.LBracket)
+		.Match(Character.EqualTo('}'), SToken.RBracket)
 		.Match(Character.EqualTo('['), SToken.LBrace)
 		.Match(Character.EqualTo(']'), SToken.RBrace)
 		.Match(Character.EqualTo('+'), SToken.Plus)

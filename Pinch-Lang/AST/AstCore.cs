@@ -28,6 +28,15 @@ public class Section
     }
 }
 
+public class StackBlock : Statement
+{
+    public Statement[] Statements;
+    public StackBlock(params Statement[] statements)
+    {
+        Statements = statements;
+    }
+}
+
 public class Header
 {
     private TextSpan Value;

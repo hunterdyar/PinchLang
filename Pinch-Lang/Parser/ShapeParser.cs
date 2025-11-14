@@ -76,11 +76,16 @@ public static class ShapeParser
 		from x in (TokenListParser<SToken, Expression>)
 			Identifier
 			.Or(Literal)
-			.Or<SToken, Expression>(IDTuple)
+			.Or(IDTuple)
 			.Or(Operation)
 			select x;
 	
+	
+	
 	//Statements
+	public static TokenListParser<SToken, Statement> NewLine =
+		from s in Token.EqualTo(SToken.Newline).AtLeastOnce()
+		select AST.Statement.Empty;
 	static TokenListParser<SToken, Header> Header { get; }= 
 		from _lb in Token.EqualTo(SToken.LBrace)
 		from id in Identifier
@@ -96,15 +101,34 @@ public static class ShapeParser
 		from dec in Declaration.Try()
 		from _ in NewLine
 		select dec;
-	
-	public static TokenListParser<SToken, Statement> FunctionCall { get; }=
+
+	public static TokenListParser<SToken, Statement> StackBlock { get; } =
+		// from a in NewLine.IgnoreMany()//some type bs making ignoreMany not work. this can be improved.
+		from nl1 in NewLine.Many()
+		from l in Token.EqualTo(SToken.LBracket)
+		from nl2 in NewLine.Many()
+		from stmts in Statement.Many()
+		from r in Token.EqualTo(SToken.RBracket)
+		from nl3 in NewLine.Many()
+		select (Statement)new AST.StackBlock(stmts);
+
+	public static TokenListParser<SToken, (Identifier id, Expression[] args)> FunctionCallFirstPart { get; }=
 		from id in Identifier
 		from exprs in Expression.Many()
-		//if atEnd, allow...
-		from _ in NewLine
-		select (Statement)new FunctionCall((Identifier) id, exprs);
+		select ((Identifier)id, exprs);
 	
+		
+	public static TokenListParser<SToken, Statement> FunctionCallWithBlock { get; } =
+		from fn in FunctionCallFirstPart.Try()//Try allows us to succeed at parsing by trying with block before without block.
+		from sb in StackBlock.Try()
+		select (Statement)new FunctionCall(fn.id, fn.args, (StackBlock)sb);
 
+	public static TokenListParser<SToken, Statement> FunctionCallNoBlock { get; } =
+		from fn in FunctionCallFirstPart
+		from _ in NewLine!.OptionalOrDefault(null)
+		select (Statement)new FunctionCall(fn.id, fn.args);
+
+	
 	//'pushable' right now is just declarations i guess. groups and stuff later?
 	public static TokenListParser<SToken, Statement> Push { get; } =
 		from sb in Declaration
@@ -114,25 +138,22 @@ public static class ShapeParser
 	static TokenListParser<SToken, Statement> Pop { get; } =
 		from _ in Token.EqualTo(SToken.Dot)
 		select (Statement)new Pop();
-
-	public static TokenListParser<SToken, Statement> NewLine =
-		from s in Token.EqualTo(SToken.Newline).AtLeastOnce()
-		select AST.Statement.Empty;
+	
 	static TokenListParser<SToken, Statement> Statement { get; } =
 		from _1 in NewLine.Many()
 		from s in Push.Try()
 			.Or(Pop)
 			.Or(StandaloneDeclaration) //has to be after Push, since they both look for Dec first.
-			.Or(FunctionCall)
+			//I think technically this is slower than if we seperated function+exprs and then added newline or block
+			.Or(FunctionCallWithBlock)
+			.Or(FunctionCallNoBlock)
 		from _2 in NewLine.Many()
 
 		select s;
 
 	public static TokenListParser<SToken, Section> Section { get; }=
 		from h in Header
-		from _1 in NewLine.Many()
 		from stmnts in Statement.Many()
-		from _2 in NewLine.Many()//gobble gobble the ws.
 		select new Section(h, stmnts);
 
 	static TokenListParser<SToken, Root> Root { get; } =

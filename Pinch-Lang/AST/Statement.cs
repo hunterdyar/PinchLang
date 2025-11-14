@@ -8,6 +8,11 @@ public class Statement
 	public static Statement Empty = new Statement();
 }
 
+public class NamedStatement : Statement
+{
+	// public TextSpan Name;
+}
+
 public class ShapeDeclaration : Statement
 {
 	//Name:ShapeType listOfProperties
@@ -30,13 +35,37 @@ public class ShapeDeclaration : Statement
 
 public class FunctionCall : Statement
 {
-	public TextSpan Name;
+	public int PopFromStack;
+	public StackBlock? StackBlock;
+	public Identifier Identifier;
+	public TextSpan Name => Identifier.Value;
 	public Expression[] Arguments;
 
 	public FunctionCall(Identifier id, params Expression[] arguments)
 	{
-		Name = id.Value;
+		PopFromStack = CountPopFromID(id);
+		Identifier = id;
 		Arguments = arguments;
+		StackBlock = null;
+	}
+
+	public FunctionCall(Identifier id, Expression[] arguments, StackBlock? block)
+	{
+		Identifier = id;
+		Arguments = arguments;
+		PopFromStack = CountPopFromID(id);
+		StackBlock = block;
+	}
+
+	private int CountPopFromID(Identifier id)
+	{
+		if (id.Prefix == IdentPrefix.Dot)
+		{
+			return 1;
+
+		}
+
+		return 0;
 	}
 
 	public override string ToString()

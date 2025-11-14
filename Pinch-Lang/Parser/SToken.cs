@@ -13,6 +13,8 @@ public enum SToken
 	[Token(Example = ".")] Dot,
 	[Token(Example = "(")] LParen,
 	[Token(Example = ")")] RParen,
+	[Token(Example = "{")] LBracket,
+	[Token(Example = "}")] RBracket,
 	[Token(Example = "[")] LBrace,
 	[Token(Example = "]")] RBrace,
 	[Token(Example = "/")] Slash,

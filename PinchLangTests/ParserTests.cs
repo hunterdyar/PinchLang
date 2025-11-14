@@ -1,4 +1,5 @@
 ﻿using ShapesDeclare;
+using ShapesDeclare.AST;
 using Superpower;
 using Superpower.Model;
 
@@ -58,12 +59,106 @@ public class ParserTests
 		        
 		        """;
 		var t = Tokenize(i);
-		var p = ShapeParser.FunctionCall.Many().Invoke(t);
+		var p = ShapeParser.FunctionCallNoBlock.Many().Invoke(t);
 		if (!p.HasValue)
 		{
 			Assert.Fail(p.ToString());
 		}
 		Assert.That(p.Value.Length == 3);
+	}
+
+	[Test]
+	public void StackBlockSingleTest()
+	{
+		var i = """
+		        {
+
+		        }
+		        """;
+		var t = Tokenize(i);
+		var p = ShapeParser.StackBlock.Invoke(t);
+		if (!p.HasValue)
+		{
+			Assert.Fail(p.ToString());
+		}
+	}
+
+	[Test]
+	public void StackBlockTest()
+	{
+		var i = """
+		        {
+
+		        }
+		        {
+		        r1:rect a b
+		        }{rect a b}
+		        {
+		        diff a b {circle 20}
+		        .difference a b c
+		        circle c
+		        }
+		        """;
+		var t = Tokenize(i);
+		var p = ShapeParser.StackBlock.Many().Invoke(t);
+		if (!p.HasValue)
+		{
+			Assert.Fail(p.ToString());
+		}
+
+		var empty = (StackBlock)p.Value[0];
+		var one = (StackBlock)p.Value[1];
+		var two = (StackBlock)p.Value[2];
+		var three = (StackBlock)p.Value[3];
+
+		Assert.That(empty.Statements.Length, Is.EqualTo(0));
+		Assert.That(one.Statements.Length, Is.EqualTo(1));
+		Assert.That(two.Statements.Length, Is.EqualTo(1));
+		Assert.That(three.Statements.Length, Is.EqualTo(3));
+
+	}
+	
+	[Test]
+	public void FunctionWithBlockDecTest()
+	{
+		var i = """
+		        .difference 0 0{
+		        set a b
+		        }
+
+		        """;
+		var t = Tokenize(i);
+		var p = ShapeParser.FunctionCallWithBlock.Many().Invoke(t);
+		if (!p.HasValue)
+		{
+			Assert.Fail(p.ToString());
+		}
+
+		var fn = (FunctionCall)p.Value[0];
+		
+		Assert.That(fn.Name.ToString(), Is.EqualTo("difference"));
+		Assert.That(fn.Identifier.Prefix, Is.EqualTo(IdentPrefix.Dot));
+		Assert.That(fn.PopFromStack, Is.EqualTo(1));
+		Assert.That(fn.Arguments.Length, Is.EqualTo(2));
+		Assert.That(fn.StackBlock?.Statements.Length, Is.EqualTo(1));
+
+		//now with no whitespace
+		
+		 i = """.difference 0 0{set a b}""";
+		t = Tokenize(i);
+		p = ShapeParser.FunctionCallWithBlock.Many().Invoke(t);
+		if (!p.HasValue)
+		{
+			Assert.Fail(p.ToString());
+		}
+
+		fn = (FunctionCall)p.Value[0];
+
+		Assert.That(fn.Name.ToString(), Is.EqualTo("difference"));
+		Assert.That(fn.Identifier.Prefix, Is.EqualTo(IdentPrefix.Dot));
+		Assert.That(fn.PopFromStack, Is.EqualTo(1));
+		Assert.That(fn.Arguments.Length, Is.EqualTo(2));
+		Assert.That(fn.StackBlock?.Statements.Length, Is.EqualTo(1));
 	}
 
 	[Test]
