@@ -62,16 +62,36 @@ public class StatementWalker
 		var args = modDec.Params;
 		return _environment.RegisterModule(modName, args, modDec.Statement);
 	}
-
+	
 	private void WalkFunctionCall(FunctionCall functionCall)
 	{
-		switch (functionCall.Name.ToString())
+		//first, figure out if it's a builtin or a module. The below is for builtins but will work with both....
+		
+		
+		//todo: Walk Arguments and collect them into list.
+		
+		//then walk context and put them on shapeStack
+		List<StackItem> context = new List<StackItem>();
+		for (int i = 0; i < functionCall.PopFromStack; i++)
 		{
-			case "set":
-				Builtins.Set(_environment, functionCall.Arguments);
-				break;
-			default:
-				throw new Exception($"Unknown function or module '{functionCall.Name}'");
+			//pop and put on top of context list.
+		}
+		if (functionCall.StackBlock != null)
+		{
+			//enter frame and evaluate block, then copy list to our shape list with exit frame.
+		}
+		
+		//next, walk each of the arguments and get the ValueItems. Provide these.
+		ValueItem[] arguments = new ValueItem[functionCall.Arguments.Length];
+		
+		var name = functionCall.Name.ToString();
+		if(Builtins.BuiltinLookup.ContainsKey(name)){
+			Builtins.BuiltinLookup[name].Invoke(_environment, arguments, context);
+		}
+		//else if, walk up the frames for a module with this name.
+		else
+		{
+			throw new Exception($"Unknown Function '{name}'");
 		}
 	}
 }

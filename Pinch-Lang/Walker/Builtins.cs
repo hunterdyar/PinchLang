@@ -6,9 +6,13 @@ namespace Pinch_Lang.Walker;
 
 public static class Builtins
 {
-	public static void Set(Environment env, Expression[] args)
+	public static Dictionary<string, Action<Environment, ValueItem[], List<StackItem>>> BuiltinLookup = new Dictionary<string, Action<Environment, ValueItem[], List<StackItem>>>()
 	{
-		var propNameItem = env.ExprWalker.WalkExpression(args[0]);
+		{ "set", Set},
+	};
+	public static void Set(Environment env, ValueItem[] args, List<StackItem> context)
+	{
+		var propNameItem = args[0];
 		var propName = propNameItem.AsStringOrID();
 		
 		//get top of shapestack
