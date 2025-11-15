@@ -62,6 +62,33 @@ public class ModuleDeclaration : Statement
 	}
 }
 
+public class VariableDeclaration : Statement
+{
+	//Name:ShapeType listOfProperties
+	public readonly Identifier Name;
+	public readonly Expression Expression;
+	//banana: @a @b Statement
+
+	public VariableDeclaration(Identifier id, Expression expression)
+	{
+		Name = id;
+		Expression = expression;
+
+		if (id.Prefix != IdentPrefix.None)
+		{
+			//register warning...
+			throw new Exception(
+				$"Variable Declarations (name = expression) should not have prefixed identifiers ({id.Prefix}){id.Value.ToString()}). Prefix is ignored.");
+			id.Prefix = IdentPrefix.None;
+		}
+	}
+
+	public override string ToString()
+	{
+		return Name + " = " + Expression.ToString();
+	}
+}
+
 public class FunctionCall : Statement
 {
 	public int PopFromStack;

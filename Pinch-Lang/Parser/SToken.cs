@@ -10,6 +10,7 @@ public enum SToken
 	[Token(Category = "Identifier")] UnderscoreIdentifier,
 	[Token(Category = "Identifier")] AtIdentifier,
 	[Token(Example = ":")] Colon,
+	[Token(Example = "=")] Equals,
 	[Token(Example = ">")] ChevRight,
 	[Token(Example = ".")] Dot,
 	[Token(Example = "(")] LParen,
@@ -23,6 +24,7 @@ public enum SToken
 	[Token(Category = "Operator", Example = "+")] Plus,
 	[Token(Category = "Operator", Example = "-")] Minus,
 	[Token(Category = "Operator", Example = "%")] Percentage,
+
 	[Token(Category = "Prefix", Example = "@")] At,
 	[Token(Category = "Prefix", Example = "_")] Underscore,
 	[Token(Category = "Prefix", Example = "#")] Octothorpe,

@@ -1,7 +1,6 @@
 ﻿using Pinch_Lang.Engine;
 using ShapesDeclare;
 using ShapesDeclare.AST;
-using Svg;
 using Environment = Pinch_Lang.Engine.Environment;
 
 namespace PinchLangTests;

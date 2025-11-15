@@ -125,6 +125,12 @@ public static class ShapeParser
 		from module in Statement
 		select (Statement)new ModuleDeclaration((Identifier)id,module,parameters.Cast<Identifier>().ToArray());
 
+	public static TokenListParser<SToken, Statement> VariableDeclaration { get; } =
+		from id in Identifier.Try()
+		from _ in Token.EqualTo(SToken.Equals)
+		from expr in Expression
+		select (Statement)new VariableDeclaration((Identifier)id, expr);
+	
 	public static TokenListParser<SToken, Statement> StackBlock { get; } =
 		// from a in NewLine.IgnoreMany()//some type bs making ignoreMany not work. this can be improved.
 		from nl1 in NewLine.Many()
@@ -169,6 +175,7 @@ public static class ShapeParser
 			.Or(Pop)
 			//I think technically this is slower than if we seperated function+exprs and then added newline or block
 			.Or(ModuleDeclaration.Try()) //has to be after Push, since they both look for Dec first.
+			.Or(VariableDeclaration.Try())
 			.Or(FunctionCallWithBlock.Try())
 			.Or(FunctionCallNoBlock.Try())
 			.Or(StackBlock.Try())

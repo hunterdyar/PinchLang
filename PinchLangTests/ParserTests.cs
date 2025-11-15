@@ -179,6 +179,20 @@ public class ParserTests
 		Assert.That(md.Params.Select(x=>x.Value.ToString()).ToArray(), Is.EqualTo(expectedParams));
 	}
 
+	[TestCase("a = 2","a = 2")]
+	public void VariableDeclarationTest(string input, string expectedOutput)
+	{
+		var t = Tokenize(input);
+		var p = ShapeParser.VariableDeclaration.Invoke(t);
+		if (!p.HasValue)
+		{
+			Assert.Fail(p.ToString());
+		}
+
+		var md = (VariableDeclaration)p.Value;
+		Assert.That(md.ToString(), Is.EqualTo(expectedOutput));
+	}
+
 	[Test]
 	public void MultipleModuleDecsTest()
 	{
@@ -206,7 +220,8 @@ public class ParserTests
 		        [section_name]
 		        translate -10 -10
 		        set radius 20
-		        r1:rect
+		        banana = 3
+		        r1:rect banana 
 		        
 		        """;
 		var t = Tokenize(i);
@@ -216,7 +231,7 @@ public class ParserTests
 			Assert.Fail(p.ToString());
 		}
 		Assert.That(p.Value.Header.Title == "section_name");
-		Assert.That(p.Value.Statements.Length == 3);
+		Assert.That(p.Value.Statements.Length == 4);
 	}
 
 	
