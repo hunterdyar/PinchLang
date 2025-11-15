@@ -11,7 +11,8 @@ public class Environment
 	public Frame RootFrame;
 	private Stack<Frame> _frames = new Stack<Frame>();
 	public Frame CurrentFrame => _frames.Count > 0 ? _frames.Peek() : RootFrame;
-	
+	public bool IsAtRootFrame => _frames.Count == 0;
+
 	public readonly Walker.StatementWalker StatementWalker;
 	public readonly ExpressionWalker ExprWalker;
 
@@ -72,5 +73,13 @@ public class Environment
 		// }
 
 		return doc;
+	}
+
+	public void SetSection(string title)
+	{
+		//this was important for later features, where code is split into different parts where the root stack means different things
+		//like [canvas] draws whatever is on the stack to the canvas, while other sections don't.
+		//or [test]
+		//or [comments] which don't get processed.
 	}
 }

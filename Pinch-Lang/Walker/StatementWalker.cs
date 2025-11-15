@@ -19,13 +19,11 @@ public class StatementWalker
 
 		foreach (var sections in root.Sections)
 		{
-			if (sections.Header.Title == "shapes")
+			_environment.SetSection(sections.Header.Title);
+			foreach (var statement in sections.Statements)
 			{
-				foreach (var statement in sections.Statements)
-				{
-					WalkStatement(statement);
-				}
-			} //else for properties, for headers, etc.
+				WalkStatement(statement);
+			}
 		}
 	}
 
@@ -45,6 +43,13 @@ public class StatementWalker
 				break;
 			case Pop pop:
 				_environment.Pop();
+				break;
+			case GlobalsDeclaration globalsDeclaration:
+				if (_environment.IsAtRootFrame)
+				{
+					throw new Exception("Globals can only be set inside of a {}'s (a stack block)");
+				}
+				_environment.CurrentFrame.SetGlobals(globalsDeclaration);
 				break;
 		}
 	}
@@ -68,11 +73,11 @@ public class StatementWalker
 		{
 			if (args.Length == 4)
 			{
-				var min_x = _environment.ExprWalker.WalkExpression(args[0]).AsNumber();
-				var min_y = _environment.ExprWalker.WalkExpression(args[1]).AsNumber();
-				var max_x = _environment.ExprWalker.WalkExpression(args[2]).AsNumber();
-				var max_y = _environment.ExprWalker.WalkExpression(args[3]).AsNumber();
-				var rect = new Rect(_environment, new Coordinate(min_x, min_y), new Coordinate(max_x, max_y));
+				var minX = _environment.ExprWalker.WalkExpression(args[0]).AsNumber();
+				var minY = _environment.ExprWalker.WalkExpression(args[1]).AsNumber();
+				var maxX = _environment.ExprWalker.WalkExpression(args[2]).AsNumber();
+				var maxY = _environment.ExprWalker.WalkExpression(args[3]).AsNumber();
+				var rect = new Rect(_environment, new Coordinate(minX, minY), new Coordinate(maxX, maxY));
 				// _environment.DeclareShape(shapeName, rect);
 				_environment.Push(rect);
 				return rect;

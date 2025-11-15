@@ -43,6 +43,10 @@ public static class ShapeParser
 		from id in Token.EqualTo(SToken.UnderscoreIdentifier)
 		select (Expression)new Identifier(id.Span, IdentPrefix.Underscore);
 	
+	static TokenListParser<SToken, Expression> OctothorpeIdentifier { get; } =
+		from id in Token.EqualTo(SToken.UnderscoreIdentifier)
+		select (Expression)new Identifier(id.Span, IdentPrefix.Octothorpe);
+
 	static TokenListParser<SToken, Expression> ThrowawayIdentifier { get; } =
 		from id in Token.EqualTo(SToken.Underscore)
 		// from expr in Token.EqualTo(SToken.Identifier)
@@ -55,6 +59,7 @@ public static class ShapeParser
 			.Or(DotIdentifier)
 			.Or(UnderscoreIdentifier)
 			.Or(AtIdentifier)
+			.Or(OctothorpeIdentifier)
 		select e;
 
 	private static TokenListParser<SToken, Expression> Literal { get; } =
@@ -126,7 +131,11 @@ public static class ShapeParser
 		from nl3 in NewLine.Many()
 		select (Statement)new AST.StackBlock(stmts);
 
-	public static TokenListParser<SToken, (Identifier id, Expression[] args)> FunctionCallFirstPart { get; }=
+	public static TokenListParser<SToken, Statement> GlobalsDeclare { get; } =
+		from _ in Token.EqualTo(SToken.Global)
+		from ids in Identifier.Many()
+		select (Statement)new GlobalsDeclaration(ids);
+	public static TokenListParser<SToken, (Identifier id, Expression[] args)> FunctionCallFirstPart { get; } =
 		from id in Identifier
 		from exprs in Expression.Many()
 		select ((Identifier)id, exprs);
@@ -202,3 +211,4 @@ public static class ShapeParser
 		}
 	}
 }
+

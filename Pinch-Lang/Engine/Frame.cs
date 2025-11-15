@@ -1,12 +1,14 @@
+using ShapesDeclare.AST;
+
 namespace Pinch_Lang.Engine;
 
 public class Frame
 {
     public Frame? Parent;
+    private readonly Stack<StackItem> _stack = new Stack<StackItem>();
+    private readonly Dictionary<string, ValueItem> _items;
 
-    private Stack<StackItem> _stack = new Stack<StackItem>();
-    
-    private Dictionary<string, ValueItem> _items;
+    private readonly List<string> _globals = new List<string>();
     
     public bool TryGetValueItem(string identifier, out ValueItem item)
     {
@@ -37,6 +39,7 @@ public class Frame
     {
         _stack.Clear();
         _items.Clear();
+        _globals.Clear();
     }
 
     public void PushStackItem(StackItem item)
@@ -54,5 +57,14 @@ public class Frame
     public StackItem TopStackItem()
     {
         return _stack.Peek();
+    }
+
+    public void SetGlobals(GlobalsDeclaration globalsDeclaration)
+    {
+        foreach (var id in globalsDeclaration.Identifiers)
+        {
+            //todo: check that the global exists in the environment root frame. throw a warning or error if it doesn't.
+            _globals.Add(id.Value.ToString());
+        }
     }
 }

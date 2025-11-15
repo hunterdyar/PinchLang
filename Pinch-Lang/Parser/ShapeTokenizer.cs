@@ -47,7 +47,8 @@ public static class ShapeTokenizer
 		.Match(Character.EqualTo('%'), SToken.Percentage)
 		.Match(Character.EqualTo('@'), SToken.At)
 		.Match(Character.EqualTo('_'), SToken.Underscore)
-		
+		.Match(Character.EqualTo('#'), SToken.Octothorpe)
+
 		//literals
 		//strings and integers
 		.Match(QuotedString.CStyle, SToken.String)
@@ -58,6 +59,7 @@ public static class ShapeTokenizer
 		//KEYWORDS
 		.Match(Span.EqualTo("set"), SToken.Set)
 		.Match(Span.EqualTo("group"), SToken.Group)
+		.Match(Span.EqualTo("global"), SToken.Group)
 
 		
 		.Build();

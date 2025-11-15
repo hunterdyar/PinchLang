@@ -11,8 +11,27 @@ public class Statement
 public class NamedStatement : Statement
 {
 	// public TextSpan Name;
+	public Identifier Name;
+	public Identifier[] Properties;
+	public Statement Body;
+
+	public NamedStatement(Identifier name, Identifier[] properties, Statement body)
+	{
+		Name = name;
+		Properties = properties;
+		Body = body;
+	}
+	
+	public override string ToString()
+	{
+		return Name + ":" + (Properties.Length > 0 ? " " : "") + Properties.ToStringDelimited(" ") + " "+Body.ToString();
+	}
 }
 
+//was "c1:circle 20 20"
+//now its "circle 10 10", which is a function....
+//so how does push know what to put on the stack? context! Takes the most recently evaluated Shape and puts it on a stack?
+//and 'most recently' here can be pretty strict cus we can just clear the context when appropriate.
 public class ShapeDeclaration : Statement
 {
 	//Name:ShapeType listOfProperties
@@ -42,7 +61,7 @@ public class FunctionCall : Statement
 	public TextSpan Name => Identifier.Value;
 	public Expression[] Arguments;
 
-	public FunctionCall(Identifier id, params Expression[] arguments)
+	public FunctionCall(Identifier id,  Expression[] arguments)
 	{
 		PopFromStack = CountPopFromID(id);
 		Identifier = id;
@@ -98,5 +117,30 @@ public class Pop : Statement
 	}
 }
 
+public class GlobalsDeclaration : Statement
+{
+	public Identifier[] Identifiers => _ids;
+	private readonly Identifier[] _ids;
+	public GlobalsDeclaration(Expression[] ids)
+	{
+		_ids = new Identifier[ids.Length];
+		for (int i = 0; i < ids.Length; i++)
+		{
+			if (ids[i] is Identifier id)
+			{
+				_ids[i] = id;
+			}
+			else
+			{
+				throw new Exception("properties to 'global' must be identifiers.");
+			}
+		}
+
+		if (ids.Length == 0)
+		{
+			throw new Exception("setting variables as 'global' must take at least one identifier.");
+		}
+	}
+}
 
 
