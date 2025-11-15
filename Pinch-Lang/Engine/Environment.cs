@@ -23,9 +23,12 @@ public class Environment
 		RootFrame = new Frame(this);
 	}
 
-	public void Execute(Root root)
+	public SvgDocument Execute(Root root)
 	{
 		StatementWalker.Walk(root);
+		//now, we should have a representation of our shape on the stack.
+		var canvas = CurrentFrame.GetStack();
+		return SVGRendering.RenderSVGFromStack(canvas);
 	}
 
 	public void Push(StackItem item)
@@ -53,23 +56,6 @@ public class Environment
 		{
 			throw new Exception("Can't pop frame, down to root frame");
 		}
-	}
-
-	//todo: this will be elsewhere.
-	public SvgDocument RenderSVG()
-	{
-		SvgDocument doc = new SvgDocument();
-		SvgElementCollection parent = doc.Children;
-		// foreach (var kvp in Declarations)
-		// {
-		// 	var val = kvp.Value;
-		// 	if (val is Shape shape)
-		// 	{
-		// 		shape.RenderToSVGParent(ref parent);
-		// 	}
-		// }
-
-		return doc;
 	}
 
 	public void SetSection(string title)

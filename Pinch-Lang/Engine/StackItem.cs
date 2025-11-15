@@ -4,6 +4,7 @@ using NetTopologySuite.Utilities;
 using Pinch_Lang.Walker;
 using ShapesDeclare.AST;
 using Svg;
+using Svg.Pathing;
 
 namespace Pinch_Lang.Engine;
 
@@ -115,20 +116,8 @@ public class Rect : Shape
 
 	public override void RenderToSVGParent(ref SvgElementCollection parent)
 	{
-		
-		// var r = new SvgPolygon()
-		// {
-		// 	Points	= points
-		// }
-		// var c = new SvgRectangle()
-		// {
-		// 	X = new SvgUnit(SvgUnitType.None,(float)min.X),
-		// 	Y = new SvgUnit(SvgUnitType.None,(float)min.Y),
-		// 	Width = new SvgUnit(SvgUnitType.None, (float)(_max.X-_min.X)),
-		// 	Height = new SvgUnit(SvgUnitType.None, (float)(_max.Y - _min.Y)),
-		// };
-		
-		//parent.Add(c);
+		var e = _polygon.RenderToSVGElement();
+		parent.Add(e);
 	}
 	
 }

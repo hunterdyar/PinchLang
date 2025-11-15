@@ -83,6 +83,11 @@ public class StatementWalker
 		
 		//next, walk each of the arguments and get the ValueItems. Provide these.
 		ValueItem[] arguments = new ValueItem[functionCall.Arguments.Length];
+
+		for (int i = 0; i < functionCall.Arguments.Length; i++)
+		{
+			arguments[i] = _environment.ExprWalker.WalkExpression(functionCall.Arguments[i]);
+		}
 		
 		var name = functionCall.Name.ToString();
 		if(Builtins.BuiltinLookup.ContainsKey(name)){

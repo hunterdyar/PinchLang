@@ -33,6 +33,21 @@ public class Frame
         return false;
     }
 
+    public bool TryGetModule(string identifier, out Module module)
+    {
+        if (_modules.TryGetValue(identifier, out module))
+        {
+            return true;
+        }
+
+        if (Parent != null)
+        {
+            return Parent.TryGetModule(identifier, out module);
+        }
+
+        module = null;
+        return false;
+    }
     
     
     //configure locals, give default values?
@@ -66,7 +81,7 @@ public class Frame
     {
         return _stack.Peek();
     }
-
+    
     public void SetGlobals(GlobalsDeclaration globalsDeclaration)
     {
         foreach (var id in globalsDeclaration.Identifiers)
@@ -83,5 +98,11 @@ public class Frame
             throw new Exception($"Error! Can't declare module {mod.Name}, module with that name already declared");
         }
         _modules.Add(mod.Name, mod);
+    }
+
+    public List<StackItem> GetStack()
+    {
+        //todo: does ToList allocate much here?
+        return _stack.ToList();
     }
 }
