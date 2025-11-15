@@ -61,11 +61,13 @@ public class ParserTests
 
 		        }
 		 
-		        {
-		          r1: circle 10
-		        }
+	
 		        
 		        {rect a b}
+		        
+		        {
+		          another:hello 20 {}
+		        }
 		        {
 		        diff a b {circle 20}
 		        .difference a b c
@@ -176,7 +178,26 @@ public class ParserTests
 		Assert.That(md.Name.ToString(), Is.EqualTo(expectedName));
 		Assert.That(md.Params.Select(x=>x.Value.ToString()).ToArray(), Is.EqualTo(expectedParams));
 	}
-	
+
+	[Test]
+	public void MultipleModuleDecsTest()
+	{
+		var i = """
+		        stamp:circle 5 5 5
+		        dance: @a circle 55
+		        jump: @a @b
+
+		        """;
+		var t = Tokenize(i);
+		var p = ShapeParser.Statement.Many().Invoke(t);
+		if (!p.HasValue)
+		{
+			Assert.Fail(p.ToString());
+		}
+
+		var md = p.Value.Cast<ModuleDeclaration>().ToArray();
+		Assert.That(md.Length, Is.EqualTo(3));
+	}
 	[Test]
 	[TestCase]
 	public void SectionListTest()

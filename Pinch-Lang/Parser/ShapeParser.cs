@@ -168,10 +168,10 @@ public static class ShapeParser
 		from s in Push.Try()
 			.Or(Pop)
 			//I think technically this is slower than if we seperated function+exprs and then added newline or block
+			.Or(ModuleDeclaration.Try()) //has to be after Push, since they both look for Dec first.
 			.Or(FunctionCallWithBlock.Try())
 			.Or(FunctionCallNoBlock.Try())
 			.Or(StackBlock.Try())
-			.Or(ModuleDeclaration) //has to be after Push, since they both look for Dec first.
 
 		from _2 in NewLine.Many()
 
