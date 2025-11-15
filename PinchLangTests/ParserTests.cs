@@ -185,7 +185,7 @@ public class ParserTests
 		var i = """
 		        stamp:circle 5 5 5
 		        dance: @a circle 55
-		        jump: @a @b
+		        jump: @a @b {}
 
 		        """;
 		var t = Tokenize(i);

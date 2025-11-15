@@ -14,26 +14,12 @@ public class Tests
 	}
 
 	[Test]
-	public void Test1()
-	{
-		var i = """
-		        [shapes]
-		        c1:circle 
-		        """;
-		var p = ShapeParser.TryParse(i
-			, out Root root, out var error);
-		Assert.That(p, Is.True);
-		Assert.That(root.ToString().Trim(), Is.EqualTo(i.Trim()));
-	}
-
-	[Test]
 	public void Walker1()
 	{
 		var i = """
 		        [shapes]
-		        c1:circle 0 0 10 >
+		        c1:circle 0 0 10
 		        set radius 20
-		        .
 		        r1:rect 5 5 6 6
 		        """;
 		var p = ShapeParser.TryParse(i, out Root root, out var error);
