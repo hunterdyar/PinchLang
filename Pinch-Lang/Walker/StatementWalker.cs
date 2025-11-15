@@ -51,6 +51,7 @@ public class StatementWalker
 	
 	private StackItem WalkShapeDeclare(ShapeDeclaration shapeDeclaration)
 	{
+		
 		var shapeName = shapeDeclaration.Name.ToString();
 		var shapeType = shapeDeclaration.ShapeType.ToString();
 		var args = shapeDeclaration.Expressions;
@@ -60,7 +61,8 @@ public class StatementWalker
 			var cy = _environment.ExprWalker.WalkExpression(args[1]).AsNumber();
 			var radius = _environment.ExprWalker.WalkExpression(args[2]).AsNumber();
 			var circle = new Circle(_environment, new Coordinate(cx, cy), radius);
-			_environment.DeclareShape(shapeName, circle);
+			//env.DeclareShape...
+			_environment.Push(circle);
 			return circle;
 		}else if (shapeType == "rect")
 		{
@@ -71,7 +73,8 @@ public class StatementWalker
 				var max_x = _environment.ExprWalker.WalkExpression(args[2]).AsNumber();
 				var max_y = _environment.ExprWalker.WalkExpression(args[3]).AsNumber();
 				var rect = new Rect(_environment, new Coordinate(min_x, min_y), new Coordinate(max_x, max_y));
-				_environment.DeclareShape(shapeName, rect);
+				// _environment.DeclareShape(shapeName, rect);
+				_environment.Push(rect);
 				return rect;
 			}
 		}

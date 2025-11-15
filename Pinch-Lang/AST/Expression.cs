@@ -113,16 +113,8 @@ public class Operator : Expression
 	
 }
 
-public class UnaryOperator(Token<SToken> op, Expression exp) : Operator
-{
-	//todo
-}
-public class BinaryOperator : Operator
-{
-	public Expression Left;
-	public Expression Right;
-	public BinOp Op;
-}
+
+
 
 public class Tuple<TA, TB> : Expression
 {

@@ -25,6 +25,7 @@ public class ShapeDeclaration : Statement
 		Name = id.A.Value;
 		ShapeType = id.B.Value;
 		Expressions = expressions;
+		throw new NotImplementedException("gotta delete this and make named statements as modules, and standalone blocks.");
 	}
 
 	public override string ToString()

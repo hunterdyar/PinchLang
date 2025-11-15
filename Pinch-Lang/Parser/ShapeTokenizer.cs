@@ -44,6 +44,7 @@ public static class ShapeTokenizer
 		.Match(Character.EqualTo('-'), SToken.Minus)
 		.Match(Character.EqualTo('*'), SToken.Asterisk)
 		.Match(Character.EqualTo('/'), SToken.Slash)
+		.Match(Character.EqualTo('%'), SToken.Percentage)
 		.Match(Character.EqualTo('@'), SToken.At)
 		.Match(Character.EqualTo('_'), SToken.Underscore)
 		

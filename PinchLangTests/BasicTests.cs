@@ -46,8 +46,6 @@ public class Tests
 		
 		e.Execute(root);
 		
-		Assert.That(e.Declarations.ContainsKey("r1"));
-		var c = (Rect)e.Declarations["r1"];
 		// Assert.That(ValueItem.AsNumber(c.Properties["radius"]) == 20);
 	}
 	

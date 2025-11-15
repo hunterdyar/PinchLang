@@ -70,10 +70,11 @@ public static class ShapeParser
 		from b in Identifier
 		select (Expression)new IDTuple((Identifier)a, (Identifier)b);
 
-	static TokenListParser<SToken, Expression> PrefixUnaryOperation { get; } =
+	private static TokenListParser<SToken, Expression> PrefixUnaryOperation { get; } =
 		from op in Token.EqualTo(SToken.Plus).Or(Token.EqualTo(SToken.Minus))
 		from exp in Expression
-		select (Expression)new UnaryOperator(op, exp);
+		select (Expression)UnaryOperator.CreateUnary(op, exp);
+
 	static TokenListParser<SToken, Expression> Operation { get; } =
 		from puo in PrefixUnaryOperation
 		select (Expression)puo;
@@ -85,7 +86,15 @@ public static class ShapeParser
 			.Or(Operation)
 			select x;
 	
-	
+	private static TokenListParser<SToken, Expression> BinaryOperation { get; } =
+		from left in Expression.Try()
+		from op in Token.EqualTo(SToken.Plus)
+			.Or(Token.EqualTo(SToken.Minus))
+			.Or(Token.EqualTo(SToken.Asterisk))
+			.Or(Token.EqualTo(SToken.Slash))
+			.Or(Token.EqualTo(SToken.Percentage))
+		from right in Expression.Try()
+		select (Expression)BinaryOperator.CreateBinaryOp(op.Kind, left,right);
 	
 	//Statements
 	public static TokenListParser<SToken, Statement> NewLine =

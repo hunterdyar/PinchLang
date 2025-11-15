@@ -7,11 +7,6 @@ public static class EnvUtil
 {
 	public static StackItem Top(this Environment env)
 	{
-		if (env.ShapeStack.Count == 0)
-		{
-			throw new Exception("Stack Empty!");
-		}
-
-		return env.ShapeStack[^1];
+		return env.CurrentFrame.TopStackItem();
 	}
 }

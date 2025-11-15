@@ -8,48 +8,53 @@ namespace Pinch_Lang.Engine;
 
 public class Environment
 {
-	public Dictionary<string, StackItem> Declarations => _declarations;
-	private Dictionary<string, StackItem> _declarations = new Dictionary<string, StackItem>();
-
+	public Frame RootFrame;
+	private Stack<Frame> _frames = new Stack<Frame>();
+	public Frame CurrentFrame => _frames.Count > 0 ? _frames.Peek() : RootFrame;
+	
 	public readonly Walker.StatementWalker StatementWalker;
 	public readonly ExpressionWalker ExprWalker;
 
-	public List<StackItem> ShapeStack => _shapeStack;
-	private List<StackItem> _shapeStack = new List<StackItem>();
+
+
 	
 	public Environment()
 	{
 		StatementWalker = new Walker.StatementWalker(this);
 		ExprWalker = new ExpressionWalker(this);
+		RootFrame = new Frame();
 	}
 
 	public void Execute(Root root)
 	{
 		StatementWalker.Walk(root);
 	}
-	
-	public void DeclareShape(string shapeName, Shape shape)
-	{
-		if (shapeName == "_")
-		{
-			//no problemo!
-			return;
-		}
-		
-		if (!_declarations.TryAdd(shapeName, shape))
-		{
-			throw new Exception($"Item with name {shapeName} already exists.");
-		}
-	}
 
 	public void Push(StackItem item)
 	{
-		_shapeStack.Add(item);
+		CurrentFrame.PushStackItem(item);
 	}
 
 	public void Pop()
 	{
-		_shapeStack.RemoveAt(_shapeStack.Count-1);
+		CurrentFrame.PopStackItem();
+	}
+
+	public void PushNewFrame()
+	{
+		_frames.Push(new Frame());
+	}
+
+	public void PopFrame()
+	{
+		if (_frames.Count > 0)
+		{
+			_frames.Pop();
+		}
+		else
+		{
+			throw new Exception("Can't pop frame, down to root frame");
+		}
 	}
 
 	//todo: this will be elsewhere.
@@ -57,14 +62,14 @@ public class Environment
 	{
 		SvgDocument doc = new SvgDocument();
 		SvgElementCollection parent = doc.Children;
-		foreach (var kvp in Declarations)
-		{
-			var val = kvp.Value;
-			if (val is Shape shape)
-			{
-				shape.RenderToSVGParent(ref parent);
-			}
-		}
+		// foreach (var kvp in Declarations)
+		// {
+		// 	var val = kvp.Value;
+		// 	if (val is Shape shape)
+		// 	{
+		// 		shape.RenderToSVGParent(ref parent);
+		// 	}
+		// }
 
 		return doc;
 	}
