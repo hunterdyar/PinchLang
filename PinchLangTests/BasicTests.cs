@@ -18,8 +18,7 @@ public class Tests
 	{
 		var i = """
 		        [shapes]
-		        c1:circle >
-		        .
+		        c1:circle 
 		        """;
 		var p = ShapeParser.TryParse(i
 			, out Root root, out var error);

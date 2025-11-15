@@ -122,9 +122,10 @@ public class Tuple<TA, TB> : Expression
 	public TA A;
 	public TB B;
 }
-public class IDTuple : Tuple<Identifier, Identifier>
+
+public class KeyValueTuple : Tuple<Identifier, Expression>
 {
-	public IDTuple(Identifier left, Identifier right)
+	public KeyValueTuple(Identifier left, Expression right)
 	{
 		A = left;
 		B = right;

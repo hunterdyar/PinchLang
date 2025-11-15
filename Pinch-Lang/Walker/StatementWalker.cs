@@ -31,18 +31,20 @@ public class StatementWalker
 	{
 		switch (statement)
 		{
-			case ShapeDeclaration shapeDeclaration:
-				var x = WalkShapeDeclare(shapeDeclaration);
+			case ModuleDeclaration modDeclare:
+				var m = WalkModuleDeclaration(modDeclare);
 				break;
 			case FunctionCall functionCall:
 				WalkFunctionCall(functionCall);
 				break;
 			case Push push:
-				var item = WalkShapeDeclare(push.Shape);
-				_environment.Push(item);
+				//context
+				//_environment.Push(item);
+				throw new NotImplementedException();
 				break;
 			case Pop pop:
-				_environment.Pop();
+				//_environment.Pop();
+				throw new NotImplementedException();
 				break;
 			case GlobalsDeclaration globalsDeclaration:
 				if (_environment.IsAtRootFrame)
@@ -54,37 +56,11 @@ public class StatementWalker
 		}
 	}
 	
-	private StackItem WalkShapeDeclare(ShapeDeclaration shapeDeclaration)
+	private Module WalkModuleDeclaration(ModuleDeclaration modDec)
 	{
-		
-		var shapeName = shapeDeclaration.Name.ToString();
-		var shapeType = shapeDeclaration.ShapeType.ToString();
-		var args = shapeDeclaration.Expressions;
-		if (shapeType == "circle")
-		{
-			var cx = _environment.ExprWalker.WalkExpression(args[0]).AsNumber();
-			var cy = _environment.ExprWalker.WalkExpression(args[1]).AsNumber();
-			var radius = _environment.ExprWalker.WalkExpression(args[2]).AsNumber();
-			var circle = new Circle(_environment, new Coordinate(cx, cy), radius);
-			//env.DeclareShape...
-			_environment.Push(circle);
-			return circle;
-		}else if (shapeType == "rect")
-		{
-			if (args.Length == 4)
-			{
-				var minX = _environment.ExprWalker.WalkExpression(args[0]).AsNumber();
-				var minY = _environment.ExprWalker.WalkExpression(args[1]).AsNumber();
-				var maxX = _environment.ExprWalker.WalkExpression(args[2]).AsNumber();
-				var maxY = _environment.ExprWalker.WalkExpression(args[3]).AsNumber();
-				var rect = new Rect(_environment, new Coordinate(minX, minY), new Coordinate(maxX, maxY));
-				// _environment.DeclareShape(shapeName, rect);
-				_environment.Push(rect);
-				return rect;
-			}
-		}
-
-		throw new Exception($"Invalid Shape Type {shapeType} (for shape {shapeName})");
+		var modName = modDec.Name.ToString();
+		var args = modDec.Params;
+		return _environment.RegisterModule(modName, args, modDec.Statement);
 	}
 
 	private void WalkFunctionCall(FunctionCall functionCall)

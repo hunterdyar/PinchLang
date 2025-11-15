@@ -4,12 +4,19 @@ namespace Pinch_Lang.Engine;
 
 public class Frame
 {
+    public Environment Environment => _environment;
+    private Environment _environment;
     public Frame? Parent;
     private readonly Stack<StackItem> _stack = new Stack<StackItem>();
-    private readonly Dictionary<string, ValueItem> _items;
-
+    private readonly Dictionary<string, ValueItem> _items = new Dictionary<string, ValueItem>();
+    private readonly Dictionary<string, Module> _modules = new Dictionary<string, Module>();
     private readonly List<string> _globals = new List<string>();
-    
+
+    public Frame(Environment environment)
+    {
+        _environment = environment;
+    }
+
     public bool TryGetValueItem(string identifier, out ValueItem item)
     {
         if (_items.TryGetValue(identifier, out item))
@@ -40,6 +47,7 @@ public class Frame
         _stack.Clear();
         _items.Clear();
         _globals.Clear();
+        _modules.Clear();
     }
 
     public void PushStackItem(StackItem item)
@@ -66,5 +74,14 @@ public class Frame
             //todo: check that the global exists in the environment root frame. throw a warning or error if it doesn't.
             _globals.Add(id.Value.ToString());
         }
+    }
+
+    public void RegisterModule(Module mod)
+    {
+        if (_modules.ContainsKey(mod.Name))
+        {
+            throw new Exception($"Error! Can't declare module {mod.Name}, module with that name already declared");
+        }
+        _modules.Add(mod.Name, mod);
     }
 }

@@ -32,24 +32,33 @@ public class NamedStatement : Statement
 //now its "circle 10 10", which is a function....
 //so how does push know what to put on the stack? context! Takes the most recently evaluated Shape and puts it on a stack?
 //and 'most recently' here can be pretty strict cus we can just clear the context when appropriate.
-public class ShapeDeclaration : Statement
+public class ModuleDeclaration : Statement
 {
 	//Name:ShapeType listOfProperties
-	public TextSpan Name;
-	public TextSpan ShapeType;
-	public Expression[] Expressions;
+	public Identifier Name;
+	public Statement Statement;
+	public Identifier[] Params;
+	
+	//banana: @a @b Statement
 
-	public ShapeDeclaration(IDTuple id, params Expression[] expressions)
+	public ModuleDeclaration(Identifier id, Statement module, Identifier[] parameters)
 	{
-		Name = id.A.Value;
-		ShapeType = id.B.Value;
-		Expressions = expressions;
-		throw new NotImplementedException("gotta delete this and make named statements as modules, and standalone blocks.");
+		Name = id;
+		Statement = module;
+		Params = parameters;
+
+		if (id.Prefix != IdentPrefix.None)
+		{
+			//register warning...
+			throw new Exception(
+				$"Module Declarations (name: @p statement) should not have prefixed identifiers ({id.Prefix}){id.Value.ToString()}). Prefix is ignored.");
+			id.Prefix = IdentPrefix.None;
+		}
 	}
 
 	public override string ToString()
 	{
-		return Name + ":" + ShapeType + (Expressions.Length > 0 ? " " : "") + Expressions.ToStringDelimited(" ");
+		return Name + ":" + (Params.Length > 0 ? " " : "") + Params.ToStringDelimited(" ") + " " +Statement.ToString();
 	}
 }
 
@@ -96,16 +105,9 @@ public class FunctionCall : Statement
 
 public class Push : Statement
 {
-	public ShapeDeclaration Shape;
-
-	public Push(ShapeDeclaration sb)
-	{
-		Shape = sb;
-	}
-
 	public override string ToString()
 	{
-		return Shape.ToString() + " >";
+		return ">";
 	}
 }
 
@@ -116,6 +118,7 @@ public class Pop : Statement
 		return ".";
 	}
 }
+
 
 public class GlobalsDeclaration : Statement
 {

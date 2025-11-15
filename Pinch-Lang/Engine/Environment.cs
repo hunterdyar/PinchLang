@@ -15,15 +15,12 @@ public class Environment
 
 	public readonly Walker.StatementWalker StatementWalker;
 	public readonly ExpressionWalker ExprWalker;
-
-
-
 	
 	public Environment()
 	{
 		StatementWalker = new Walker.StatementWalker(this);
 		ExprWalker = new ExpressionWalker(this);
-		RootFrame = new Frame();
+		RootFrame = new Frame(this);
 	}
 
 	public void Execute(Root root)
@@ -43,7 +40,7 @@ public class Environment
 
 	public void PushNewFrame()
 	{
-		_frames.Push(new Frame());
+		_frames.Push(new Frame(this));
 	}
 
 	public void PopFrame()
@@ -81,5 +78,12 @@ public class Environment
 		//like [canvas] draws whatever is on the stack to the canvas, while other sections don't.
 		//or [test]
 		//or [comments] which don't get processed.
+	}
+
+	public Module RegisterModule(string modName, Identifier[] args, Statement statement)
+	{
+		Module m = new Module(CurrentFrame, modName, args, statement);
+		CurrentFrame.RegisterModule(m);
+		return m;
 	}
 }

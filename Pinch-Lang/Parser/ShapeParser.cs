@@ -36,7 +36,7 @@ public static class ShapeParser
 		select (Expression)new Identifier(id.Span, IdentPrefix.Dot);
 
 	static TokenListParser<SToken, Expression> AtIdentifier { get; } =
-		from id in Token.EqualTo(SToken.DotIdentifier)
+		from id in Token.EqualTo(SToken.AtIdentifier)
 		select (Expression)new Identifier(id.Span, IdentPrefix.At);
 
 	static TokenListParser<SToken, Expression> UnderscoreIdentifier { get; } =
@@ -61,6 +61,11 @@ public static class ShapeParser
 			.Or(AtIdentifier)
 			.Or(OctothorpeIdentifier)
 		select e;
+	
+	public static TokenListParser<SToken, Expression> ExpressionIdentifier { get; } =
+		from id in NormalIdentifier
+			.Or(UnderscoreIdentifier)
+		select id;
 
 	private static TokenListParser<SToken, Expression> Literal { get; } =
 		from literal in
@@ -69,11 +74,11 @@ public static class ShapeParser
 				.Or(Identifier)
 		select literal;
 	
-	static TokenListParser<SToken, Expression> IDTuple { get; }=
-		from a in Identifier
-		from _ in Token.EqualTo(SToken.Colon)
-		from b in Identifier
-		select (Expression)new IDTuple((Identifier)a, (Identifier)b);
+	static TokenListParser<SToken, Expression> KeyValueTuple { get; }=
+		from a in Identifier.Try()
+		from _ in Token.EqualTo(SToken.Colon).Try()
+		from b in Expression
+		select (Expression)new KeyValueTuple((Identifier)a, (Expression)b);
 
 	private static TokenListParser<SToken, Expression> PrefixUnaryOperation { get; } =
 		from op in Token.EqualTo(SToken.Plus).Or(Token.EqualTo(SToken.Minus))
@@ -82,15 +87,18 @@ public static class ShapeParser
 
 	static TokenListParser<SToken, Expression> Operation { get; } =
 		from puo in PrefixUnaryOperation
+			// .Or(BinaryOperation) // order of initializers?
 		select (Expression)puo;
+
 	static TokenListParser<SToken, Expression> Expression { get; }=
 		from x in (TokenListParser<SToken, Expression>)
-			Identifier
+			ExpressionIdentifier //the subset of identifiers that can be used as values (_ or no prefix)
 			.Or(Literal)
-			.Or(IDTuple)
 			.Or(Operation)
+			.Or(KeyValueTuple)
+			//we do NOT consume newlines when evaluating Expression.Many()
 			select x;
-	
+
 	private static TokenListParser<SToken, Expression> BinaryOperation { get; } =
 		from left in Expression.Try()
 		from op in Token.EqualTo(SToken.Plus)
@@ -99,8 +107,7 @@ public static class ShapeParser
 			.Or(Token.EqualTo(SToken.Slash))
 			.Or(Token.EqualTo(SToken.Percentage))
 		from right in Expression.Try()
-		select (Expression)BinaryOperator.CreateBinaryOp(op.Kind, left,right);
-	
+		select (Expression)BinaryOperator.CreateBinaryOp(op.Kind, left, right);
 	//Statements
 	public static TokenListParser<SToken, Statement> NewLine =
 		from s in Token.EqualTo(SToken.Newline).AtLeastOnce()
@@ -110,16 +117,13 @@ public static class ShapeParser
 		from id in Identifier
 		from _rb in Token.EqualTo(SToken.RBrace)
 		select new Header(((Identifier)id).Value);
-	
-	static TokenListParser<SToken, Statement> Declaration { get; }=
-		from ide in IDTuple
-		from exprs in Expression.Many()
-		select (Statement)new ShapeDeclaration((IDTuple)ide, exprs);
 
-	public static TokenListParser<SToken, Statement> StandaloneDeclaration { get; } =
-		from dec in Declaration.Try()
-		from _ in NewLine
-		select dec;
+	public static TokenListParser<SToken, Statement> ModuleDeclaration { get; }=
+		from id in Identifier.Try()
+		from _ in Token.EqualTo(SToken.Colon)
+		from parameters in AtIdentifier.Many()
+		from module in Statement
+		select (Statement)new ModuleDeclaration((Identifier)id,module,parameters.Cast<Identifier>().ToArray());
 
 	public static TokenListParser<SToken, Statement> StackBlock { get; } =
 		// from a in NewLine.IgnoreMany()//some type bs making ignoreMany not work. this can be improved.
@@ -152,22 +156,23 @@ public static class ShapeParser
 	
 	//'pushable' right now is just declarations i guess. groups and stuff later?
 	public static TokenListParser<SToken, Statement> Push { get; } =
-		from sb in Declaration
 		from _ in Token.EqualTo(SToken.ChevRight)
-		select (Statement)new Push((ShapeDeclaration)sb);
+		select (Statement)new Push();
 	
 	static TokenListParser<SToken, Statement> Pop { get; } =
 		from _ in Token.EqualTo(SToken.Dot)
 		select (Statement)new Pop();
-	
-	static TokenListParser<SToken, Statement> Statement { get; } =
+
+	public static TokenListParser<SToken, Statement> Statement { get; } =
 		from _1 in NewLine.Many()
 		from s in Push.Try()
 			.Or(Pop)
-			.Or(StandaloneDeclaration) //has to be after Push, since they both look for Dec first.
 			//I think technically this is slower than if we seperated function+exprs and then added newline or block
-			.Or(FunctionCallWithBlock)
-			.Or(FunctionCallNoBlock)
+			.Or(FunctionCallWithBlock.Try())
+			.Or(FunctionCallNoBlock.Try())
+			.Or(StackBlock.Try())
+			.Or(ModuleDeclaration) //has to be after Push, since they both look for Dec first.
+
 		from _2 in NewLine.Many()
 
 		select s;

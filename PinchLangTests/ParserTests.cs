@@ -18,36 +18,6 @@ public class ParserTests
 
 		return tokr.Value;
 	}
-	
-	[Test]
-	public void StandaloneDeclarationTest()
-	{
-		var i = """
-		        c1:circle 0 0 10
-		        
-		        """;
-		var t = Tokenize(i);
-		var p = ShapeParser.StandaloneDeclaration.Invoke(t);
-		if (!p.HasValue)
-		{
-			Assert.Fail(p.ToString());
-		}
-	}
-
-	[Test]
-	public void PushTest()
-	{
-		var i = """
-		        rect_name:rect -5 -5 10 15 >
-		        .
-		        """;
-		var t = Tokenize(i);
-		var p = ShapeParser.Push.Invoke(t);
-		if (!p.HasValue)
-		{
-			Assert.Fail(p.ToString());
-		}
-	}
 
 	[Test]
 	public void FunctionDecTest()
@@ -90,9 +60,12 @@ public class ParserTests
 		        {
 
 		        }
+		 
 		        {
-		        r1:rect a b
-		        }{rect a b}
+		          r1: circle 10
+		        }
+		        
+		        {rect a b}
 		        {
 		        diff a b {circle 20}
 		        .difference a b c
@@ -182,16 +155,38 @@ public class ParserTests
 		Assert.That(p.Value[3].ToString(), Is.EqualTo("word"));
 		Assert.That(p.Value[4].ToString(), Is.EqualTo("dot"));
 	}
+
+	[TestCase("test:rect", "test", new string[0])]
+	[TestCase("test:@a @b rect", "test", new string[]{"a","b"})]
+	[TestCase("""
+	          test:@a @b {
+	          rect a a b b
+	          }
+""", "test", new string[] { "a", "b" })]
+	public void ModuleDeclarationTest(string input, string expectedName, string[] expectedParams)
+	{
+		var t = Tokenize(input);
+		var p = ShapeParser.ModuleDeclaration.Invoke(t);
+		if (!p.HasValue)
+		{
+			Assert.Fail(p.ToString());
+		}
+
+		var md = (ModuleDeclaration)p.Value;
+		Assert.That(md.Name.ToString(), Is.EqualTo(expectedName));
+		Assert.That(md.Params.Select(x=>x.Value.ToString()).ToArray(), Is.EqualTo(expectedParams));
+	}
 	
 	[Test]
+	[TestCase]
 	public void SectionListTest()
 	{
 		var i = """
 		        [section_name]
 		        translate -10 -10
 		        set radius 20
-		        r1:rect 10 0 0 20
-
+		        r1:rect
+		        
 		        """;
 		var t = Tokenize(i);
 		var p = ShapeParser.Section.Invoke(t);
@@ -201,5 +196,22 @@ public class ParserTests
 		}
 		Assert.That(p.Value.Header.Title == "section_name");
 		Assert.That(p.Value.Statements.Length == 3);
+	}
+
+	
+	
+	[Test]
+	public void StatementMisc()
+	{
+		var i = """
+		        r1:rect
+		        """;
+		var t = Tokenize(i);
+		var p = ShapeParser.Statement.Many().Invoke(t);
+		if (!p.HasValue)
+		{
+			Assert.Fail(p.ToString());
+		}
+		
 	}
 }
