@@ -12,6 +12,7 @@ public enum UnOp
 public class UnaryOperator(UnOp op, Expression exp) : Operator
 {
     public readonly UnOp Op = op;
+    public Expression Operand => _operand;
     private Expression _operand = exp;
     
     public static UnaryOperator CreateUnary(Token<SToken> op, Expression exp)

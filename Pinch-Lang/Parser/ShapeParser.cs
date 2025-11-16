@@ -18,7 +18,7 @@ public static class ShapeParser
 	//Expressions
 	
 	//identifiers are normal or "_" for when we are discarding the identifer.p
-
+	
 	private static TokenListParser<SToken, Expression> NumberLiteral { get; } =
 		from num in Token.EqualTo(SToken.Integer).Or(Token.EqualTo(SToken.Double))
 		select (Expression)new NumberLiteral(num.Span);
@@ -90,24 +90,35 @@ public static class ShapeParser
 			// .Or(BinaryOperation) // order of initializers?
 		select (Expression)puo;
 
-	static TokenListParser<SToken, Expression> Expression { get; }=
-		from x in (TokenListParser<SToken, Expression>)
-			ExpressionIdentifier //the subset of identifiers that can be used as values (_ or no prefix)
-			.Or(Literal)
-			.Or(Operation)
-			.Or(KeyValueTuple)
-			//we do NOT consume newlines when evaluating Expression.Many()
-			select x;
-
+	static readonly TokenListParser<SToken, Expression> Factor =
+		(from lparen in Token.EqualTo(SToken.LParen)
+			from expr in Parse.Ref(() => Expression!)
+			from rparen in Token.EqualTo(SToken.RParen)
+			select expr)
+		.Or(Literal);
+	
 	private static TokenListParser<SToken, Expression> BinaryOperation { get; } =
-		from left in Expression.Try()
+		//from left in Parse.Ref(() => Expression.Try())
+		from left in Expression
+
 		from op in Token.EqualTo(SToken.Plus)
 			.Or(Token.EqualTo(SToken.Minus))
 			.Or(Token.EqualTo(SToken.Asterisk))
 			.Or(Token.EqualTo(SToken.Slash))
 			.Or(Token.EqualTo(SToken.Percentage))
-		from right in Expression.Try()
+		from right in Expression
 		select (Expression)BinaryOperator.CreateBinaryOp(op.Kind, left, right);
+	
+	public static TokenListParser<SToken, Expression> Expression { get; }=
+		from x in (TokenListParser<SToken, Expression>)
+			BinaryOperation
+			.Or(ExpressionIdentifier) //the subset of identifiers that can be used as values (_ or no prefix)
+			.Or(Literal)
+			.Or(Operation)
+			.Or(KeyValueTuple)
+			//we do NOT consume newlines when evaluating Expression.Many()
+			select x;
+	
 	//Statements
 	public static TokenListParser<SToken, Statement> NewLine =
 		from s in Token.EqualTo(SToken.Newline).AtLeastOnce()

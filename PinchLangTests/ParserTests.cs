@@ -7,7 +7,7 @@ namespace PinchLangTests;
 
 public class ParserTests
 {
-	private TokenList<SToken> Tokenize(string input)
+	public static TokenList<SToken> Tokenize(string input)
 	{
 		var tokr = ShapeTokenizer.Tokenizer.TryTokenize(input);
 

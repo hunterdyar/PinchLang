@@ -27,9 +27,32 @@ public class ExpressionWalker
 			case BinaryOperator binOp:
 				throw new NotImplementedException("binaryOp not implemented");
 			case UnaryOperator unOp:
-				throw new NotImplementedException("unaryOp not implemented");
+				return WalkUnary(unOp);
 		}
 
 		throw new NotImplementedException($"unable to walk {expression}");
+	}
+
+	private ValueItem WalkUnary(UnaryOperator op)
+	{
+		var left = WalkExpression(op.Operand);
+		switch (op.Op)
+		{
+			case UnOp.Negate:
+				//if it's already a number, prevent an extra allocation.
+				if (left is NumberValue nv)
+				{
+					nv.Value = -nv.Value;
+					return nv;
+				}
+				//otherwise, attempt to cast it. 
+				return new NumberValue(-left.AsNumber());
+			default:
+				throw new NotImplementedException($"Unknown Unary Operator {op.Op}");
+		}
+	}
+	private ValueItem WalkBinary(BinaryOperator bin)
+	{
+		return bin.Evaluate(_environment);
 	}
 }

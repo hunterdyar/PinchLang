@@ -2,8 +2,9 @@
 
 namespace Pinch_Lang.Engine;
 
-public class ValueItem
+public abstract class ValueItem
 {
+	public abstract object NativeValue { get; } 
 	public double AsNumber()
 	{
 		switch (this)
@@ -27,6 +28,7 @@ public class ValueItem
 				throw new InvalidCastException($"Cannot convert {this} to name or string");
 		}
 	}
+	
 }
 
 public class NumberValue : ValueItem
@@ -37,6 +39,10 @@ public class NumberValue : ValueItem
 		set => _value = value;
 	}
 
+	public override object NativeValue
+	{
+		get { return _value; }
+	}
 	private double _value;
 
 	public NumberValue(double val)
@@ -44,7 +50,6 @@ public class NumberValue : ValueItem
 		_value = val;
 	}
 }
-
 
 public class StringValue : ValueItem
 {
@@ -54,11 +59,20 @@ public class StringValue : ValueItem
 		set => _value = value;
 	}
 
+	public override object NativeValue
+	{
+		get { return _value; }
+	}
+	
 	private string _value;
 
 	public StringValue(TextSpan value)
 	{
 		_value = value.ToStringValue();
+	}
+	public StringValue(string value)
+	{
+		_value = value;
 	}
 }
 
@@ -68,6 +82,11 @@ public class IdentifierValue : ValueItem
 	{
 		get => _value;
 		set => _value = value;
+	}
+	
+	public override object NativeValue
+	{
+		get { return _value; }
 	}
 
 	private string _value;
