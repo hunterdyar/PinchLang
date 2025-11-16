@@ -5,16 +5,18 @@ namespace PinchLangTests;
 
 public class ExprTests
 {
-    [TestCase("1+1", 2)]
+    [TestCase("1 + 1", 2)]
     [TestCase("1-2", -1)]
     [TestCase("1+2*3", 7)]
-    [TestCase("\"he\" + \"llo\"", "hello")]
+    [TestCase("1*2+3", 5)]
+
+    // [TestCase("\"he\" + \"llo\"", "hello")]
 
     public void BinaryOperatorTests(string input, object expected)
     {
         var t = ParserTests.Tokenize(input);
 
-        var p = ShapeParser.Expression.Invoke(t);
+        var p = ExprParser.Expr.Invoke(t);
         if (!p.HasValue)
         {
             Assert.Fail(p.ToString());

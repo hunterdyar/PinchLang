@@ -25,7 +25,7 @@ public class ExpressionWalker
 			case Identifier id:
 				return new IdentifierValue(id.Value);
 			case BinaryOperator binOp:
-				throw new NotImplementedException("binaryOp not implemented");
+				return binOp.Evaluate(_environment);
 			case UnaryOperator unOp:
 				return WalkUnary(unOp);
 		}

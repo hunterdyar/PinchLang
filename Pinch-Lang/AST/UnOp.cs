@@ -9,7 +9,7 @@ public enum UnOp
 
 
 
-public class UnaryOperator(UnOp op, Expression exp) : Operator
+public class UnaryOperator(UnOp op, Expression exp) : Operation
 {
     public readonly UnOp Op = op;
     public Expression Operand => _operand;

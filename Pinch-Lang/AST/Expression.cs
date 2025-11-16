@@ -109,10 +109,6 @@ public class StringLiteral : Literal
 	}
 }
 
-public class Operator : Expression
-{
-	
-}
 
 
 

@@ -17,16 +17,6 @@ public static class ShapeParser
 	
 	//Expressions
 	
-	//identifiers are normal or "_" for when we are discarding the identifer.p
-	
-	private static TokenListParser<SToken, Expression> NumberLiteral { get; } =
-		from num in Token.EqualTo(SToken.Integer).Or(Token.EqualTo(SToken.Double))
-		select (Expression)new NumberLiteral(num.Span);
-
-	private static TokenListParser<SToken, Expression> StringLiteral { get; } =
-		from str in Token.EqualTo(SToken.String)
-		select (Expression)new StringLiteral(str.Span);
-
 	static TokenListParser<SToken, Expression> NormalIdentifier { get; } =
 		from id in Token.EqualTo(SToken.Identifier)
 		select (Expression)new Identifier(id.Span);
@@ -66,61 +56,23 @@ public static class ShapeParser
 		from id in NormalIdentifier
 			.Or(UnderscoreIdentifier)
 		select id;
-
-	private static TokenListParser<SToken, Expression> Literal { get; } =
-		from literal in
-			NumberLiteral
-				.Or(StringLiteral)
-				.Or(Identifier)
-		select literal;
 	
 	static TokenListParser<SToken, Expression> KeyValueTuple { get; }=
 		from a in Identifier.Try()
 		from _ in Token.EqualTo(SToken.Colon).Try()
 		from b in Expression
 		select (Expression)new KeyValueTuple((Identifier)a, (Expression)b);
-
-	private static TokenListParser<SToken, Expression> PrefixUnaryOperation { get; } =
-		from op in Token.EqualTo(SToken.Plus).Or(Token.EqualTo(SToken.Minus))
-		from exp in Expression
-		select (Expression)UnaryOperator.CreateUnary(op, exp);
-
-	static TokenListParser<SToken, Expression> Operation { get; } =
-		from puo in PrefixUnaryOperation
-			// .Or(BinaryOperation) // order of initializers?
-		select (Expression)puo;
-
-	static readonly TokenListParser<SToken, Expression> Factor =
-		(from lparen in Token.EqualTo(SToken.LParen)
-			from expr in Parse.Ref(() => Expression!)
-			from rparen in Token.EqualTo(SToken.RParen)
-			select expr)
-		.Or(Literal);
-	
-	private static TokenListParser<SToken, Expression> BinaryOperation { get; } =
-		//from left in Parse.Ref(() => Expression.Try())
-		from left in Expression
-
-		from op in Token.EqualTo(SToken.Plus)
-			.Or(Token.EqualTo(SToken.Minus))
-			.Or(Token.EqualTo(SToken.Asterisk))
-			.Or(Token.EqualTo(SToken.Slash))
-			.Or(Token.EqualTo(SToken.Percentage))
-		from right in Expression
-		select (Expression)BinaryOperator.CreateBinaryOp(op.Kind, left, right);
 	
 	public static TokenListParser<SToken, Expression> Expression { get; }=
 		from x in (TokenListParser<SToken, Expression>)
-			BinaryOperation
+			ExprParser.Expr
 			.Or(ExpressionIdentifier) //the subset of identifiers that can be used as values (_ or no prefix)
-			.Or(Literal)
-			.Or(Operation)
 			.Or(KeyValueTuple)
 			//we do NOT consume newlines when evaluating Expression.Many()
 			select x;
 	
 	//Statements
-	public static TokenListParser<SToken, Statement> NewLine =
+	public readonly static TokenListParser<SToken, Statement> NewLine =
 		from s in Token.EqualTo(SToken.Newline).AtLeastOnce()
 		select AST.Statement.Empty;
 	static TokenListParser<SToken, Header> Header { get; }= 
@@ -190,6 +142,7 @@ public static class ShapeParser
 			.Or(FunctionCallWithBlock.Try())
 			.Or(FunctionCallNoBlock.Try())
 			.Or(StackBlock.Try())
+			.Or(GlobalsDeclare.Try())
 
 		from _2 in NewLine.Many()
 

@@ -1,10 +1,12 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AAction_00602_002Ecs_002Fl_003AC_0021_003FUsers_003Fbloops_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003Fc73b3c6c598640c592fd3c6fa226c286e90908_003F9f_003F96033b2e_003FAction_00602_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AAction_00603_002Ecs_002Fl_003AC_0021_003FUsers_003Fbloops_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003Fc73b3c6c598640c592fd3c6fa226c286e90908_003F75_003F7c139723_003FAction_00603_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AArgumentNullException_002Ecs_002Fl_003AC_0021_003FUsers_003Fbloops_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FSourcesCache_003F79b4b5d07e8c5ac3de172b75667c6bded8e1fa6f42f36d8f6dc2f9e3d568_003FArgumentNullException_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AAssert_002Ecs_002Fl_003AC_0021_003FUsers_003Fbloops_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003F98514e314f1feddb3082dbe8507ecec1a81b6491c0db7dc53c2e8c13949e4360_003FAssert_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AAssert_002Ecs_002Fl_003AC_0021_003FUsers_003Fbloops_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FSourcesCache_003F98514e314f1feddb3082dbe8507ecec1a81b6491c0db7dc53c2e8c13949e4360_003FAssert_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AAssert_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002Econfig_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003F98514e314f1feddb3082dbe8507ecec1a81b6491c0db7dc53c2e8c13949e4360_003FAssert_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ABeforeAndAfterTestCommand_002Ecs_002Fl_003AC_0021_003FUsers_003Fbloops_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FSourcesCache_003F5dd3c6bdef6bb6cb25b4af726e8ff88c071135193db44586b57feb53054a_003FBeforeAndAfterTestCommand_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ABinaryExpression_002Ecs_002Fl_003AC_0021_003FUsers_003Fbloops_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FSourcesCache_003F446110fce94a208c10c788213245efe2a92be9d355a0abf75dd672f85c2371f1_003FBinaryExpression_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ACastHelpers_002Ecs_002Fl_003AC_0021_003FUsers_003Fbloops_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003F3c92637ae2e83da0a63791071c41eae291d594156062866d8621b7ed7245c_003FCastHelpers_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ACastHelpers_002Ecs_002Fl_003AC_0021_003FUsers_003Fbloops_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FSourcesCache_003F3c92637ae2e83da0a63791071c41eae291d594156062866d8621b7ed7245c_003FCastHelpers_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ACombinators_002Ecs_002Fl_003AC_0021_003FUsers_003Fbloops_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003Fc67bd278667e4c47b8fa367029eea98e16e00_003F51_003F36b3b9ab_003FCombinators_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
@@ -14,6 +16,7 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AThrowHelper_002Ecs_002Fl_003AC_0021_003FUsers_003Fbloops_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FSourcesCache_003Fc7102cd0ffb8973777e61b1942c3fffac7e14016a511d055c3adf73ff91748_003FThrowHelper_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ATokenizer_00601_002Ecs_002Fl_003AC_0021_003FUsers_003Fbloops_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003Fc67bd278667e4c47b8fa367029eea98e16e00_003F16_003F80fb1fd2_003FTokenizer_00601_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ATokenList_00601_002Ecs_002Fl_003AC_0021_003FUsers_003Fbloops_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003Fc67bd278667e4c47b8fa367029eea98e16e00_003F3b_003F787d8b69_003FTokenList_00601_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ATypeInitializationException_002Ecs_002Fl_003AC_0021_003FUsers_003Fbloops_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FSourcesCache_003F7c20f24217b8fdc13b88f378da13216ebd8fb665c0992191b1c55c28cff21d3b_003FTypeInitializationException_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/dotCover/Editor/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\bloops\AppData\Local\JetBrains\Rider2025.3\resharper-host\temp\Rider\vAny\CoverageData\_Pinch-Lang.910449392\Snapshot\snapshot.utdcvr</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=78792af9_002Db261_002D42cf_002D9f21_002D84c830ff510d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="WalkerSVG #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
@@ -38,26 +41,27 @@
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eda3d1a6_002De973_002D45d3_002D8b21_002D4e7568286d5c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Walker1 #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.Walker1&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.ShapesNoPushPop&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.WalkerSVG&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.StandaloneDeclarationTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.PushTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.FunctionDecTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.SectionListTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.Identifiers&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.FunctionWithBlockDecTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.StackBlockTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.StackBlockSingleTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.Test1&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.ModuleDeclarationTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.StatementMisc&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.MultipleModuleDecsTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.VariableDeclarationTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.HullTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.DifferenceTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ExprTests.BinaryOperatorTests&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eda3d1a6_002De973_002D45d3_002D8b21_002D4e7568286d5c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Walker1 #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.Walker1&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.ShapesNoPushPop&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.WalkerSVG&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.StandaloneDeclarationTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.PushTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.FunctionDecTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.SectionListTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.Identifiers&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.FunctionWithBlockDecTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.StackBlockTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.StackBlockSingleTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.Test1&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.ModuleDeclarationTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.StatementMisc&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.MultipleModuleDecsTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.VariableDeclarationTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.HullTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.DifferenceTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ExprTests.BinaryOperatorTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ExprTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

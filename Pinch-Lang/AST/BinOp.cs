@@ -4,17 +4,32 @@ using Environment = Pinch_Lang.Engine.Environment;
 
 namespace ShapesDeclare.AST;
 
-// public enum BinOp
-// {
-// 	Plus,
-// 	Minus,
-// 	Times,
-// 	Divide,
-// 	Modulo,
-// 	Pow,
-// }
+public enum BinOp
+{
+	Plus,
+	Minus,
+	Times,
+	Divide,
+	Modulo,
+	Pow,
+}
 
-public abstract class BinaryOperator : Operator
+public class OpItem
+{
+	public BinOp Op => _op;
+	private BinOp _op;
+	public OpItem(BinOp op)
+	{
+		_op = op;
+	}
+}
+public class Operation : Expression
+{
+	
+}
+
+
+public abstract class BinaryOperator : Operation
 {
 	public Expression Left;
 	public Expression Right;
@@ -24,25 +39,6 @@ public abstract class BinaryOperator : Operator
 		this.Left = left;
 		this.Right = right;
 	}
-	public static BinaryOperator CreateBinaryOp(SToken opToken, Expression left, Expression right)
-	{
-		switch (opToken)
-		{
-			case SToken.Plus:
-				return new Plus(left, right);
-			case SToken.Minus:
-				return new Minus(left, right);
-			case SToken.Asterisk:
-				return new Times(left, right);
-			case SToken.Slash:
-				return new Divide(left, right);
-			case SToken.Percentage:
-				return new Modulo(left, right);
-			default:
-				throw new Exception($"Unknown Binary Operator: {opToken}");
-		}
-	}
-
 	public abstract ValueItem Evaluate(Environment env);
 
 }
@@ -95,9 +91,9 @@ public class Minus : BinaryOperator
 	}
 }
 
-public class Times : BinaryOperator
+public class Multiply : BinaryOperator
 {
-	public Times(Expression left, Expression right) : base(left, right)
+	public Multiply(Expression left, Expression right) : base(left, right)
 	{
 	}
 	
