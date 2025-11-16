@@ -27,7 +27,7 @@ public class StatementWalker
 		}
 	}
 
-	private void WalkStatement(Statement statement)
+	public void WalkStatement(Statement statement)
 	{
 		switch (statement)
 		{
@@ -71,21 +71,35 @@ public class StatementWalker
 		var args = modDec.Params;
 		return _environment.RegisterModule(modName, args, modDec.Statement);
 	}
-	
+
+	private static readonly ValueItem[] EmptyValueItemList = [];
+
+	public ValueItem[] WalkExpressionListToItemList(Expression[] expressions)
+	{
+		if (expressions.Length == 0)
+		{
+			return EmptyValueItemList;
+		}
+		//Walk Arguments and collect them into list.
+		ValueItem[] arguments = new ValueItem[expressions.Length];
+
+		for (int i = 0; i < expressions.Length; i++)
+		{
+			arguments[i] = _environment.ExprWalker.WalkExpression(expressions[i]);
+		}
+
+		return arguments;
+	}
 	private void WalkFunctionCall(FunctionCall functionCall)
 	{
 		//first, figure out if it's a builtin or a module. The below is for builtins but will work with both....
-		
-		
-		
-		//Walk Arguments and collect them into list.
-		ValueItem[] arguments = new ValueItem[functionCall.Arguments.Length];
-
-		for (int i = 0; i < functionCall.Arguments.Length; i++)
+		if (_environment.TryGetModule(functionCall.Name.ToString(), out Module module))
 		{
-			arguments[i] = _environment.ExprWalker.WalkExpression(functionCall.Arguments[i]);
+			module.Walk(functionCall.Arguments);
+			return;
 		}
-		
+
+		var arguments = WalkExpressionListToItemList(functionCall.Arguments);
 		//next we need to figure out how many items to provide. Some items work on the stack without us intervening (like tx, which peeks)
 		//but most should be provided items that have been taken off of the stack for them, either from 
 		//1. Dot Op (shorthand for argument of 1 more item please, first)

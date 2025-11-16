@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using System.Xml;
 using NUnit.Framework.Internal;
 using Pinch_Lang.Engine;
@@ -76,6 +77,35 @@ public class Tests
 
 		var e = new Environment();
 		var svg = e.Execute(root);
+		WriteFile(svg);
+	}
+
+	[Test]
+	public void ModDecAndRunTest()
+	{
+		var i = """
+		        [shapes]
+		        stamp: @x @y {
+		        circle x y 25
+		        }
+		        
+		        stamp 25 25
+		        stamp 75 25
+		        stamp 25 75
+		        stamp 75 75
+		        
+		        """;
+		var p = ShapeParser.TryParse(i, out Root root, out var error);
+		if (!p)
+		{
+			Assert.Fail(error);
+		}
+
+		var e = new Environment();
+		var svg = e.Execute(root);
+		//this is failing because we aren't pulling the stack from the shapes 'up to' the root item.
+		//which is intended! or, well it's not. I just haven't designed that yet. 
+		Assert.That(svg.Children.Count, Is.EqualTo(4));
 		WriteFile(svg);
 	}
 

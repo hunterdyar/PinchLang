@@ -23,6 +23,15 @@ public class ExpressionWalker
 			case StringLiteral stringLiteral:
 				return new StringValue(stringLiteral.Value);
 			case Identifier id:
+				if (_environment.CurrentFrame.TryGetValueItem(id.Value.ToString(), out var vi))
+				{
+					return vi;
+				}
+				else
+				{
+					throw new Exception($"Unkown variable {id}");
+				}
+
 				return new IdentifierValue(id.Value);
 			case BinaryOperator binOp:
 				return binOp.Evaluate(_environment);

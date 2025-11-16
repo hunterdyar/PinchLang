@@ -10,7 +10,7 @@ public class Environment
 {
 	public Frame RootFrame;
 	private Stack<Frame> _frames = new Stack<Frame>();
-	public Frame CurrentFrame => _frames.Count > 0 ? _frames.Peek() : RootFrame;
+	public Frame CurrentFrame => GetCurrentFrame();
 	public bool IsAtRootFrame => _frames.Count == 0;
 
 	public readonly Walker.StatementWalker StatementWalker;
@@ -31,6 +31,18 @@ public class Environment
 		return SVGRendering.RenderSVGFromStack(canvas);
 	}
 
+	private Frame GetCurrentFrame()
+	{
+		if (_frames.Count == 0)
+		{
+			return RootFrame;
+		}
+		else
+		{
+			var f = _frames.Peek();
+			return f;
+		}
+	}
 	public void Push(StackItem item)
 	{
 		CurrentFrame.PushStackItem(item);
@@ -41,9 +53,11 @@ public class Environment
 		CurrentFrame.PopStackItem();
 	}
 
-	public void PushNewFrame()
+	public Frame PushNewFrame()
 	{
-		_frames.Push(new Frame(this));
+		var f = new Frame(this);
+		_frames.Push(f);
+		return f;
 	}
 
 	public Frame PopFrame()
@@ -71,5 +85,10 @@ public class Environment
 		Module m = new Module(CurrentFrame, modName, args, statement);
 		CurrentFrame.RegisterModule(m);
 		return m;
+	}
+
+	public bool TryGetModule(string name, out Module module)
+	{
+		return CurrentFrame.TryGetModule(name, out module);
 	}
 }

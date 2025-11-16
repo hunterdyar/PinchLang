@@ -6,7 +6,7 @@ public class Frame
 {
     public Environment Environment => _environment;
     private Environment _environment;
-    public Frame? Parent;
+    public readonly Frame? Parent;
     private readonly Stack<StackItem> _stack = new Stack<StackItem>();
     private readonly Dictionary<string, ValueItem> _items = new Dictionary<string, ValueItem>();
     private readonly Dictionary<string, Module> _modules = new Dictionary<string, Module>();
@@ -15,6 +15,7 @@ public class Frame
     public Frame(Environment environment)
     {
         _environment = environment;
+        Parent = _environment.CurrentFrame;
     }
 
     public bool TryGetValueItem(string identifier, out ValueItem item)
@@ -56,9 +57,17 @@ public class Frame
         
     }
 
+    public void ShiftTopToParentStack()
+    {
+        if (_stack.Count > 0)
+        {
+            Parent?._stack.Push(_stack.Pop());
+        }
+    }
     //reset, etc so we can do an object pool.
     public void ExitFrame()
     {
+        ShiftTopToParentStack();
         _stack.Clear();
         _items.Clear();
         _globals.Clear();
@@ -90,6 +99,15 @@ public class Frame
         {
             //todo: check that the global exists in the environment root frame. throw a warning or error if it doesn't.
             _globals.Add(id.Value.ToString());
+        }
+    }
+
+    public void SetLocal(string name, ValueItem value)
+    {
+        if (!_items.TryAdd(name, value))
+        {
+            _items[name] = value;
+            return;
         }
     }
 
