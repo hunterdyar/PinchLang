@@ -30,7 +30,29 @@ public static class SVGRendering
 		return doc;
 	}
 
-	public static SvgElement RenderToSVGElement(this Polygon polygon)
+	public static SvgElement RenderToSVGElement(this Geometry geo)
+	{
+		if (geo is Polygon poly)
+		{
+			return poly.RenderPolyToElement();
+		}else if (geo is GeometryCollection gc)
+		{
+			return gc.RenderGeoCollectionToElement();
+		}else if (geo is LinearRing lr)
+		{
+			return lr.RenderLinearRingToElement();
+		}else if (geo is Point point)
+		{
+			return point.RenderPointToElement();
+		}
+		else
+		{
+			throw new NotImplementedException($"dont yet have overload for {geo.GetType().ToString()}.");
+		}
+		
+	}
+
+	public static SvgElement RenderPolyToElement(this Polygon polygon)
 	{
 		if (polygon.NumInteriorRings == 0)
 		{
@@ -46,9 +68,9 @@ public static class SVGRendering
 		}
 	}
 
-	public static SvgPolygon RenderToSVGElement(this LinearRing ring)
+	public static SvgPolygon RenderLinearRingToElement(this LinearRing ring)
 	{
-		Console.WriteLine($"Rendering LinearRing of type {ring.GeometryType}");
+		Console.WriteLine($"Rendering geo of type {ring.GeometryType}");
 
 		var list = new SvgPointCollection();
 		for (int os = 0; os < ring.NumPoints; os++)
@@ -63,5 +85,29 @@ public static class SVGRendering
 			Points =list
 		};
 		return polygon;
+	}
+
+	public static SvgGroup RenderGeoCollectionToElement(this GeometryCollection gc)
+	{
+		Console.WriteLine($"Rendering geo of type {gc.GeometryType}");
+
+		var group = new SvgGroup();
+		foreach (var geo in gc.Geometries)
+		{
+			var c = geo.RenderToSVGElement();
+			group.Children.Add(c);
+		}
+
+		return group;
+	}
+
+	public static SvgCircle RenderPointToElement(this Point point)
+	{
+		Console.WriteLine($"Rendering geo of type {point.GeometryType}");
+		var p = new SvgCircle();
+		p.CenterX = new SvgUnit(SvgUnitType.None, (float)point.X);
+		p.CenterY = new SvgUnit(SvgUnitType.None, (float)point.Y);
+		p.Radius = new SvgUnit(SvgUnitType.Pixel, 0.5f);
+		return p;
 	}
 }

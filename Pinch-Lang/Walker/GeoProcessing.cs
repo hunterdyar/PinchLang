@@ -51,7 +51,7 @@ public static class GeoProcessing
 		
 		PushGeometryToStack(env, main);
 	}
-
+	
 	static void PushGeometryToStack(Environment env, Geometry geo)
 	{
 		if (geo is Polygon polygon)
@@ -60,7 +60,8 @@ public static class GeoProcessing
 			env.Push(si);
 		}else if (geo is GeometryCollection geometryCollection)
 		{
-			throw new NotImplementedException("Geometry Collection item not supported yet");
+			var si = new PolyGroup(env, geometryCollection);
+			env.Push(si);
 		}else if (geo is LineString lineString)
 		{
 			throw new NotImplementedException("lineString item not supported yet");

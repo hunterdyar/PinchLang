@@ -18,27 +18,27 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ATokenList_00601_002Ecs_002Fl_003AC_0021_003FUsers_003Fbloops_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003Fc67bd278667e4c47b8fa367029eea98e16e00_003F3b_003F787d8b69_003FTokenList_00601_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ATypeInitializationException_002Ecs_002Fl_003AC_0021_003FUsers_003Fbloops_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FSourcesCache_003F7c20f24217b8fdc13b88f378da13216ebd8fb665c0992191b1c55c28cff21d3b_003FTypeInitializationException_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/dotCover/Editor/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\bloops\AppData\Local\JetBrains\Rider2025.3\resharper-host\temp\Rider\vAny\CoverageData\_Pinch-Lang.910449392\Snapshot\snapshot.utdcvr</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=78792af9_002Db261_002D42cf_002D9f21_002D84c830ff510d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="WalkerSVG #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.WalkerSVG&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.ShapesNoPushPop&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=78792af9_002Db261_002D42cf_002D9f21_002D84c830ff510d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="WalkerSVG #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.WalkerSVG&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.ShapesNoPushPop&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7b8892a9_002Dd163_002D4d40_002Da33f_002D16c95f3fd276/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="WalkerSVG" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.WalkerSVG&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7b8892a9_002Dd163_002D4d40_002Da33f_002D16c95f3fd276/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="WalkerSVG" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.WalkerSVG&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b34e6267_002De823_002D4b9a_002D80f6_002Dfa719d60a2a7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Walker1 #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.Walker1&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.WalkerSVG&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b34e6267_002De823_002D4b9a_002D80f6_002Dfa719d60a2a7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Walker1 #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.Walker1&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.WalkerSVG&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bbf8d40e_002D74ff_002D44f0_002Dbf5c_002D0542a8aaddc6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Walker1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ExprTests.BinaryOperatorTests&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bbf8d40e_002D74ff_002D44f0_002Dbf5c_002D0542a8aaddc6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Walker1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ExprTests.BinaryOperatorTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eda3d1a6_002De973_002D45d3_002D8b21_002D4e7568286d5c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Walker1 #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;

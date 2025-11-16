@@ -9,6 +9,7 @@ public class ExprTests
     [TestCase("1-2", -1)]
     [TestCase("1+2*3", 7)]
     [TestCase("1*2+3", 5)]
+    [TestCase("1-1+1-1+1-1", 0)]
 
     // [TestCase("\"he\" + \"llo\"", "hello")]
 

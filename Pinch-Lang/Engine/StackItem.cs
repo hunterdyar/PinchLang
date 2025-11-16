@@ -46,6 +46,7 @@ public abstract class Shape : StackItem
 
 public class Poly : Shape
 {
+	public Polygon Polygon => _polygon;
 	private Polygon _polygon;
 	public Poly(Environment env, Polygon poly) : base(env)
 	{
@@ -69,71 +70,14 @@ public class Poly : Shape
 	}
 }
 
-public class Circle : Shape
+public class PolyGroup : Shape
 {
-	//todo:remove coord and center and replace with factory wrapper.
-	private Coordinate _center;
-	private double _radius;
-	private GeometricShapeFactory _factory = new GeometricShapeFactory();
+	public GeometryCollection Collection => _collection;
+	private GeometryCollection _collection;
 
-	public Circle(Environment env, Coordinate center, double radius) : base(env)
+	public PolyGroup(Environment env, GeometryCollection collection) : base(env)
 	{
-		_center = center;
-		_radius = radius;
-	}
-
-	public override Geometry GetGeometry()
-	{
-		_factory.Width = _radius * 2;
-		_factory.Height = _radius * 2;
-		_factory.Centre = _center;
-		
-		return _factory.CreateCircle();
-	}
-
-	public override void RenderToSVGParent(ref SvgElementCollection parent)
-	{
-		
-		
-	}
-
-	public override void SetProperty(string propName, ValueItem item)
-	{
-		switch (propName)
-		{
-			case "radius":
-				var r = item.AsNumber();
-				_radius = r;
-				break;
-			case "centerx":
-				var cx = item.AsNumber();
-				_center.X = cx;
-				break;
-			case "centery":
-				var cy = item.AsNumber();
-				_center.Y = cy;
-				break;
-			default:
-				throw new Exception($"Invalid Argument {item} for Circle {propName}");
-		}
-	}
-}
-public class Rect : Shape
-{
-	private Polygon _polygon;
-	public Rect(Environment env, Coordinate min, Coordinate max) : base(env)
-	{
-		_polygon = Geometry.DefaultFactory.CreatePolygon([
-			min, new Coordinate(min.X, max.Y), max, new Coordinate(max.X, min.Y),
-			min
-		]);
-		
-		Assert.IsTrue(_polygon.IsRectangle);
-	}
-
-	public override Geometry GetGeometry()
-	{
-		return _polygon;
+		_collection = collection;
 	}
 
 	public override void SetProperty(string propName, ValueItem item)
@@ -141,10 +85,41 @@ public class Rect : Shape
 		throw new NotImplementedException();
 	}
 
+	public override Geometry GetGeometry()
+	{
+		return _collection;
+	}
+
 	public override void RenderToSVGParent(ref SvgElementCollection parent)
 	{
-		var e = _polygon.RenderToSVGElement();
-		parent.Add(e);
+		var p = _collection.RenderToSVGElement();
+		parent.Add(p);
 	}
-	
+}
+
+public class PolyPoint : Shape
+{
+	public Point Point => _point;
+	private Point _point;
+
+	public PolyPoint(Environment env, Point collection) : base(env)
+	{
+		_point = collection;
+	}
+
+	public override void SetProperty(string propName, ValueItem item)
+	{
+		throw new NotImplementedException();
+	}
+
+	public override Geometry GetGeometry()
+	{
+		return _point;
+	}
+
+	public override void RenderToSVGParent(ref SvgElementCollection parent)
+	{
+		var p = _point.RenderToSVGElement();
+		parent.Add(p);
+	}
 }
