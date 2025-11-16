@@ -62,10 +62,11 @@ public class Tests
 	{
 		var i = """
 		        [shapes]
-		        rect 0 0 20 20
-		        .difference { 
-		        circle 20 20 10
+		        rect 0 0 50 50
+		        .difference {
+		          circle 50 50 25
 		        }
+		        
 		        """;
 		var p = ShapeParser.TryParse(i, out Root root, out var error);
 		if (!p)
