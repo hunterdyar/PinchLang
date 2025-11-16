@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Xml;
+using NUnit.Framework.Internal;
 using Pinch_Lang.Engine;
 using ShapesDeclare;
 using ShapesDeclare.AST;
@@ -56,6 +57,27 @@ public class Tests
 		WriteFile(svg);
 	}
 
+	[Test]
+	public void DifferenceTest()
+	{
+		var i = """
+		        [shapes]
+		        rect 0 0 20 20
+		        .difference { 
+		        circle 20 20 10
+		        }
+		        """;
+		var p = ShapeParser.TryParse(i, out Root root, out var error);
+		if (!p)
+		{
+			Assert.Fail(error);
+		}
+
+		var e = new Environment();
+		var svg = e.Execute(root);
+		WriteFile(svg);
+	}
+
 	
 
 	[Test]
@@ -63,7 +85,7 @@ public class Tests
 	{
 		var i = """
 		        [shapes]
-		        rect 0 0 10 20
+		        rect 0 0 15 50
 		        rect 10 10 20 20
 		        
 		        """;

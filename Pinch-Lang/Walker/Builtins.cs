@@ -8,7 +8,7 @@ namespace Pinch_Lang.Walker;
 
 public static class Builtins
 {
-	public static Dictionary<string, Action<Environment, ValueItem[], List<StackItem>>> BuiltinLookup = new Dictionary<string, Action<Environment, ValueItem[], List<StackItem>>>()
+	public static readonly Dictionary<string, Action<Environment, ValueItem[], List<StackItem>>> BuiltinLookup = new Dictionary<string, Action<Environment, ValueItem[], List<StackItem>>>()
 	{
 		//general
 		{ "set", Set},
@@ -18,6 +18,9 @@ public static class Builtins
 		{ "rect", Rect},
 		// { "rectangle", Rect },//we can overload function name synonyms if we want.
 
+		//GeoProcessing.cs functions
+		{ "convex_hull", Walker.GeoProcessing.ConvexHull},
+		{ "difference", GeoProcessing.Difference},
 	};
 
 	public static bool ValidateArgumentCount(string funcName, int count, string[][] signatures)
@@ -98,7 +101,7 @@ public static class Builtins
 		{
 			cx = args[0].AsNumber();
 			cy = args[1].AsNumber();
-			radius = args[3].AsNumber();
+			radius = args[2].AsNumber();
 		}else
 		{
 			//this shouldn't happen because of ValidateArgumentCount

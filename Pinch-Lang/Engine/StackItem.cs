@@ -44,6 +44,31 @@ public abstract class Shape : StackItem
 	public abstract void RenderToSVGParent(ref SvgElementCollection parent);
 }
 
+public class Poly : Shape
+{
+	private Polygon _polygon;
+	public Poly(Environment env, Polygon poly) : base(env)
+	{
+		_polygon = poly;
+	}
+
+	public override void SetProperty(string propName, ValueItem item)
+	{
+		throw new NotImplementedException();
+	}
+
+	public override Geometry GetGeometry()
+	{
+		return _polygon;
+	}
+
+	public override void RenderToSVGParent(ref SvgElementCollection parent)
+	{
+		var p = _polygon.RenderToSVGElement();
+		parent.Add(p);
+	}
+}
+
 public class Circle : Shape
 {
 	//todo:remove coord and center and replace with factory wrapper.
@@ -102,6 +127,8 @@ public class Rect : Shape
 			min, new Coordinate(min.X, max.Y), max, new Coordinate(max.X, min.Y),
 			min
 		]);
+		
+		Assert.IsTrue(_polygon.IsRectangle);
 	}
 
 	public override Geometry GetGeometry()

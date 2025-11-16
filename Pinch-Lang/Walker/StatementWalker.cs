@@ -53,6 +53,15 @@ public class StatementWalker
 				}
 				_environment.CurrentFrame.SetGlobals(globalsDeclaration);
 				break;
+			case StackBlock stackBlock:
+				_environment.PushNewFrame();
+				foreach (var sub in stackBlock.Statements)
+				{
+					WalkStatement(sub);
+				}
+				var f = _environment.PopFrame();
+				f.ExitFrame();
+				break;
 		}
 	}
 	
@@ -68,26 +77,51 @@ public class StatementWalker
 		//first, figure out if it's a builtin or a module. The below is for builtins but will work with both....
 		
 		
-		//todo: Walk Arguments and collect them into list.
 		
-		//then walk context and put them on shapeStack
-		List<StackItem> context = new List<StackItem>();
-		for (int i = 0; i < functionCall.PopFromStack; i++)
-		{
-			//pop and put on top of context list.
-		}
-		if (functionCall.StackBlock != null)
-		{
-			//enter frame and evaluate block, then copy list to our shape list with exit frame.
-		}
-		
-		//next, walk each of the arguments and get the ValueItems. Provide these.
+		//Walk Arguments and collect them into list.
 		ValueItem[] arguments = new ValueItem[functionCall.Arguments.Length];
 
 		for (int i = 0; i < functionCall.Arguments.Length; i++)
 		{
 			arguments[i] = _environment.ExprWalker.WalkExpression(functionCall.Arguments[i]);
 		}
+		
+		//next we need to figure out how many items to provide. Some items work on the stack without us intervening (like tx, which peeks)
+		//but most should be provided items that have been taken off of the stack for them, either from 
+		//1. Dot Op (shorthand for argument of 1 more item please, first)
+		//2. Argument to directly modify stack
+			//this should be in constructor, and modify the 'popFromStack' variable i thiiiiink? wait no then we can't use a variable hmmm
+		//3. ShapeStack Provided.
+		
+		//in that order.
+		
+		//then walk context and put them on shapeStack
+		List<StackItem> context = new List<StackItem>();
+		for (int i = 0; i < functionCall.PopFromStack; i++)
+		{
+			var item = _environment.CurrentFrame.PopStackItem();
+			context.Add(item);
+		}
+		if (functionCall.StackBlock != null)
+		{
+			//enter frame and evaluate block, then copy list to our shape list with exit frame.
+			//this is the same code as "walk stack block" except that we 'catch' the popped block in order to get it's items.
+			_environment.PushNewFrame();
+			foreach (var sub in functionCall.StackBlock.Statements)
+			{
+				WalkStatement(sub);
+			}
+			var f = _environment.PopFrame();
+			
+			foreach (var item in f.GetStack())
+			{
+				context.Add(item);
+			}
+			
+			f.ExitFrame();
+		}
+		
+		
 		
 		var name = functionCall.Name.ToString();
 		if(Builtins.BuiltinLookup.ContainsKey(name)){

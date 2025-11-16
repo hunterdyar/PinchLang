@@ -46,11 +46,11 @@ public class Environment
 		_frames.Push(new Frame(this));
 	}
 
-	public void PopFrame()
+	public Frame PopFrame()
 	{
 		if (_frames.Count > 0)
 		{
-			_frames.Pop();
+			return _frames.Pop();
 		}
 		else
 		{

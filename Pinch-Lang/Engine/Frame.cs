@@ -70,11 +70,13 @@ public class Frame
         _stack.Push(item);
     }
 
-    public void PopStackItem()
+    public StackItem PopStackItem()
     {
         if(!_stack.TryPop(out var p)){
             throw new Exception("Could not pop stack item, no items in local frame.");
         }
+
+        return p;
     }
 
     public StackItem TopStackItem()
