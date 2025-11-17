@@ -1,0 +1,47 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:avaloniaEdit="https://github.com/avaloniaui/avaloniaedit"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="PinchEditor.MainWindow"
+        Title="PinchEditor">
+    <DockPanel>
+        <StackPanel Orientation="Horizontal"
+                    DockPanel.Dock="Top"
+                    Spacing="5"
+                    Margin="3"
+        >
+        <ToggleButton Name="wordWrap" ToolTip.Tip="Word wrap" IsChecked="{Binding #Editor.WordWrap}">
+            <ToggleButton.Content>
+                <TextBlock>word wrap</TextBlock>
+            </ToggleButton.Content>
+        </ToggleButton>
+        
+    </StackPanel>
+    <SplitView DockPanel.Dock="Top" IsPaneOpen="True" DisplayMode="Inline" OpenPaneLength="600" PanePlacement="Right">
+        <avaloniaEdit:TextEditor Name="Editor"
+                                 FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
+                                 HorizontalScrollBarVisibility="Auto"
+                                 VerticalScrollBarVisibility="Visible"
+                                 FontWeight="Light"
+                                 FontSize="14"
+                                 Watermark="Start typing to bring your ideas to life...">
+            <avaloniaEdit:TextEditor.ContextFlyout>
+                <MenuFlyout>
+                   
+                </MenuFlyout>
+            </avaloniaEdit:TextEditor.ContextFlyout>
+            <avaloniaEdit:TextEditor.Styles>
+                <Style Selector="avaloniaEdit|LineNumberMargin">
+                    <Setter Property="MinWidthInDigits" Value="3" />
+                </Style>
+            </avaloniaEdit:TextEditor.Styles>
+        </avaloniaEdit:TextEditor>
+        <SplitView.Pane>
+            <TextBlock Text="Preview" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </SplitView.Pane>
+    </SplitView>
+    </DockPanel>
+    
+</Window>
