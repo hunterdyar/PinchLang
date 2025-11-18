@@ -25,12 +25,17 @@ public partial class MainWindow : Window
 		_textEditor.Options.ShowBoxForControlCharacters = true;
 		_textEditor.Options.CutCopyWholeLine = true;
 		_svg.Stretch = Stretch.Fill;
-		
+		_svg.EnableCache = false;
 	}
 
 	private void TextEditorOnTextChanged(object? sender, EventArgs e)
 	{
-		Render();
+		try
+		{
+			Render();
+		}catch (Exception ex) {
+			Console.WriteLine(ex);
+		}
 	}
 
 	public void Render()
@@ -51,6 +56,7 @@ public partial class MainWindow : Window
 			//which is intended! or, well it's not. I just haven't designed that yet. 
 			var source= EnvUtil.SvgDocumentToString(svg);
 			_svg.Source = source;
+			
 		}
 		catch (Exception exception)
 		{
