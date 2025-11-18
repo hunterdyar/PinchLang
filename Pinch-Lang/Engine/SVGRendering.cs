@@ -1,6 +1,8 @@
-﻿using NetTopologySuite.Geometries;
+﻿using ExCSS;
+using NetTopologySuite.Geometries;
 using Svg;
 using Svg.Pathing;
+using Point = NetTopologySuite.Geometries.Point;
 
 namespace Pinch_Lang.Engine;
 
@@ -27,6 +29,8 @@ public static class SVGRendering
 			doc.Children.Add(element);
 		}
 
+		doc.Fill = new SvgColourServer(System.Drawing.Color.DarkSlateGray);
+		doc.Color = new SvgColourServer(System.Drawing.Color.Aquamarine);
 		return doc;
 	}
 
