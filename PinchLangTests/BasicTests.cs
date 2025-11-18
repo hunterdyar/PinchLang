@@ -55,7 +55,7 @@ public class Tests
 
 		var e = new Environment();
 		var svg = e.Execute(root);
-		WriteFile(svg);
+		WriteFile(svg.Document);
 	}
 
 	[Test]
@@ -76,8 +76,8 @@ public class Tests
 		}
 
 		var e = new Environment();
-		var svg = e.Execute(root);
-		WriteFile(svg);
+		var r = e.Execute(root);
+		WriteFile(r.Document);
 	}
 
 	[Test]
@@ -105,8 +105,8 @@ public class Tests
 		var svg = e.Execute(root);
 		//this is failing because we aren't pulling the stack from the shapes 'up to' the root item.
 		//which is intended! or, well it's not. I just haven't designed that yet. 
-		Assert.That(svg.Children.Count, Is.EqualTo(4));
-		WriteFile(svg);
+		Assert.That(svg.Document.Children.Count, Is.EqualTo(4));
+		WriteFile(svg.Document);
 	}
 
 	[Test]
@@ -127,6 +127,6 @@ public class Tests
 		var e = new Environment();
 
 		var svg = e.Execute(root);
-		Assert.That(svg.Children.Count == 2);
+		Assert.That(svg.Document.Children.Count == 2);
 	}
 }

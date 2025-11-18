@@ -62,6 +62,8 @@ public class Circle : Shape
 
 	public override void RenderToSVGParent(ref SvgElementCollection parent)
 	{
+		Console.WriteLine($"Rendering circle without using geometry: {_center}, {_radius}");
+
 		var c = new SvgCircle()
 		{
 			CenterX = new SvgUnit(SvgUnitType.None, (float)_center.X),

@@ -138,7 +138,15 @@ public class StatementWalker
 		
 		var name = functionCall.Name.ToString();
 		if(Builtins.BuiltinLookup.ContainsKey(name)){
-			Builtins.BuiltinLookup[name].Invoke(_environment, arguments, context);
+			try
+			{
+				Builtins.BuiltinLookup[name].Invoke(_environment, arguments, context);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				throw;
+			}
 		}
 		//else if, walk up the frames for a module with this name.
 		else

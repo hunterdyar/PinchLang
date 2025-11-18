@@ -25,12 +25,20 @@ public class Environment
 		RootFrame = new Frame(this);
 	}
 
-	public SvgDocument Execute(Root root)
+	public Result Execute(Root root)
 	{
-		StatementWalker.Walk(root);
-		//now, we should have a representation of our shape on the stack.
-		SetSection(""); //this will shift items to canvas if [canvas] is the last (current) section.
-		return SVGRendering.RenderSVGFromStack(_canvas);
+		try
+		{
+			StatementWalker.Walk(root);
+			//now, we should have a representation of our shape on the stack.
+			SetSection(""); //this will shift items to canvas if [canvas] is the last (current) section.
+			var doc = SVGRendering.RenderSVGFromStack(_canvas);
+			return Result.Success(doc);
+		}
+		catch (Exception e)
+		{
+			return Result.GetErrorResult(e);
+		}
 	}
 
 	private Frame GetCurrentFrame()

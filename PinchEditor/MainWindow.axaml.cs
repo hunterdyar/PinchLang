@@ -30,39 +30,33 @@ public partial class MainWindow : Window
 
 	private void TextEditorOnTextChanged(object? sender, EventArgs e)
 	{
-		try
-		{
-			Render();
-		}catch (Exception ex) {
-			Console.WriteLine(ex);
-		}
+		Render();
 	}
 
 	public void Render()
 	{
-		try
+		
+		//clear list of error messages
+		var p = ShapeParser.TryParse(_textEditor.Text, out Root root, out var error);
+		if (!p)
 		{
-			//clear list of error messages
-			var p = ShapeParser.TryParse(_textEditor.Text, out Root root, out var error);
-			if (!p)
-			{
-				//add to list of error messages for a scrollbox.
-				return;
-			}
+			//add to list of error messages for a scrollbox.
+			return;
+		}
 
-			var e = new Pinch_Lang.Engine.Environment();
-			var svg = e.Execute(root);
+		var e = new Pinch_Lang.Engine.Environment();
+		var result =  e.Execute(root);
+		if (result.DidSucceed)
+		{
 			//this is failing because we aren't pulling the stack from the shapes 'up to' the root item.
 			//which is intended! or, well it's not. I just haven't designed that yet. 
-			var source= EnvUtil.SvgDocumentToString(svg);
+			var source = EnvUtil.SvgDocumentToString(result.Document);
 			_svg.Source = source;
-			
 		}
-		catch (Exception exception)
+		else
 		{
-			Console.WriteLine(exception);
-			throw;
+			Console.WriteLine(result.Error.Message);
 		}
-		
+
 	}
 }
