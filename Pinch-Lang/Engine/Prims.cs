@@ -62,8 +62,13 @@ public class Circle : Shape
 
 	public override void RenderToSVGParent(ref SvgElementCollection parent)
 	{
-
-
+		var c = new SvgCircle()
+		{
+			CenterX = new SvgUnit(SvgUnitType.None, (float)_center.X),
+			CenterY = new SvgUnit(SvgUnitType.None, (float)_center.Y),
+			Radius = new SvgUnit(SvgUnitType.None, (float)_radius),
+		};
+		parent.Add(c);
 	}
 
 	public override void SetProperty(string propName, ValueItem item)

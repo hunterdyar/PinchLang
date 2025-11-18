@@ -1,4 +1,5 @@
-﻿using ShapesDeclare.AST;
+﻿using System.Diagnostics;
+using ShapesDeclare.AST;
 
 namespace Pinch_Lang.Engine;
 
@@ -29,9 +30,6 @@ public class Module
 
 		var a = env.StatementWalker.WalkExpressionListToItemList(args);
 		
-		//todo: Statement is probably a StackBlock, and those push their own frame.
-		//we also push a frame to hold the locals. Instead, we should 'inject' the locals into the stack's frame.
-		//this technically works, so i'm putting to the side for now since things might get totally re-written there anyway.
 		var frame = env.PushNewFrame();
 		
 		//assign the 
@@ -42,9 +40,21 @@ public class Module
 				frame.SetLocal(Parameters[i].Value.ToString(), a[i]);
 			}
 		}
-		
-		env.StatementWalker.WalkStatement(Statement);
-		
+
+		//calling WalkStatement will push and pop a frame... but WE want to push and pop a frame to serve as context for the function arguments.
+		//so let's skip that and do it ourselves here.
+		if (Statement is StackBlock sb)
+		{
+			foreach (var statement in sb.Statements)
+			{
+				env.StatementWalker.WalkStatement(statement);
+			}
+		}
+		else
+		{
+			env.StatementWalker.WalkStatement(Statement);
+		}
+
 		//the exits aren't quite working here.... the extra frame  above messing us up?
 		var f2 =env.PopFrame();
 		f2.ExitFrame();
