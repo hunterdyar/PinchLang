@@ -5,6 +5,8 @@
         xmlns:avaloniaEdit="https://github.com/avaloniaui/avaloniaedit"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="PinchEditor.MainWindow"
+        xmlns:vm="using:PinchEditor.ViewModels"
+        x:DataType="vm:WindowModel"
         Title="PinchEditor">
     <DockPanel>
         <StackPanel Orientation="Horizontal"
@@ -26,7 +28,10 @@
                                  VerticalScrollBarVisibility="Visible"
                                  FontWeight="Light"
                                  FontSize="14"
-                                 Watermark="[canvas]">
+                                 Watermark="[canvas]"
+                                 Text="[canvas]
+		        rect 0 0 50 50"
+        >
             <avaloniaEdit:TextEditor.ContextFlyout>
                 <MenuFlyout>
                    
@@ -39,7 +44,7 @@
             </avaloniaEdit:TextEditor.Styles>
         </avaloniaEdit:TextEditor>
         <SplitView.Pane>
-            <TextBlock Text="Preview" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Svg Name= "Preview" Width="100" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </SplitView.Pane>
     </SplitView>
     </DockPanel>

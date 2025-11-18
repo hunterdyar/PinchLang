@@ -62,7 +62,7 @@ public class Tests
 	public void DifferenceTest()
 	{
 		var i = """
-		        [shapes]
+		        [canvas]
 		        rect 0 0 50 50
 		        .difference {
 		          circle 50 50 25
@@ -108,8 +108,6 @@ public class Tests
 		Assert.That(svg.Children.Count, Is.EqualTo(4));
 		WriteFile(svg);
 	}
-
-	
 
 	[Test]
 	public void WalkerSVG()
