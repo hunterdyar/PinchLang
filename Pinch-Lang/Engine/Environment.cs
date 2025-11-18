@@ -10,12 +10,14 @@ public class Environment
 {
 	public Frame RootFrame;
 	private Stack<Frame> _frames = new Stack<Frame>();
+	private readonly List<StackItem> _canvas = new List<StackItem>();
 	public Frame CurrentFrame => GetCurrentFrame();
 	public bool IsAtRootFrame => _frames.Count == 0;
 
 	public readonly Walker.StatementWalker StatementWalker;
 	public readonly ExpressionWalker ExprWalker;
-	
+
+	private string _currentSection = "";
 	public Environment()
 	{
 		StatementWalker = new Walker.StatementWalker(this);
@@ -27,8 +29,8 @@ public class Environment
 	{
 		StatementWalker.Walk(root);
 		//now, we should have a representation of our shape on the stack.
-		var canvas = CurrentFrame.GetStack();
-		return SVGRendering.RenderSVGFromStack(canvas);
+		SetSection(""); //this will shift items to canvas if [canvas] is the last (current) section.
+		return SVGRendering.RenderSVGFromStack(_canvas);
 	}
 
 	private Frame GetCurrentFrame()
@@ -74,10 +76,21 @@ public class Environment
 
 	public void SetSection(string title)
 	{
+		if (_currentSection == "canvas")
+		{
+			var add = CurrentFrame.GetStack();
+			_canvas.AddRange(add);
+		}
+		
+		_currentSection = title;
+		CurrentFrame.ClearStack();
+		
 		//this was important for later features, where code is split into different parts where the root stack means different things
 		//like [canvas] draws whatever is on the stack to the canvas, while other sections don't.
 		//or [test]
 		//or [comments] which don't get processed.
+
+		//clear the last frame.
 	}
 
 	public Module RegisterModule(string modName, Identifier[] args, Statement statement)

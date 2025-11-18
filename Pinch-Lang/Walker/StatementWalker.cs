@@ -16,7 +16,6 @@ public class StatementWalker
 	public void Walk(Root root)
 	{
 		//why not be allowed to declare a [shapes] then a [metadata] then a [shapes] again? just treat them as in one order....
-
 		foreach (var sections in root.Sections)
 		{
 			_environment.SetSection(sections.Header.Title);

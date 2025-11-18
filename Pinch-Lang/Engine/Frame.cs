@@ -125,4 +125,9 @@ public class Frame
         //todo: does ToList allocate much here?
         return _stack.ToList();
     }
+
+    public void ClearStack()
+    {
+        _stack.Clear();
+    }
 }

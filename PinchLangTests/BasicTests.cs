@@ -84,7 +84,7 @@ public class Tests
 	public void ModDecAndRunTest()
 	{
 		var i = """
-		        [shapes]
+		        [canvas]
 		        stamp: @x @y {
 		        circle x y 25
 		        }
@@ -115,7 +115,7 @@ public class Tests
 	public void WalkerSVG()
 	{
 		var i = """
-		        [shapes]
+		        [canvas]
 		        rect 0 0 15 50
 		        rect 10 10 20 20
 		        
