@@ -61,6 +61,19 @@ public class StatementWalker
 				var f = _environment.PopFrame();
 				f.ExitFrame();
 				break;
+			case VariableDeclaration varDec:
+				var varName = varDec.Name;
+				var value = _environment.ExprWalker.WalkExpression(varDec.Expression);
+				
+				if (varName.Prefix == IdentPrefix.Underscore)
+				{
+					return;
+				}else if (varName.Prefix != IdentPrefix.None)
+				{
+					throw new Exception($"Invalid variable prefix on {varDec}. ({varName.Prefix}) Only '_' (discarded) is allowed.");
+				}
+				_environment.CurrentFrame.SetLocal(varName.ToString(), value);
+				break;
 		}
 	}
 	

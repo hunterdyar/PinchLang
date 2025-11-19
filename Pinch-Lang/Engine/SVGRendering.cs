@@ -53,7 +53,6 @@ public static class SVGRendering
 		{
 			throw new NotImplementedException($"dont yet have overload for {geo.GetType().ToString()}.");
 		}
-		
 	}
 
 	public static SvgElement RenderPolyToElement(this Polygon polygon)

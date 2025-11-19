@@ -104,6 +104,16 @@ public class Frame
 
     public void SetLocal(string name, ValueItem value)
     {
+        if (_globals.Contains(name))
+        {
+            if (Parent == null)
+            {
+                throw new Exception("globals set on root frame or parent not properly applied. This should not happen.");
+            }
+            Console.WriteLine("doing a not tested: using a global. behaviour might work?");
+            Parent?.SetLocal(name, value);
+        }
+        
         if (!_items.TryAdd(name, value))
         {
             _items[name] = value;
