@@ -62,15 +62,19 @@ public class Circle : Shape
 
 	public override void RenderToSVGParent(ref SvgElementCollection parent)
 	{
-		Console.WriteLine($"Rendering circle without using geometry: {_center}, {_radius}");
-
-		var c = new SvgCircle()
-		{
-			CenterX = new SvgUnit(SvgUnitType.None, (float)_center.X),
-			CenterY = new SvgUnit(SvgUnitType.None, (float)_center.Y),
-			Radius = new SvgUnit(SvgUnitType.None, (float)_radius),
-		};
-		parent.Add(c);
+		var g = GetGeometry();
+		var svg =  g.RenderToSVGElement();
+		parent.Add(svg);
+		//todo: if we know it's a circle, we should be able to just use circle...
+		// Console.WriteLine($"Rendering circle without using geometry: {_center}, {_radius}");
+		//
+		// var c = new SvgCircle()
+		// {
+		// 	CenterX = new SvgUnit(SvgUnitType.None, (float)_center.X),
+		// 	CenterY = new SvgUnit(SvgUnitType.None, (float)_center.Y),
+		// 	Radius = new SvgUnit(SvgUnitType.None, (float)_radius),
+		// };
+		// parent.Add(c);
 	}
 
 	public override void SetProperty(string propName, ValueItem item)
