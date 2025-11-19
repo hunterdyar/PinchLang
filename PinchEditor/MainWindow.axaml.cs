@@ -1,6 +1,7 @@
 using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Media;
 using AvaloniaEdit;
 using PinchEditor.ViewModels;
@@ -14,11 +15,15 @@ public partial class MainWindow : Window
 {
 	private readonly TextEditor _textEditor;
 	private readonly Avalonia.Svg.Skia.Svg _svg;
+	
+	WindowModel _wm => DataContext as WindowModel;
 	public MainWindow()
 	{
 		InitializeComponent();
 		_textEditor = this.FindControl<TextEditor>("Editor");
 		_svg = this.FindControl<Avalonia.Svg.Skia.Svg>("Preview");
+		
+		
 		_textEditor.TextChanged += TextEditorOnTextChanged;
 		_textEditor.ShowLineNumbers = true;
 		_textEditor.Options.ShowColumnRulers = true;
@@ -26,8 +31,39 @@ public partial class MainWindow : Window
 		_textEditor.Options.CutCopyWholeLine = true;
 		_textEditor.Options.ShowTabs = true;
 		_textEditor.Options.ShowSpaces = true;
+		_textEditor.Text = "[canvas]\nrect 0 0 50 50";
+		
 		_svg.Stretch = Stretch.Fill;
 		_svg.EnableCache = false;
+		
+		// _textEditor.TextArea.AddHandler(PointerWheelChangedEvent, OnPointerWheelChanged());
+		
+	}
+
+	protected override void OnPointerWheelChanged(PointerWheelEventArgs e)
+	{
+		if (e.KeyModifiers == KeyModifiers.Control)
+		{
+			if (e.Delta.Y > 0)
+			{
+				_textEditor.FontSize += 2;
+				e.Handled = true;
+				return;
+			}
+
+			if (e.Delta.Y < 0)
+			{
+				if (_textEditor.FontSize > 6)
+				{
+					_textEditor.FontSize -= 2;
+				}
+
+				e.Handled = true;
+				return;
+			}
+		}
+
+		base.OnPointerWheelChanged(e);
 	}
 
 	private void TextEditorOnTextChanged(object? sender, EventArgs e)

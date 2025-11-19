@@ -29,8 +29,7 @@
                                  FontWeight="Light"
                                  FontSize="14"
                                  Watermark="[canvas]"
-                                 Text="[canvas]
-		        rect 0 0 50 50"
+                                
         >
             <!-- right click window-->
             <avaloniaEdit:TextEditor.ContextFlyout>
@@ -44,6 +43,14 @@
                     <MenuItem Header="Paste" InputGesture="ctrl+V" Command="{Binding PasteMouseCommand}"
                               CommandParameter="{Binding #Editor.TextArea}">
                     </MenuItem>
+                    <!-- <MenuItem Header="Increase Font Size" InputGesture="ctrl+OemPlus" Command="{Binding FontSizeIncreaseCommand}" -->
+                    <!--           CommandParameter="{Binding #Editor}"> -->
+                    <!-- </MenuItem> -->
+                    <!-- <MenuItem Header="Decrease Font Size" InputGesture="ctrl+OemMinus" -->
+                    <!--           Command="{Binding FontSizeDecreaseCommand}" -->
+                    <!--           CommandParameter="{Binding #Editor}"> -->
+                    <!-- </MenuItem> -->
+
                 </MenuFlyout>
             </avaloniaEdit:TextEditor.ContextFlyout>
             <avaloniaEdit:TextEditor.Styles>

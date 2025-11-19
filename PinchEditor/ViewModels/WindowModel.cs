@@ -37,4 +37,17 @@ public class WindowModel
 	{
 		ApplicationCommands.Undo.Execute(null, textArea);
 	}
+
+	public void FontSizeIncreaseCommand(TextEditor area)
+	{
+		area.FontSize += 2;
+	}
+
+	public void FontSizeDecreaseCommand(TextEditor area)
+	{
+		if (area.FontSize > 6)
+		{
+			area.FontSize -= 2;
+		}
+	}
 }
