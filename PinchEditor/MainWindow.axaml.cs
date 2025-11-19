@@ -24,6 +24,8 @@ public partial class MainWindow : Window
 		_textEditor.Options.ShowColumnRulers = true;
 		_textEditor.Options.ShowBoxForControlCharacters = true;
 		_textEditor.Options.CutCopyWholeLine = true;
+		_textEditor.Options.ShowTabs = true;
+		_textEditor.Options.ShowSpaces = true;
 		_svg.Stretch = Stretch.Fill;
 		_svg.EnableCache = false;
 	}
