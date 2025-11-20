@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.PanAndZoom;
 using Avalonia.Input;
 using Avalonia.Media;
 using AvaloniaEdit;
+using Pinch_Lang.Engine;
 using PinchEditor.ViewModels;
 using ShapesDeclare;
 using ShapesDeclare.AST;
@@ -93,7 +96,18 @@ public partial class MainWindow : Window
 
 	public void Render()
 	{
-		
+		if (_wm != null)
+		{
+			if (_wm.Console == null)
+			{
+				_wm.Console = new ObservableCollection<ResultMessage>();
+			}
+			else
+			{
+				_wm.Console.Clear();
+			}
+		}
+
 		//clear list of error messages
 		var p = ShapeParser.TryParse(_textEditor.Text, out Root root, out var error);
 		if (!p)
@@ -110,10 +124,23 @@ public partial class MainWindow : Window
 			//which is intended! or, well it's not. I just haven't designed that yet. 
 			var source = EnvUtil.SvgDocumentToString(result.Document);
 			_svg.Source = source;
+			_wm?.Console.Add(new ResultMessage(ResultMessageType.Notice, "success"));
+
 		}
 		else
 		{
-			Console.WriteLine(result.Error.Message);
+			
+		}
+
+		if (result.Messages != null)
+		{
+			foreach (var message in result.Messages)
+			{
+				_wm?.Console.Add(message);
+			}
+		}
+		else
+		{
 		}
 
 	}

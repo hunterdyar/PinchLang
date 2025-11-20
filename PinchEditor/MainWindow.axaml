@@ -21,7 +21,7 @@
         </ToggleButton>
 
     </StackPanel>
-    <SplitView DockPanel.Dock="Top" IsPaneOpen="True" DisplayMode="Inline" OpenPaneLength="600" PanePlacement="Right">
+    <SplitView DockPanel.Dock="Top" IsPaneOpen="True" DisplayMode="Inline" OpenPaneLength="600" PanePlacement="Right" >
         <avaloniaEdit:TextEditor Name="Editor"
                                  FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
                                  HorizontalScrollBarVisibility="Auto"
@@ -60,17 +60,34 @@
             </avaloniaEdit:TextEditor.Styles>
         </avaloniaEdit:TextEditor>
         <SplitView.Pane>
-            <ScrollViewer Grid.Row="1" Grid.Column="1"
-                          VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Auto">
-            <ZoomBorder Name="Zoom" Stretch="Uniform" ZoomSpeed="1.2" Background="Beige" ClipToBounds="True" Focusable="True"
-                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <Svg Name= "Preview"
-                     Width="100" Height="100"
-                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                />
-            </ZoomBorder>
-            </ScrollViewer>
+            <Grid RowDefinitions="*, 2, *">
+            <DockPanel Grid.Row="0">
+                <StackPanel Orientation="Horizontal"
+                            DockPanel.Dock="Top"
+                            Spacing="5"
+                            Margin="3">
+                    <Button Name="zoomRecenter" ToolTip.Tip="Word wrap" Command="{Binding Recenter}" CommandParameter="{Binding #Zoom}">
+                        <Button.Content>
+                            <TextBlock>recenter</TextBlock>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+                <ScrollViewer Grid.Row="1" Grid.Column="1"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Auto">
+                <ZoomBorder Name="Zoom" Stretch="Uniform" ZoomSpeed="1.2" Background="Beige" ClipToBounds="True" Focusable="True"
+                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Svg Name= "Preview"
+                         Width="100" Height="100"
+                         HorizontalAlignment="Center" VerticalAlignment="Center"
+                    />
+                </ZoomBorder>
+             </ScrollViewer>
+            </DockPanel>
+            <GridSplitter Grid.Row="1" ResizeDirection="Rows"></GridSplitter>
+            <DataGrid Grid.Row="2" IsReadOnly="True" ItemsSource="{Binding Console}" AutoGenerateColumns="True" GridLinesVisibility="All" CanUserReorderColumns="False" CanUserResizeColumns="True" CanUserSortColumns="True">
+            </DataGrid>
+            </Grid>
         </SplitView.Pane>
     </SplitView>
     </DockPanel>

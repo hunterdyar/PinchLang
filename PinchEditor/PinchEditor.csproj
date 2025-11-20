@@ -24,6 +24,7 @@
         <PackageReference Include="PanAndZoom" Version="11.3.0" />
         <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.116.1" />
         <PackageReference Include="Svg.Controls.Skia.Avalonia" Version="11.3.0" />
+        <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.0"/>
     </ItemGroup>
 
     <ItemGroup>

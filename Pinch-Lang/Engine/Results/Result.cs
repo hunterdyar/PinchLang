@@ -6,7 +6,7 @@ public class Result
 {
 	public SvgDocument Document;
 	public bool DidSucceed;
-	public List<PinchWarning>? Warnings;
+	public List<ResultMessage>? Messages;
 	public Exception? Error;
 
 	public static Result Success(SvgDocument doc)
@@ -15,7 +15,7 @@ public class Result
 		{
 			Document = doc,
 			DidSucceed = true,
-			Warnings = null,
+			Messages = null,
 			Error = null
 		};
 	}
@@ -28,18 +28,11 @@ public class Result
 		{
 			Document = EmptySvgDoc,
 			DidSucceed = false,
-			Warnings = null,
+			Messages = new List<ResultMessage>()
+			{
+				new ResultMessage(ResultMessageType.Error, e.Message)
+			},
 			Error = e
 		};
-	}
-}
-
-public struct PinchWarning
-{
-	public string Message;
-
-	public PinchWarning(string message)
-	{
-		Message = message;
 	}
 }
