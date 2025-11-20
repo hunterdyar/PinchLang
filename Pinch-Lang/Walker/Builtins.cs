@@ -12,7 +12,8 @@ public static class Builtins
 	{
 		//general
 		{ "set", Set},
-		
+		{ "group", Group },
+
 		//shape prims
 		{ "circle", Circle},
 		{ "rect", Rect},
@@ -23,9 +24,9 @@ public static class Builtins
 		{ "difference", GeoProcessing.Difference},
 	};
 
-	public static bool ValidateArgumentCount(string funcName, int count, string[][] signatures)
+	public static bool ValidateArgumentCount(string funcName, int providedCount, string[][] signatures)
 	{
-		var valid = signatures.Any(x => x.Length == count);
+		var valid = signatures.Any(x => x.Length == providedCount);
 		if (!valid)
 		{
 			StringBuilder err = new StringBuilder();
@@ -71,6 +72,7 @@ public static class Builtins
 
 	public static void Set(Environment env, ValueItem[] args, List<StackItem> context)
 	{
+		ValidateArgumentCount("set", args.Length, [["property", "value"]]);
 		var propNameItem = args[0];
 		var propName = propNameItem.AsStringOrID();
 		
@@ -79,6 +81,18 @@ public static class Builtins
 		
 		//call SetProperty on it with PropName.
 		si.SetProperty(propName, args[1]);
+	}
+
+	public static void Group(Environment env, ValueItem[] args, List<StackItem> context)
+	{
+		ValidateArgumentCount("group", args.Length, [[],["Num To Pop"]]);
+		if (args.Length == 1)
+		{
+			context.Add(env.CurrentFrame.PopStackItem());
+		}
+
+		var g = new PolyGroup(env, context);
+		env.Push(g);
 	}
 
 	#endregion

@@ -80,6 +80,12 @@ public class PolyGroup : Shape
 		_collection = collection;
 	}
 
+	public PolyGroup(Environment env, List<StackItem> items) : base(env)
+	{
+		var j = items.Cast<Shape>().Select(x=>x.GetGeometry());
+		_collection = new GeometryCollection(j.ToArray());
+	}
+
 	public override void SetProperty(string propName, ValueItem item)
 	{
 		throw new NotImplementedException();
