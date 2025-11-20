@@ -14,6 +14,13 @@ public struct CanvasProperties
 	{
 	}
 }
+
+public enum SectionType
+{
+	Regular,
+	CanvasProperties,
+	Ignore,
+}
 public class Environment
 {
 	public Frame RootFrame;
@@ -26,12 +33,16 @@ public class Environment
 	public readonly ExpressionWalker ExprWalker;
 	public CanvasProperties CanvasProperties;
 	private string _currentSection = "";
+
+	public SectionType SectionType => _sectionType;
+	private SectionType _sectionType;
 	public Environment()
 	{
 		StatementWalker = new Walker.StatementWalker(this);
 		ExprWalker = new ExpressionWalker(this);
 		RootFrame = new Frame(this);
 		CanvasProperties = new CanvasProperties();
+		_sectionType = SectionType.Regular;
 	}
 
 	public Result Execute(Root root)
@@ -97,6 +108,19 @@ public class Environment
 		{
 			var add = CurrentFrame.GetStack();
 			_canvas.AddRange(add);
+		}
+
+		title = title.ToLowerInvariant();
+		if (title == "ignore")
+		{
+			_sectionType = SectionType.Ignore;
+		}else if (title == "properties")
+		{
+			_sectionType = SectionType.CanvasProperties;
+		}
+		else
+		{
+			_sectionType = SectionType.Regular;
 		}
 		
 		_currentSection = title;

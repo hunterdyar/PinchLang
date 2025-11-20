@@ -19,10 +19,46 @@ public class StatementWalker
 		foreach (var sections in root.Sections)
 		{
 			_environment.SetSection(sections.Header.Title);
-			foreach (var statement in sections.Statements)
+			switch (_environment.SectionType)
 			{
-				WalkStatement(statement);
+				case SectionType.Regular:
+				{
+					foreach (var statement in sections.Statements)
+					{
+						WalkStatement(statement);
+					}
+
+					break;
+				}
+				case SectionType.CanvasProperties:
+				{
+					foreach (var statement in sections.Statements)
+					{
+						WalkPropertiesStatement(statement);
+					}
+
+					break;
+				}
+				case SectionType.Ignore:
+					continue;
+				default:
+					throw new Exception($"Unknown or Invalid Section Type: {_environment.SectionType}");
 			}
+		}
+	}
+
+	public void WalkPropertiesStatement(Statement statement)
+	{
+		if (statement is VariableDeclaration vd)
+		{
+			Console.WriteLine("Walking Property Statement");
+			var val = _environment.ExprWalker.WalkExpression(vd.Expression);
+			var n = vd.Name;
+			_environment.SetMetaProperty(n, val);
+		}
+		else
+		{
+			throw new Exception("Invalid Property Statement. Only Variable declarations (prop = val) are allowed.");
 		}
 	}
 
@@ -75,17 +111,7 @@ public class StatementWalker
 				_environment.CurrentFrame.SetLocal(varName.ToString(), value);
 				break;
 			case MetaStatement ms:
-				if (ms.Statement is VariableDeclaration vd)
-				{
-					var val = _environment.ExprWalker.WalkExpression(vd.Expression);
-					var n = vd.Name;
-					_environment.SetMetaProperty(n, val);
-				}
-				else
-				{
-					throw new Exception("Invalid Meta Statement");
-				}
-				break;
+				throw new Exception("Unexpected Meta Statement");
 		}
 	}
 	
