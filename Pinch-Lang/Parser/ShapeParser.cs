@@ -32,10 +32,6 @@ public static class ShapeParser
 	static TokenListParser<SToken, Expression> UnderscoreIdentifier { get; } =
 		from id in Token.EqualTo(SToken.UnderscoreIdentifier)
 		select (Expression)new Identifier(id.Span, IdentPrefix.Underscore);
-	
-	static TokenListParser<SToken, Expression> OctothorpeIdentifier { get; } =
-		from id in Token.EqualTo(SToken.UnderscoreIdentifier)
-		select (Expression)new Identifier(id.Span, IdentPrefix.Octothorpe);
 
 	static TokenListParser<SToken, Expression> ThrowawayIdentifier { get; } =
 		from id in Token.EqualTo(SToken.Underscore)
@@ -49,7 +45,6 @@ public static class ShapeParser
 			.Or(DotIdentifier)
 			.Or(UnderscoreIdentifier)
 			.Or(AtIdentifier)
-			.Or(OctothorpeIdentifier)
 		select e;
 	
 	public static TokenListParser<SToken, Expression> ExpressionIdentifier { get; } =
@@ -132,6 +127,10 @@ public static class ShapeParser
 		from _ in Token.EqualTo(SToken.Dot)
 		select (Statement)new Pop();
 
+	public static TokenListParser<SToken, Statement> MetaStatement { get; } =
+		from octo in Token.EqualTo(SToken.Octothorpe)
+		from s in VariableDeclaration
+		select (Statement)new MetaStatement(s);
 	public static TokenListParser<SToken, Statement> Statement { get; } =
 		from _1 in NewLine.Many()
 		from s in Push.Try()
@@ -143,22 +142,24 @@ public static class ShapeParser
 			.Or(FunctionCallNoBlock.Try())
 			.Or(StackBlock.Try())
 			.Or(GlobalsDeclare.Try())
-
+			.Or(MetaStatement.Try())
 		from _2 in NewLine.Many()
 
 		select s;
-
 	public static TokenListParser<SToken, Section> Section { get; }=
+		from _ in NewLine.Many()
 		from h in Header
 		from stmnts in Statement.Many()
 		select new Section(h, stmnts);
 
+	//todo: implicit meta section? 
 	static TokenListParser<SToken, Root> Root { get; } =
 		from sections in Section.Many()
 		select new Root(sections);
 
 	private static TokenListParser<SToken, Root> Program { get; } = Root.AtEnd().Named("Program");
 	
+	//todo: return Result
 	public static bool TryParse(string input, [MaybeNullWhen(false)] out Root root, [MaybeNullWhen(true)]out string error)
 	{
 		//hackily add a newline to the end.

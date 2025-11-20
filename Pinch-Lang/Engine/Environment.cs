@@ -6,6 +6,14 @@ using Svg;
 
 namespace Pinch_Lang.Engine;
 
+public struct CanvasProperties
+{
+	public double Width = 100;
+	public double Height = 100;
+	public CanvasProperties()
+	{
+	}
+}
 public class Environment
 {
 	public Frame RootFrame;
@@ -16,13 +24,14 @@ public class Environment
 
 	public readonly Walker.StatementWalker StatementWalker;
 	public readonly ExpressionWalker ExprWalker;
-
+	public CanvasProperties CanvasProperties;
 	private string _currentSection = "";
 	public Environment()
 	{
 		StatementWalker = new Walker.StatementWalker(this);
 		ExprWalker = new ExpressionWalker(this);
 		RootFrame = new Frame(this);
+		CanvasProperties = new CanvasProperties();
 	}
 
 	public Result Execute(Root root)
@@ -32,7 +41,7 @@ public class Environment
 			StatementWalker.Walk(root);
 			//now, we should have a representation of our shape on the stack.
 			SetSection(""); //this will shift items to canvas if [canvas] is the last (current) section.
-			var doc = SVGRendering.RenderSVGFromStack(_canvas);
+			var doc = SVGRendering.RenderSVGFromStack(CanvasProperties,_canvas);
 			return Result.Success(doc);
 		}
 		catch (Exception e)
@@ -111,5 +120,26 @@ public class Environment
 	public bool TryGetModule(string name, out Module module)
 	{
 		return CurrentFrame.TryGetModule(name, out module);
+	}
+
+	public void SetMetaProperty(Identifier id, ValueItem val)
+	{
+		if (id.Prefix != IdentPrefix.None)
+		{
+			throw new Exception($"Meta Property assignment cannot have prefixes. ({id})");
+		}
+
+		var prop = id.Value.ToString();
+		switch (prop)
+		{
+			case "width":
+				CanvasProperties.Width = val.AsNumber();
+				break;
+			case "height":
+				CanvasProperties.Height = val.AsNumber();
+				break;
+			default:
+				throw new Exception($"Unknown Meta Property '{prop}'");
+		}
 	}
 }

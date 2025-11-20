@@ -8,7 +8,7 @@ namespace Pinch_Lang.Engine;
 
 public static class SVGRendering
 {
-	public static SvgDocument RenderSVGFromStack(List<StackItem> stack)
+	public static SvgDocument RenderSVGFromStack(CanvasProperties properties, List<StackItem> stack)
 	{
 		SvgDocument doc = new SvgDocument();
 		SvgDocument temp = new SvgDocument();
@@ -31,6 +31,9 @@ public static class SVGRendering
 
 		doc.Fill = new SvgColourServer(System.Drawing.Color.DarkSlateGray);
 		doc.Color = new SvgColourServer(System.Drawing.Color.Aquamarine);
+		doc.Width = new SvgUnit(SvgUnitType.None, (float)properties.Width);
+		doc.Height = new SvgUnit(SvgUnitType.None, (float)properties.Height);
+
 		return doc;
 	}
 

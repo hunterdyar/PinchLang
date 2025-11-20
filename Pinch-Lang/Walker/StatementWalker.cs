@@ -74,6 +74,18 @@ public class StatementWalker
 				}
 				_environment.CurrentFrame.SetLocal(varName.ToString(), value);
 				break;
+			case MetaStatement ms:
+				if (ms.Statement is VariableDeclaration vd)
+				{
+					var val = _environment.ExprWalker.WalkExpression(vd.Expression);
+					var n = vd.Name;
+					_environment.SetMetaProperty(n, val);
+				}
+				else
+				{
+					throw new Exception("Invalid Meta Statement");
+				}
+				break;
 		}
 	}
 	

@@ -8,6 +8,21 @@ public class Statement
 	public static Statement Empty = new Statement();
 }
 
+public class MetaStatement : Statement
+{
+	public Statement Statement => _statement;
+	private readonly Statement _statement;
+
+	public MetaStatement(Statement statement)
+	{
+		_statement = statement;
+	}
+
+	public override string ToString()
+	{
+		return "#" + _statement.ToString();
+	}
+}
 public class NamedStatement : Statement
 {
 	// public TextSpan Name;

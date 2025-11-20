@@ -18,12 +18,9 @@ public static class EnvUtil
 		var _svgBuilder = new StringBuilder();
 		var writer = XmlWriter.Create(_svgBuilder,
 			new XmlWriterSettings { Indent = true, ConformanceLevel = ConformanceLevel.Fragment });
-		svg.Width = new SvgUnit(SvgUnitType.Percentage, 100);
-		svg.Height = new SvgUnit(SvgUnitType.Percentage, 100);
 		svg.Write(writer);
 		writer.Flush();
 		var svgData = _svgBuilder.ToString();
-		// var html = $"<html><body style=\"background-color: green;\"><p>({DateTime.Now}) svg:</p>\n<div style=\"display: block; background-color: lightblue;\"> {svgData}</div><p>//svg</p>\n</body></html>";
 		return svgData;
 	}
 }

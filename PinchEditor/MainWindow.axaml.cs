@@ -112,7 +112,7 @@ public partial class MainWindow : Window
 		var p = ShapeParser.TryParse(_textEditor.Text, out Root root, out var error);
 		if (!p)
 		{
-			//add to list of error messages for a scrollbox.
+			_wm?.Console.Add(new ResultMessage(ResultMessageType.Error, error));
 			return;
 		}
 
