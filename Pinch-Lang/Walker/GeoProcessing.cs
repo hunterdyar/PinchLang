@@ -43,10 +43,12 @@ public static class GeoProcessing
 			return;
 		}
 
-		var main = list[0].GetGeometry();
+		var main = list[0].GetSingleGeometry();
+		
 		for (int i = 1; i < list.Length; i++)
 		{
-			main = main.Difference(list[i].GetGeometry());
+			var l = list[i].GetSingleGeometry();
+			main = main.Difference(l);
 		}
 		
 		PushGeometryToStack(env, main);

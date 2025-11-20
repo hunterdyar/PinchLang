@@ -42,6 +42,20 @@ public abstract class Shape : StackItem
 
 	
 	public abstract void RenderToSVGParent(ref SvgElementCollection parent);
+
+	/// <summary>
+	/// returns the geometry, but if there's a GeometryCollection, it applies Union to it first.
+	/// </summary>
+	public Geometry GetSingleGeometry()
+	{
+		var g = GetGeometry();
+		if (g is GeometryCollection gc)
+		{
+			g = gc.Union();
+		}
+
+		return g;
+	}
 }
 
 public class Poly : Shape
