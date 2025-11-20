@@ -1,6 +1,7 @@
 using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.PanAndZoom;
 using Avalonia.Input;
 using Avalonia.Media;
 using AvaloniaEdit;
@@ -15,14 +16,14 @@ public partial class MainWindow : Window
 {
 	private readonly TextEditor _textEditor;
 	private readonly Avalonia.Svg.Skia.Svg _svg;
-	
+	private readonly ZoomBorder _zoom;
 	WindowModel _wm => DataContext as WindowModel;
 	public MainWindow()
 	{
 		InitializeComponent();
 		_textEditor = this.FindControl<TextEditor>("Editor");
 		_svg = this.FindControl<Avalonia.Svg.Skia.Svg>("Preview");
-		
+		_zoom = this.FindControl<ZoomBorder>("Zoom");
 		
 		_textEditor.TextChanged += TextEditorOnTextChanged;
 		_textEditor.ShowLineNumbers = true;
@@ -37,7 +38,26 @@ public partial class MainWindow : Window
 		_svg.EnableCache = false;
 		
 		// _textEditor.TextArea.AddHandler(PointerWheelChangedEvent, OnPointerWheelChanged());
-		
+		if (_zoom != null)
+		{
+			_zoom.KeyDown += OnZoomKeyDown;
+			_zoom.ZoomChanged += OnZoomChanged;
+		}
+	}
+
+	private void OnZoomChanged(object sender, ZoomChangedEventArgs e)
+	{
+
+	}
+
+	private void OnZoomKeyDown(object? sender, KeyEventArgs e)
+	{
+		switch (e.Key)
+		{
+			case Key.F:
+					_zoom.AutoFit();
+				break;
+		}
 	}
 
 	protected override void OnPointerWheelChanged(PointerWheelEventArgs e)
