@@ -166,4 +166,9 @@ public class Environment
 				throw new Exception($"Unknown Meta Property '{prop}'");
 		}
 	}
+
+	public void AddToCanvas(List<StackItem> context)
+	{
+		_canvas.AddRange(context);
+	}
 }

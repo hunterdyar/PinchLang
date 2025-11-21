@@ -13,6 +13,7 @@ public static class Builtins
 		//general
 		{ "set", Set},
 		{ "group", Group },
+		{ "canvas", Canvas},
 
 		//shape prims
 		{ "circle", Circle},
@@ -81,6 +82,12 @@ public static class Builtins
 		
 		//call SetProperty on it with PropName.
 		si.SetProperty(propName, args[1]);
+	}
+
+	public static void Canvas(Environment env, ValueItem[] args, List<StackItem> context)
+	{
+		ValidateArgumentCount("set", args.Length, []);
+		env.AddToCanvas(context);//clone?
 	}
 
 	public static void Group(Environment env, ValueItem[] args, List<StackItem> context)
