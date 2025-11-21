@@ -76,8 +76,6 @@ public static class SVGRendering
 
 	public static SvgPolygon RenderLinearRingToElement(this LinearRing ring)
 	{
-		Console.WriteLine($"Rendering geo of type {ring.GeometryType}");
-
 		var list = new SvgPointCollection();
 		for (int os = 0; os < ring.NumPoints; os++)
 		{
@@ -95,8 +93,6 @@ public static class SVGRendering
 
 	public static SvgGroup RenderGeoCollectionToElement(this GeometryCollection gc)
 	{
-		Console.WriteLine($"Rendering geo of type {gc.GeometryType}");
-
 		var group = new SvgGroup();
 		foreach (var geo in gc.Geometries)
 		{

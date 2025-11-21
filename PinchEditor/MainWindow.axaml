@@ -77,10 +77,11 @@
                               HorizontalScrollBarVisibility="Auto">
                 <ZoomBorder Name="Zoom" Stretch="Uniform" ZoomSpeed="1.2" Background="Beige" ClipToBounds="True" Focusable="True"
                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <Svg Name= "Preview"
-                         Width="100" Height="100"
-                         HorizontalAlignment="Center" VerticalAlignment="Center"
-                    />
+                    <Border Background="White" BorderBrush="DarkGray" BorderThickness="5" CornerRadius="0" Margin="0" Padding="0">
+                        <Svg Name= "Preview"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                                />
+                    </Border>
                 </ZoomBorder>
              </ScrollViewer>
             </DockPanel>

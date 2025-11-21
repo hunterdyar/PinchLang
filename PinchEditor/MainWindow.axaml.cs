@@ -124,6 +124,9 @@ public partial class MainWindow : Window
 			//which is intended! or, well it's not. I just haven't designed that yet. 
 			var source = EnvUtil.SvgDocumentToString(result.Document);
 			_svg.Source = source;
+			_svg.Width = result.Document.Width.Value;
+			_svg.Height = result.Document.Height.Value;
+			_svg.Stretch = Stretch.None;
 			_wm?.Console.Add(new ResultMessage(ResultMessageType.Notice, "success"));
 
 		}
