@@ -37,7 +37,6 @@ public class Rect : Shape
 
 }
 
-
 public class Circle : Shape
 {
 	//todo:remove coord and center and replace with factory wrapper.

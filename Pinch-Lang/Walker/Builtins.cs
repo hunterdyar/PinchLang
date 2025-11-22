@@ -23,6 +23,8 @@ public static class Builtins
 		//GeoProcessing.cs functions
 		{ "convex_hull", Walker.GeoProcessing.ConvexHull},
 		{ "difference", GeoProcessing.Difference},
+		{ "intersect", GeoProcessing.Intersect },
+		{ "buffer", GeoProcessing.Buffer },
 	};
 
 	public static bool ValidateArgumentCount(string funcName, int providedCount, string[][] signatures)
@@ -101,6 +103,8 @@ public static class Builtins
 		var g = new PolyGroup(env, context);
 		env.Push(g);
 	}
+	
+	
 
 	#endregion
 
