@@ -6,21 +6,6 @@ using Svg;
 
 namespace Pinch_Lang.Engine;
 
-public struct CanvasProperties
-{
-	public double Width = 100;
-	public double Height = 100;
-	public CanvasProperties()
-	{
-	}
-}
-
-public enum SectionType
-{
-	Regular,
-	CanvasProperties,
-	Ignore,
-}
 public class Environment
 {
 	public Frame RootFrame;
@@ -33,7 +18,6 @@ public class Environment
 	public readonly ExpressionWalker ExprWalker;
 	public CanvasProperties CanvasProperties;
 	private string _currentSection = "";
-
 	public SectionType SectionType => _sectionType;
 	private SectionType _sectionType;
 	public Environment()

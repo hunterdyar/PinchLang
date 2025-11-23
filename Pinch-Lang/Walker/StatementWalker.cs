@@ -198,8 +198,6 @@ public class StatementWalker
 			f.ExitFrame();
 		}
 		
-		
-		
 		var name = functionCall.Name.ToString();
 		if(Builtins.BuiltinLookup.ContainsKey(name)){
 			try
@@ -212,6 +210,7 @@ public class StatementWalker
 				throw;
 			}
 		}
+		//todo: aliases.
 		//else if, walk up the frames for a module with this name.
 		else
 		{

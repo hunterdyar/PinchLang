@@ -79,7 +79,6 @@ public static class GeoProcessing
 
 		PushGeometryToStack(env, main);
 	}
-
 	
 	public static void Buffer(Environment env, ValueItem[] args, List<StackItem> items)
 	{

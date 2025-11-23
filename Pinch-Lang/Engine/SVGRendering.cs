@@ -33,7 +33,6 @@ public static class SVGRendering
 		doc.Color = new SvgColourServer(System.Drawing.Color.Aquamarine);
 		doc.Width = new SvgUnit(SvgUnitType.None, (float)properties.Width);
 		doc.Height = new SvgUnit(SvgUnitType.None, (float)properties.Height);
-
 		return doc;
 	}
 
