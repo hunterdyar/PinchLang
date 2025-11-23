@@ -1,4 +1,5 @@
 ﻿using NetTopologySuite.Geometries;
+using NetTopologySuite.Geometries.Utilities;
 using NetTopologySuite.Shape;
 using NetTopologySuite.Utilities;
 using Pinch_Lang.Walker;
@@ -48,6 +49,8 @@ public abstract class Shape : StackItem
 	/// </summary>
 	public Geometry GetSingleGeometry()
 	{
+		//
+		//todo: this should use GeomeryTransformer (Combiner?) factory isntead, NetTopologySuite has builtins for this feature: https://nettopologysuite.github.io/NetTopologySuite/api/NetTopologySuite.Geometries.Utilities.GeometryTransformer.html
 		var g = GetGeometry();
 		if (g is GeometryCollection gc)
 		{
@@ -56,6 +59,8 @@ public abstract class Shape : StackItem
 
 		return g;
 	}
+
+	public abstract void AffineTransform(AffineTransformation gt);
 }
 
 public class Poly : Shape
@@ -81,6 +86,11 @@ public class Poly : Shape
 	{
 		var p = _polygon.RenderToSVGElement();
 		parent.Add(p);
+	}
+
+	public override void AffineTransform(AffineTransformation gt)
+	{
+		_polygon = gt.Transform(_polygon) as Polygon ?? throw new InvalidOperationException();
 	}
 }
 
@@ -115,6 +125,11 @@ public class PolyGroup : Shape
 		var p = _collection.RenderToSVGElement();
 		parent.Add(p);
 	}
+
+	public override void AffineTransform(AffineTransformation transformation)
+	{
+		_collection = transformation.Transform(_collection) as GeometryCollection ?? throw new InvalidOperationException();
+	}
 }
 
 public class PolyPoint : Shape
@@ -141,5 +156,10 @@ public class PolyPoint : Shape
 	{
 		var p = _point.RenderToSVGElement();
 		parent.Add(p);
+	}
+
+	public override void AffineTransform(AffineTransformation gt)
+	{
+		_point = gt.Transform(_point) as Point ?? throw new InvalidOperationException();
 	}
 }

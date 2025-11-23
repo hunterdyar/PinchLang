@@ -110,7 +110,7 @@ public static class GeoProcessing
 		}
 	}
 	
-	static void PushGeometryToStack(Environment env, Geometry geo)
+	public static void PushGeometryToStack(Environment env, Geometry geo)
 	{
 		if (geo is Polygon polygon)
 		{

@@ -18,13 +18,21 @@ public static class Builtins
 		//shape prims
 		{ "circle", Circle},
 		{ "rect", Rect},
-		// { "rectangle", Rect },//we can overload function name synonyms if we want.
 
 		//GeoProcessing.cs functions
 		{ "convex_hull", Walker.GeoProcessing.ConvexHull},
 		{ "difference", GeoProcessing.Difference},
 		{ "intersect", GeoProcessing.Intersect },
 		{ "buffer", GeoProcessing.Buffer },
+		
+		//GeoTransformations.cs functions
+		{ "translate", GeoTransformations.Translate },
+		{ "t", GeoTransformations.Translate },//alias
+		{ "tx", GeoTransformations.TranslateX },
+		{ "ty", GeoTransformations.TranslateY },
+		{ "rotate", GeoTransformations.Rotate },
+		{ "scale", GeoTransformations.Scale },
+		{ "scale_around", GeoTransformations.ScaleAround },
 	};
 
 	public static bool ValidateArgumentCount(string funcName, int providedCount, string[][] signatures)

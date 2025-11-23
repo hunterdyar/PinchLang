@@ -1,4 +1,5 @@
 ﻿using NetTopologySuite.Geometries;
+using NetTopologySuite.Geometries.Utilities;
 using NetTopologySuite.Utilities;
 using Svg;
 
@@ -35,6 +36,19 @@ public class Rect : Shape
 		parent.Add(e);
 	}
 
+	public override void AffineTransform(AffineTransformation transformation)
+	{
+		var p = transformation.Transform(_polygon) as Polygon;
+		if (p != null)
+		{
+			_polygon = p ;
+		}
+		else
+		{
+			throw new Exception(
+				$"transformation {transformation} converted polygon into non-polygon... but it's an affine?");
+		}
+	}
 }
 
 public class Circle : Shape
@@ -43,7 +57,7 @@ public class Circle : Shape
 	private Coordinate _center;
 	private double _radius;
 	private GeometricShapeFactory _factory = new GeometricShapeFactory();
-
+	private List<AffineTransformation> _transformations = new List<AffineTransformation>();
 	public Circle(Environment env, Coordinate center, double radius) : base(env)
 	{
 		_center = center;
@@ -55,8 +69,14 @@ public class Circle : Shape
 		_factory.Width = _radius * 2;
 		_factory.Height = _radius * 2;
 		_factory.Centre = _center;
+		
+		var circle = _factory.CreateCircle() as Geometry;
+		foreach (var affineTransformation in _transformations)
+		{
+			circle = affineTransformation.Transform(circle);
+		}
 
-		return _factory.CreateCircle();
+		return circle;
 	}
 
 	public override void RenderToSVGParent(ref SvgElementCollection parent)
@@ -74,6 +94,11 @@ public class Circle : Shape
 		// 	Radius = new SvgUnit(SvgUnitType.None, (float)_radius),
 		// };
 		// parent.Add(c);
+	}
+
+	public override void AffineTransform(AffineTransformation gt)
+	{
+		_transformations.Add(gt);
 	}
 
 	public override void SetProperty(string propName, ValueItem item)

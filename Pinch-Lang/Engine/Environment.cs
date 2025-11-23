@@ -155,4 +155,17 @@ public class Environment
 	{
 		_canvas.AddRange(context);
 	}
+
+	public double AngleToRadians(double angle)
+	{
+		switch (CanvasProperties.DegreeUnits)
+		{
+			case DegreeUnits.Degrees:
+				return angle*Math.PI /180;
+			case DegreeUnits.Radians:
+				return angle;
+			default:
+				throw new Exception($"Unknown DegreeUnit {CanvasProperties.DegreeUnits}");
+		}
+	}
 }
