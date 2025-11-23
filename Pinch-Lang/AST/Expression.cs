@@ -9,6 +9,7 @@ public enum IdentPrefix
 	Dot,
 	Underscore,
 	At,
+	Bang,
 	Octothorpe
 }
 public class Expression

@@ -1,4 +1,5 @@
-﻿using NetTopologySuite.Geometries;
+﻿using System.Diagnostics;
+using NetTopologySuite.Geometries;
 using Pinch_Lang.Engine;
 using ShapesDeclare.AST;
 using Environment = Pinch_Lang.Engine.Environment;
@@ -161,11 +162,23 @@ public class StatementWalker
 		
 		//then walk context and put them on shapeStack
 		List<StackItem> context = new List<StackItem>();
-		for (int i = 0; i < functionCall.PopFromStack; i++)
+
+		if (functionCall.PopAllFromStack)
 		{
-			var item = _environment.CurrentFrame.PopStackItem();
-			context.Add(item);
+			var item = _environment.CurrentFrame.GetStack();
+			context.AddRange(item);
+			_environment.CurrentFrame.ClearStack();
+			Debug.Assert(functionCall.PopFromStack == 0, "function call can't be both pop and bang (pop one/pop all)");
 		}
+		else
+		{
+			for (int i = 0; i < functionCall.PopFromStack; i++)
+			{
+				var item = _environment.CurrentFrame.PopStackItem();
+				context.Add(item);
+			}
+		}
+		
 		if (functionCall.StackBlock != null)
 		{
 			//enter frame and evaluate block, then copy list to our shape list with exit frame.

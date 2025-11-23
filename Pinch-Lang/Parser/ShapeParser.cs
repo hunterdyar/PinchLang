@@ -29,6 +29,10 @@ public static class ShapeParser
 		from id in Token.EqualTo(SToken.AtIdentifier)
 		select (Expression)new Identifier(id.Span, IdentPrefix.At);
 
+	static TokenListParser<SToken, Expression> BangIdentifier { get; } =
+		from id in Token.EqualTo(SToken.BangIdentifier)
+		select (Expression)new Identifier(id.Span, IdentPrefix.Bang);
+
 	static TokenListParser<SToken, Expression> UnderscoreIdentifier { get; } =
 		from id in Token.EqualTo(SToken.UnderscoreIdentifier)
 		select (Expression)new Identifier(id.Span, IdentPrefix.Underscore);
@@ -44,6 +48,7 @@ public static class ShapeParser
 			.Or(NormalIdentifier)
 			.Or(DotIdentifier)
 			.Or(UnderscoreIdentifier)
+			.Or(BangIdentifier)
 			.Or(AtIdentifier)
 		select e;
 	

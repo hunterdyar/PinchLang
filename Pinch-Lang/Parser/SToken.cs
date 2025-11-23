@@ -9,6 +9,7 @@ public enum SToken
 	[Token(Category = "Identifier")] DotIdentifier,
 	[Token(Category = "Identifier")] UnderscoreIdentifier,
 	[Token(Category = "Identifier")] AtIdentifier,
+	[Token(Category = "Identifier")] BangIdentifier,
 	[Token(Example = ":")] Colon,
 	[Token(Example = "=")] Equals,
 	[Token(Example = ">")] ChevRight,
@@ -28,6 +29,8 @@ public enum SToken
 	[Token(Category = "Prefix", Example = "@")] At,
 	[Token(Category = "Prefix", Example = "_")] Underscore,
 	[Token(Category = "Prefix", Example = "#")] Octothorpe,
+	[Token(Category = "Prefix", Example = "!")] Bang,
+
 	// [Token(Category = "Prefix", Example = "$")] Dollar,
 	[Token(Category = "Keyword")] Set,
 	[Token(Category = "Keyword")] Group,

@@ -26,6 +26,8 @@ public static class ShapeTokenizer
 		//Identifier
 		.Match(DotPrefixIdentifier, SToken.DotIdentifier)
 		.Match(UnderscorePrefixIdentifier, SToken.UnderscoreIdentifier)
+		.Match(BangPrefixIdentifier, SToken.BangIdentifier)
+
 		.Match(AtPrefixIdentifier, SToken.AtIdentifier)
 
 		.Match(Identifier.CStyle, SToken.Identifier)
@@ -45,6 +47,7 @@ public static class ShapeTokenizer
 		.Match(Character.EqualTo('*'), SToken.Asterisk)
 		.Match(Character.EqualTo('/'), SToken.Slash)
 		.Match(Character.EqualTo('%'), SToken.Percentage)
+		.Match(Character.EqualTo('!'), SToken.Bang)
 		.Match(Character.EqualTo('@'), SToken.At)
 		.Match(Character.EqualTo('_'), SToken.Underscore)
 		.Match(Character.EqualTo('#'), SToken.Octothorpe)
@@ -81,6 +84,8 @@ public static class ShapeTokenizer
 	public static Result<SToken> DotPrefixIdentifier(TextSpan sp) => PrefixIdentifier(sp, '.');
 	public static Result<SToken> UnderscorePrefixIdentifier(TextSpan sp) => PrefixIdentifier(sp, '_');
 	public static Result<SToken> AtPrefixIdentifier(TextSpan sp) => PrefixIdentifier(sp, '@');
+	public static Result<SToken> BangPrefixIdentifier(TextSpan sp) => PrefixIdentifier(sp, '!');
+
 
 	private static Result<SToken> PrefixIdentifier(TextSpan sp, char prefix)
 	{

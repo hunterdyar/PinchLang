@@ -106,6 +106,7 @@ public class VariableDeclaration : Statement
 
 public class FunctionCall : Statement
 {
+	public bool PopAllFromStack = false;
 	public int PopFromStack;
 	public StackBlock? StackBlock;
 	public Identifier Identifier;
@@ -118,6 +119,7 @@ public class FunctionCall : Statement
 		Identifier = id;
 		Arguments = arguments;
 		StackBlock = null;
+		PopAllFromStack = id.Prefix == IdentPrefix.Bang;
 	}
 
 	public FunctionCall(Identifier id, Expression[] arguments, StackBlock? block)
@@ -125,6 +127,7 @@ public class FunctionCall : Statement
 		Identifier = id;
 		Arguments = arguments;
 		PopFromStack = CountPopFromID(id);
+		PopAllFromStack = id.Prefix == IdentPrefix.Bang;
 		StackBlock = block;
 	}
 
@@ -133,8 +136,9 @@ public class FunctionCall : Statement
 		if (id.Prefix == IdentPrefix.Dot)
 		{
 			return 1;
-
 		}
+		
+		//todo: will it ever not be 1? i was thinking '.3 func' might be maybe not.
 
 		return 0;
 	}
