@@ -27,12 +27,23 @@ public static class Builtins
 		
 		//GeoTransformations.cs functions
 		{ "translate", GeoTransformations.Translate },
-		{ "t", GeoTransformations.Translate },//alias
+		{ "t", GeoTransformations.Translate },
 		{ "tx", GeoTransformations.TranslateX },
 		{ "ty", GeoTransformations.TranslateY },
+		
 		{ "rotate", GeoTransformations.Rotate },
+		{ "r", GeoTransformations.Rotate },
+		{ "rotate_around", GeoTransformations.RotateAround },
+		{ "ra", GeoTransformations.RotateAround },
+		{ "rotate_around_relative", GeoTransformations.RotateAroundRelative },
+		{ "rar", GeoTransformations.RotateAroundRelative },
+		
 		{ "scale", GeoTransformations.Scale },
+		{ "s", GeoTransformations.Scale },
 		{ "scale_around", GeoTransformations.ScaleAround },
+		{ "sa", GeoTransformations.ScaleAround },
+		{ "scale_around_rel", GeoTransformations.ScaleAroundRelative },
+		{ "sar", GeoTransformations.ScaleAroundRelative },
 	};
 
 	public static bool ValidateArgumentCount(string funcName, int providedCount, string[][] signatures)
