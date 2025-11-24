@@ -1,4 +1,5 @@
 ﻿using NetTopologySuite.Geometries;
+using NetTopologySuite.Geometries.Utilities;
 using Pinch_Lang.Engine;
 using Environment = Pinch_Lang.Engine.Environment;
 
@@ -107,6 +108,33 @@ public static class GeoProcessing
 		else
 		{
 			throw new Exception("Invalid number of stack items provided to buffer. Needs O (uses top of stack) or 1 (pushed buffered to stack)");
+		}
+	}
+	
+	public static void Instance(Environment env, ValueItem[] args, List<StackItem> items)
+	{
+		Builtins.ValidateArgumentCount("instance", args.Length, [[]]);
+
+		var list = items.Cast<Shape>().ToArray();
+		if (list.Length == 2)
+		{
+			var points = list[0].GetGeometry();
+			var instance = list[1].GetGeometry();
+			var geos = new List<Geometry>();
+			foreach (var coordinate in points.Coordinates)
+			{
+				var ins = instance.Copy();
+				var dx = ins.Centroid.X - coordinate.X;
+				var dy = ins.Centroid.Y - coordinate.Y;
+				var t = AffineTransformation.TranslationInstance(-dx, -dy);
+				ins = t.Transform(ins);
+				geos.Add(ins);
+			}
+			var group = new GeometryCollection(geos.ToArray());
+			PushGeometryToStack(env, group);
+		}else
+		{
+			throw new Exception("Invalid number of stack items provided to Instance. need 2: points and instance to copy.");
 		}
 	}
 	

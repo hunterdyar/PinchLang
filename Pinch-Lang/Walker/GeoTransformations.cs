@@ -6,8 +6,6 @@ namespace Pinch_Lang.Walker;
 
 public static class GeoTransformations
 {
-	
-
 	public static void Translate(Environment env, ValueItem[] args, List<StackItem> items)
 	{
 		Builtins.ValidateArgumentCount("translate", args.Length, [["delta x", "delta y"]]);
