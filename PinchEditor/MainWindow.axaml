@@ -8,7 +8,32 @@
         xmlns:vm="using:PinchEditor.ViewModels"
         x:DataType="vm:WindowModel"
         Title="PinchEditor">
+   
+       <NativeMenu.Menu>
+           <NativeMenu>
+               <NativeMenuItem Header="File" IsVisible="true">
+                   <NativeMenu>
+                       <NativeMenuItem Header="Open…" Click="FileOpen_OnClick" Gesture="Ctrl+O" />
+                       <NativeMenuItem Header="Save" Click="FileSaveAs_OnClick" Gesture="Ctrl+S" />
+                       <NativeMenuItem Header="Save As…" Click="FileSaveAs_OnClick" Gesture="Ctrl+Shift+S" />
+                   </NativeMenu>
+               </NativeMenuItem>
+               <NativeMenuItem Header="Edit" IsEnabled="true">
+                   <NativeMenu>
+                       <!-- todo: the 'mouse commands' do not work here.-->
+                       <NativeMenuItem Header="Cut" Command="{Binding CutMouseCommand}" Gesture="Ctrl+X" />
+                       <NativeMenuItem Header="Copy" Command="{Binding CopyMouseCommand}" Gesture="Ctrl+C" />
+                       <NativeMenuItem Header="Paste" Command="{Binding PasteMouseCommand}" Gesture="Ctrl+V" />
+                   </NativeMenu>
+               </NativeMenuItem>
+           </NativeMenu>
+       </NativeMenu.Menu>
+       
+   
     <DockPanel>
+        <!-- this shows the NativeMenu -->
+        <NativeMenuBar DockPanel.Dock="Top" x:Name="MenuBar" />
+        
         <StackPanel Orientation="Horizontal"
                     DockPanel.Dock="Top"
                     Spacing="5"

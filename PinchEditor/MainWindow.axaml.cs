@@ -147,4 +147,14 @@ public partial class MainWindow : Window
 		}
 
 	}
+
+	private void FileOpen_OnClick(object? sender, EventArgs e)
+	{
+		throw new NotImplementedException();
+	}
+
+	private void FileSaveAs_OnClick(object? sender, EventArgs e)
+	{
+		throw new NotImplementedException();
+	}
 }
