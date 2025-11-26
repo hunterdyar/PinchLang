@@ -37,9 +37,31 @@ public class ExpressionWalker
 				return binOp.Evaluate(_environment);
 			case UnaryOperator unOp:
 				return WalkUnary(unOp);
+			case FunctionExpressionCall fc:
+				return WalkFunctionCall(fc);
 		}
 
 		throw new NotImplementedException($"unable to walk {expression}");
+	}
+
+	private ValueItem WalkFunctionCall(FunctionExpressionCall fc)
+	{
+		var callName = fc.Name.ToString();
+		
+		if (BuiltinFunctions.Builtins.TryGetValue(callName, out var func))
+		{
+			//walk arguments
+			ValueItem[] args = new ValueItem[fc.Arguments.Length];
+			for (int i = 0; i < args.Length; i++)
+			{
+				args[i] = _environment.ExprWalker.WalkExpression(fc.Arguments[i]);
+			}
+			return func.Invoke(_environment, args);
+		}
+		else
+		{
+			throw new Exception($"Unknown Function Call {callName}");
+		}
 	}
 
 	private ValueItem WalkUnary(UnaryOperator op)

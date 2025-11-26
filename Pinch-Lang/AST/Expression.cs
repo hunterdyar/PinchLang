@@ -111,7 +111,18 @@ public class StringLiteral : Literal
 }
 
 
-
+public class FunctionExpressionCall : Expression
+{
+	public Identifier Name => _id;
+	private Identifier _id;
+	public Expression[] Arguments => _args;
+	private Expression[] _args;
+	public FunctionExpressionCall(Identifier id, Expression[] args)
+	{
+		_id = id;
+		_args = args;
+	}
+}
 
 
 public class Tuple<TA, TB> : Expression

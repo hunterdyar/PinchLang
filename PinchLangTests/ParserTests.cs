@@ -29,7 +29,7 @@ public class ParserTests
 		        
 		        """;
 		var t = Tokenize(i);
-		var p = ShapeParser.FunctionCallNoBlock.Many().Invoke(t);
+		var p = ShapeParser.ModuleCallNoBlock.Many().Invoke(t);
 		if (!p.HasValue)
 		{
 			Assert.Fail(p.ToString());
@@ -103,13 +103,13 @@ public class ParserTests
 
 		        """;
 		var t = Tokenize(i);
-		var p = ShapeParser.FunctionCallWithBlock.Many().Invoke(t);
+		var p = ShapeParser.ModuleCallWithBlock.Many().Invoke(t);
 		if (!p.HasValue)
 		{
 			Assert.Fail(p.ToString());
 		}
 
-		var fn = (FunctionCall)p.Value[0];
+		var fn = (ModuleCall)p.Value[0];
 		
 		Assert.That(fn.Name.ToString(), Is.EqualTo("difference"));
 		Assert.That(fn.Identifier.Prefix, Is.EqualTo(IdentPrefix.Dot));
@@ -121,13 +121,13 @@ public class ParserTests
 		
 		 i = """.difference 0 0{set a b}""";
 		t = Tokenize(i);
-		p = ShapeParser.FunctionCallWithBlock.Many().Invoke(t);
+		p = ShapeParser.ModuleCallWithBlock.Many().Invoke(t);
 		if (!p.HasValue)
 		{
 			Assert.Fail(p.ToString());
 		}
 
-		fn = (FunctionCall)p.Value[0];
+		fn = (ModuleCall)p.Value[0];
 
 		Assert.That(fn.Name.ToString(), Is.EqualTo("difference"));
 		Assert.That(fn.Identifier.Prefix, Is.EqualTo(IdentPrefix.Dot));

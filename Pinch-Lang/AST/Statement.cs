@@ -104,7 +104,7 @@ public class VariableDeclaration : Statement
 	}
 }
 
-public class FunctionCall : Statement
+public class ModuleCall : Statement
 {
 	public bool PopAllFromStack = false;
 	public int PopFromStack;
@@ -113,7 +113,7 @@ public class FunctionCall : Statement
 	public TextSpan Name => Identifier.Value;
 	public Expression[] Arguments;
 
-	public FunctionCall(Identifier id,  Expression[] arguments)
+	public ModuleCall(Identifier id,  Expression[] arguments)
 	{
 		PopFromStack = CountPopFromID(id);
 		Identifier = id;
@@ -122,7 +122,7 @@ public class FunctionCall : Statement
 		PopAllFromStack = id.Prefix == IdentPrefix.Bang;
 	}
 
-	public FunctionCall(Identifier id, Expression[] arguments, StackBlock? block)
+	public ModuleCall(Identifier id, Expression[] arguments, StackBlock? block)
 	{
 		Identifier = id;
 		Arguments = arguments;

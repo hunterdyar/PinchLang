@@ -61,11 +61,19 @@ public static class ShapeParser
 		from a in Identifier.Try()
 		from _ in Token.EqualTo(SToken.Colon).Try()
 		from b in Expression
-		select (Expression)new KeyValueTuple((Identifier)a, (Expression)b);
+		select (Expression)new KeyValueTuple((Identifier)a, (Expression)b); 
+
+	private static TokenListParser<SToken, Expression> FunctionExprCall { get; } =
+		from id in NormalIdentifier
+		from lp in Token.EqualTo(SToken.LParen)
+		from args in (Superpower.Parse.Ref(() => Expression)).ManyDelimitedBy(OptionalComma)
+		from rp in Token.EqualTo(SToken.RParen)
+		select (Expression)new FunctionExpressionCall((Identifier)id, args);
 	
 	public static TokenListParser<SToken, Expression> Expression { get; }=
 		from x in (TokenListParser<SToken, Expression>)
 			ExprParser.Expr
+			.Or(FunctionExprCall)
 			.Or(ExpressionIdentifier) //the subset of identifiers that can be used as values (_ or no prefix)
 			.Or(KeyValueTuple)
 			//we do NOT consume newlines when evaluating Expression.Many()
@@ -113,20 +121,20 @@ public static class ShapeParser
 		from _ in Token.EqualTo(SToken.Comma).Optional()
 		select new Statement();
 
-	public static TokenListParser<SToken, (Identifier id, Expression[] args)> FunctionCallFirstPart { get; } =
+	public static TokenListParser<SToken, (Identifier id, Expression[] args)> ModuleCallFirstPart { get; } =
 		from id in Identifier
 		from exprs in Expression.ManyDelimitedBy(OptionalComma)
 		select ((Identifier)id, exprs);
 		
-	public static TokenListParser<SToken, Statement> FunctionCallWithBlock { get; } =
-		from fn in FunctionCallFirstPart.Try()//Try allows us to succeed at parsing by trying with block before without block.
+	public static TokenListParser<SToken, Statement> ModuleCallWithBlock { get; } =
+		from fn in ModuleCallFirstPart.Try()//Try allows us to succeed at parsing by trying with block before without block.
 		from sb in StackBlock.Try()
-		select (Statement)new FunctionCall(fn.id, fn.args, (StackBlock)sb);
+		select (Statement)new ModuleCall(fn.id, fn.args, (StackBlock)sb);
 
-	public static TokenListParser<SToken, Statement> FunctionCallNoBlock { get; } =
-		from fn in FunctionCallFirstPart
+	public static TokenListParser<SToken, Statement> ModuleCallNoBlock { get; } =
+		from fn in ModuleCallFirstPart
 		from _ in NewLine!.OptionalOrDefault(null)
-		select (Statement)new FunctionCall(fn.id, fn.args);
+		select (Statement)new ModuleCall(fn.id, fn.args);
 	
 	//'pushable' right now is just declarations i guess. groups and stuff later?
 	public static TokenListParser<SToken, Statement> Push { get; } =
@@ -148,8 +156,8 @@ public static class ShapeParser
 			//I think technically this is slower than if we seperated function+exprs and then added newline or block
 			.Or(ModuleDeclaration.Try()) //has to be after Push, since they both look for Dec first.
 			.Or(VariableDeclaration.Try())
-			.Or(FunctionCallWithBlock.Try())
-			.Or(FunctionCallNoBlock.Try())
+			.Or(ModuleCallWithBlock.Try())
+			.Or(ModuleCallNoBlock.Try())
 			.Or(StackBlock.Try())
 			.Or(GlobalsDeclare.Try())
 			.Or(MetaStatement.Try())
