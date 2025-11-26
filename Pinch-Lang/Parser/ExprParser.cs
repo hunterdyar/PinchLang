@@ -40,7 +40,7 @@ public static class ExprParser
         static readonly TokenListParser<SToken, Expression> Operand =
             (from sign in Token.EqualTo(SToken.Minus)
              from factor in Factor
-             select (Expression)new UnaryOperator(UnOp.Negate, factor))
+             select (Expression)CreateUnary(new OpItem(BinOp.Minus),factor))
             .Or(Factor).Named("expression");
 
         private static Expression CreateBinary(OpItem op, Expression left, Expression right)
@@ -57,6 +57,18 @@ public static class ExprParser
 			        throw new Exception($"unsupported op {op}");
 	        }
         }
+
+        private static Expression CreateUnary(OpItem op,Expression right)
+        {
+	        switch (op.Op)
+	        {
+		        case BinOp.Minus: return new Negate(right);
+		        default:
+			        throw new Exception($"unsupported op {op}");
+	        }
+        }
+        
+        
         static readonly TokenListParser<SToken, Expression> Term = Parse.Chain(Multiply.Or(Divide).Or(Modulo), Operand, CreateBinary);
         public static readonly TokenListParser<SToken, Expression> Expr = Parse.Chain(Plus.Or(Minus), Term, CreateBinary);
         

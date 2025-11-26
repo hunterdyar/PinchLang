@@ -7,22 +7,20 @@ public enum UnOp
     Negate,
 }
 
-
-
-public class UnaryOperator(UnOp op, Expression exp) : Operation
+public class UnaryOperator : Operation
 {
-    public readonly UnOp Op = op;
     public Expression Operand => _operand;
-    private Expression _operand = exp;
+    protected Expression _operand;
     
-    public static UnaryOperator CreateUnary(Token<SToken> op, Expression exp)
+    public UnaryOperator(Expression exp)
     {
-        switch (op.Kind)
-        {
-            case SToken.Minus:
-                return new UnaryOperator(UnOp.Negate, exp);
-            default:
-                throw new Exception("Unknown Unary Operator: " + op.Kind+". ("+op.Span+")");
-        }
+        _operand = exp;
+    }
+}
+
+public class Negate : UnaryOperator
+{
+    public Negate(Expression exp) : base(exp)
+    {
     }
 }

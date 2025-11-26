@@ -45,9 +45,9 @@ public class ExpressionWalker
 	private ValueItem WalkUnary(UnaryOperator op)
 	{
 		var left = WalkExpression(op.Operand);
-		switch (op.Op)
+		switch (op)
 		{
-			case UnOp.Negate:
+			case Negate negate:
 				//if it's already a number, prevent an extra allocation.
 				if (left is NumberValue nv)
 				{
@@ -57,7 +57,7 @@ public class ExpressionWalker
 				//otherwise, attempt to cast it. 
 				return new NumberValue(-left.AsNumber());
 			default:
-				throw new NotImplementedException($"Unknown Unary Operator {op.Op}");
+				throw new NotImplementedException($"Unknown Unary Operator {op}");
 		}
 	}
 	private ValueItem WalkBinary(BinaryOperator bin)
