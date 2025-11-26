@@ -108,9 +108,14 @@ public static class ShapeParser
 		from _ in Token.EqualTo(SToken.Global)
 		from ids in Identifier.Many()
 		select (Statement)new GlobalsDeclaration(ids);
+
+	public static TokenListParser<SToken, Statement> OptionalComma { get; } =
+		from _ in Token.EqualTo(SToken.Comma).Optional()
+		select new Statement();
+
 	public static TokenListParser<SToken, (Identifier id, Expression[] args)> FunctionCallFirstPart { get; } =
 		from id in Identifier
-		from exprs in Expression.Many()
+		from exprs in Expression.ManyDelimitedBy(OptionalComma)
 		select ((Identifier)id, exprs);
 		
 	public static TokenListParser<SToken, Statement> FunctionCallWithBlock { get; } =

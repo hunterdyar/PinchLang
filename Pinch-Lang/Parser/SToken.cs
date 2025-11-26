@@ -20,12 +20,13 @@ public enum SToken
 	[Token(Example = "}")] RBracket,
 	[Token(Example = "[")] LBrace,
 	[Token(Example = "]")] RBrace,
+	[Token(Category = "Sugar", Example = ",")]
+	Comma,
 	[Token(Category = "Operator", Example = "/")] Slash,
 	[Token(Category = "Operator", Example = "*")] Asterisk,
 	[Token(Category = "Operator", Example = "+")] Plus,
 	[Token(Category = "Operator", Example = "-")] Minus,
 	[Token(Category = "Operator", Example = "%")] Percentage,
-
 	[Token(Category = "Prefix", Example = "@")] At,
 	[Token(Category = "Prefix", Example = "_")] Underscore,
 	[Token(Category = "Prefix", Example = "#")] Octothorpe,

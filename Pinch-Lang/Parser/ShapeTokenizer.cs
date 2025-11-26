@@ -52,6 +52,7 @@ public static class ShapeTokenizer
 		.Match(Character.EqualTo('_'), SToken.Underscore)
 		.Match(Character.EqualTo('#'), SToken.Octothorpe)
 		.Match(Character.EqualTo('='), SToken.Equals)
+		.Match(Character.EqualTo(','), SToken.Comma)
 
 		//literals
 		//strings and integers

@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using NetTopologySuite.Geometries;
 using Pinch_Lang.Engine;
-using ShapesDeclare.AST;
 using ShapesDeclare.Utility;
 using  Environment = Pinch_Lang.Engine.Environment;
 namespace Pinch_Lang.Walker;
@@ -86,6 +85,11 @@ public static class Builtins
 					}
 				}
 			}
+
+			err.Append(". Got ");
+			err.Append(providedCount);
+			err.Append('.');
+			throw new Exception(err.ToString());
 		}
 
 		return valid;
