@@ -13,17 +13,20 @@
            <NativeMenu>
                <NativeMenuItem Header="File" IsVisible="true">
                    <NativeMenu>
-                       <NativeMenuItem Header="Open…" Click="FileOpen_OnClick" Gesture="Ctrl+O" />
-                       <NativeMenuItem Header="Save" Click="FileSaveAs_OnClick" Gesture="Ctrl+S" />
-                       <NativeMenuItem Header="Save As…" Click="FileSaveAs_OnClick" Gesture="Ctrl+Shift+S" />
+                       <NativeMenuItem Header="Open…" Click="FileOpen" Gesture="Ctrl+O" />
+                       <NativeMenuItem Header="Save" Click="FileSave" Gesture="Ctrl+S" />
+                       <NativeMenuItem Header="Save As…" Click="FileSaveAs" Gesture="Ctrl+Shift+S" />
                    </NativeMenu>
                </NativeMenuItem>
                <NativeMenuItem Header="Edit" IsEnabled="true">
                    <NativeMenu>
                        <!-- todo: the 'mouse commands' do not work here.-->
-                       <NativeMenuItem Header="Cut" Command="{Binding CutMouseCommand}" Gesture="Ctrl+X" />
-                       <NativeMenuItem Header="Copy" Command="{Binding CopyMouseCommand}" Gesture="Ctrl+C" />
-                       <NativeMenuItem Header="Paste" Command="{Binding PasteMouseCommand}" Gesture="Ctrl+V" />
+                       <NativeMenuItem Header="Cut" Command="{Binding CutMouseCommand}"
+                                       CommandParameter="{Binding #Editor.TextArea}" Gesture="Ctrl+X" />
+                       <NativeMenuItem Header="Copy" Command="{Binding CopyMouseCommand}"
+                                       CommandParameter="{Binding #Editor.TextArea}" Gesture="Ctrl+C" />
+                       <NativeMenuItem Header="Paste" Command="{Binding PasteMouseCommand}"
+                                       CommandParameter="{Binding #Editor.TextArea}" Gesture="Ctrl+V" />
                    </NativeMenu>
                </NativeMenuItem>
            </NativeMenu>
@@ -39,7 +42,7 @@
                     Spacing="5"
                     Margin="3"
         >
-        <ToggleButton Name="wordWrap" ToolTip.Tip="Word wrap" IsChecked="{Binding #Editor.WordWrap}">
+        <ToggleButton Name="WordWrap" ToolTip.Tip="Word wrap" IsChecked="{Binding #Editor.WordWrap}">
             <ToggleButton.Content>
                 <TextBlock>word wrap</TextBlock>
             </ToggleButton.Content>
@@ -91,13 +94,13 @@
                             DockPanel.Dock="Top"
                             Spacing="5"
                             Margin="3">
-                    <Button Name="zoomRecenter" ToolTip.Tip="Word wrap" Command="{Binding Recenter}" CommandParameter="{Binding #Zoom}">
+                    <Button Name="ZoomRecenter" ToolTip.Tip="Word wrap" Command="{Binding Recenter}" CommandParameter="{Binding #Zoom}">
                         <Button.Content>
                             <TextBlock>recenter</TextBlock>
                         </Button.Content>
                     </Button>
                 </StackPanel>
-                <ScrollViewer Grid.Row="1" Grid.Column="1"
+                <ScrollViewer
                               VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Auto">
                 <ZoomBorder Name="Zoom" Stretch="Uniform" ZoomSpeed="1.2" Background="Beige" ClipToBounds="True" Focusable="True"

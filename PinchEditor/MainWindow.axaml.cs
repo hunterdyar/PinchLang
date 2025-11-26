@@ -1,11 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Avalonia;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.PanAndZoom;
 using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.Platform.Storage;
 using AvaloniaEdit;
 using Pinch_Lang.Engine;
 using PinchEditor.ViewModels;
@@ -148,13 +148,37 @@ public partial class MainWindow : Window
 
 	}
 
-	private void FileOpen_OnClick(object? sender, EventArgs e)
+	#region File Commands
+
+	
+
+	
+	public async void FileOpen(object? sender, EventArgs eventArgs)
+	{
+		var file = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
+		{
+			Title = "Open Pinch File",
+			FileTypeFilter = new[] { FilePickerFileTypes.TextPlain },
+			AllowMultiple = false,
+		});
+		if (file.Count == 0)
+		{
+			return;
+		}
+
+		var f = file.First();
+		_wm.OpenFile(f);
+	}
+
+	public void FileSave(object? sender, EventArgs eventArgs)
 	{
 		throw new NotImplementedException();
 	}
 
-	private void FileSaveAs_OnClick(object? sender, EventArgs e)
+	public void FileSaveAs(object? sender, EventArgs eventArgs)
 	{
 		throw new NotImplementedException();
 	}
+
+	#endregion
 }

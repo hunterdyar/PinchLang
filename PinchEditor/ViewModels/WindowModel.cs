@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
-using Avalonia;
 using Avalonia.Controls.PanAndZoom;
+using Avalonia.Platform.Storage;
 using AvaloniaEdit;
 using AvaloniaEdit.Editing;
 using Pinch_Lang.Engine;
@@ -11,8 +11,11 @@ namespace PinchEditor.ViewModels;
 
 public class WindowModel
 {
+	public IStorageFile? CurrentFile { get; set; }
+	
 	public string SvgSource { get; set; } = "";
 	public ObservableCollection<ResultMessage> Console { get; set; } = new ObservableCollection<ResultMessage>();
+
 	public void CopyMouseCommand(TextArea textArea)
 	{
 		ApplicationCommands.Copy.Execute(null, textArea);
@@ -55,5 +58,10 @@ public class WindowModel
 	public void Recenter(ZoomBorder zoomBorder)
 	{
 		zoomBorder.AutoFit();
+	}
+
+	public void OpenFile(IStorageFile file)
+	{
+		System.Console.WriteLine("open "+file.Path);
 	}
 }
