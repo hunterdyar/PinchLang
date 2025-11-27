@@ -190,6 +190,11 @@ public class GlobalsDeclaration : Statement
 			throw new Exception("setting variables as 'global' must take at least one identifier.");
 		}
 	}
+
+	public override string ToString()
+	{
+		return "global " + _ids.ToStringDelimited(" ");
+	}
 }
 
 

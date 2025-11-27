@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using ShapesDeclare.Utility;
 using Superpower.Model;
 
 namespace ShapesDeclare.AST;
@@ -121,6 +122,11 @@ public class FunctionExpressionCall : Expression
 	{
 		_id = id;
 		_args = args;
+	}
+
+	public override string ToString()
+	{
+		return _id.ToString() + "(" + _args.ToStringDelimited(", ") + ")";
 	}
 }
 

@@ -18,12 +18,13 @@ public class Section
     public override string ToString()
     {
         StringBuilder _sb = new StringBuilder();
-        _sb.AppendLine(Header.ToString());
+        _sb.AppendLine(Header.ToString()+"(");
         foreach (var statement in Statements)
         {
             _sb.AppendLine(statement.ToString());
         }
 
+        _sb.AppendLine(")");
         return _sb.ToString();
     }
 }
@@ -34,6 +35,19 @@ public class StackBlock : Statement
     public StackBlock(params Statement[] statements)
     {
         Statements = statements;
+    }
+
+    public override string ToString()
+    {
+        StringBuilder _sb = new StringBuilder();
+        _sb.AppendLine("{");
+        foreach (var statement in Statements)
+        {
+            _sb.AppendLine(statement.ToString());
+        }
+
+        _sb.AppendLine("}");
+        return _sb.ToString();
     }
 }
 

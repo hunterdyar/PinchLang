@@ -22,6 +22,27 @@ public class OpItem
 	{
 		_op = op;
 	}
+
+	public override string ToString()
+	{
+		switch (_op)
+		{
+			case BinOp.Minus:
+				return "-";
+			case BinOp.Divide:
+				return "/";
+			case BinOp.Modulo:
+				return "%";
+			case BinOp.Plus:
+				return "+";
+			case BinOp.Pow:
+				return "^";
+			case BinOp.Times:
+				return "*";
+			default:
+				return _op.ToString();
+		}
+	}
 }
 public class Operation : Expression
 {
@@ -40,7 +61,7 @@ public abstract class BinaryOperator : Operation
 		this.Right = right;
 	}
 	public abstract ValueItem Evaluate(Environment env);
-
+	
 }
 
 public class Plus : BinaryOperator
@@ -71,6 +92,11 @@ public class Plus : BinaryOperator
 
 		throw new Exception("Unable to evaluate plus operator, invalid operand types.");
 	}
+
+	public override string ToString()
+	{
+		return Left.ToString() + " + " + Right.ToString();
+	}
 }
 public class Minus : BinaryOperator
 {
@@ -88,6 +114,11 @@ public class Minus : BinaryOperator
 		}
 		
 		throw new Exception("Unable to evaluate plus operator, invalid operand types.");
+	}
+
+	public override string ToString()
+	{
+		return Left.ToString() + " - " + Right.ToString();
 	}
 }
 
@@ -109,6 +140,11 @@ public class Multiply : BinaryOperator
 		
 		throw new Exception("Unable to evaluate plus operator, invalid operand types.");
 	}
+
+	public override string ToString()
+	{
+		return Left.ToString() + " * " + Right.ToString();
+	}
 }
 
 public class Divide : BinaryOperator
@@ -128,6 +164,11 @@ public class Divide : BinaryOperator
 		
 		throw new Exception("Unable to evaluate plus operator, invalid operand types.");
 	}
+
+	public override string ToString()
+	{
+		return Left.ToString() + " / " + Right.ToString();
+	}
 }
 
 public class Modulo : BinaryOperator
@@ -146,6 +187,11 @@ public class Modulo : BinaryOperator
 		}
 		
 		throw new Exception("Unable to evaluate plus operator, invalid operand types.");
+	}
+
+	public override string ToString()
+	{
+		return Left.ToString() + " % " + Right.ToString();
 	}
 }
 

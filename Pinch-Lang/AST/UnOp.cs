@@ -16,11 +16,17 @@ public class UnaryOperator : Operation
     {
         _operand = exp;
     }
+    
 }
 
 public class Negate : UnaryOperator
 {
     public Negate(Expression exp) : base(exp)
     {
+    }
+
+    public override string ToString()
+    {
+        return "(-" + _operand.ToString()+")";
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ShapesDeclare;
 using ShapesDeclare.AST;
+using ShapesDeclare.Utility;
 using Superpower;
 using Superpower.Model;
 
@@ -19,14 +20,43 @@ public class ParserTests
 		return tokr.Value;
 	}
 
+	[TestCase("translate (-10) 3 + 4")]
+	[TestCase("translate (-10) - 10")]
+	[TestCase("translate (-10) + 10 + 10")]
+	[TestCase("translate 5")]
+	[TestCase("translate 1 + 2 * 4")]
+
+	public void ModuleCallWithExpressionsTest(string i)
+	{
+		var t = Tokenize(i);
+		var p = ShapeParser.Statement.Invoke(t);
+		if (!p.HasValue)
+		{
+			Assert.Fail("fail at modCallFirstPart"+p.ToString());
+		}
+		Console.WriteLine($"1. statement parsed as {p.Value.GetType()}");
+		Assert.That(p.Value.ToString().Trim(), Is.EqualTo(i.Trim()));
+		Console.WriteLine($"check");
+
+		var p3 = ShapeParser.ModuleCallNoBlock.Invoke(t);
+		if (!p3.HasValue)
+		{
+			Assert.Fail("fail at modCallNoBlock"+p3.ToString());
+		}
+
+		Console.WriteLine($"3. statement parsed as {p.Value.GetType()}");
+		Assert.That(p3.Value.ToString().Trim(), Is.EqualTo(i.Trim()));
+		Console.WriteLine($"check");
+
+	}
+	
 	[Test]
-	public void FunctionDecTest()
+	public void ModuleCallTest()
 	{
 		var i = """
-		        translate -10 -10
 		        set radius 20
 		        round r1 20
-		        
+		        translate 10 10
 		        """;
 		var t = Tokenize(i);
 		var p = ShapeParser.ModuleCallNoBlock.Many().Invoke(t);
@@ -34,7 +64,11 @@ public class ParserTests
 		{
 			Assert.Fail(p.ToString());
 		}
+
+		var output = p.Value.ToStringDelimited(Environment.NewLine).Trim();
+		Assert.That(output, Is.EqualTo(i.Trim()));
 		Assert.That(p.Value.Length == 3);
+		
 	}
 
 	[Test]
@@ -94,7 +128,7 @@ public class ParserTests
 	}
 	
 	[Test]
-	public void FunctionWithBlockDecTest()
+	public void ModuleWithBlockDecTest()
 	{
 		var i = """
 		        .difference 0 0{
@@ -213,12 +247,11 @@ public class ParserTests
 		Assert.That(md.Length, Is.EqualTo(3));
 	}
 	[Test]
-	[TestCase]
-	public void SectionListTest()
+	public void SectionListTest1()
 	{
 		var i = """
 		        [section_name]
-		        translate -10 -10
+		        translate 10 10
 		        set radius 20
 		        banana = 3
 		        r1:rect banana 
@@ -234,6 +267,26 @@ public class ParserTests
 		Assert.That(p.Value.Statements.Length == 4);
 	}
 
+	[Test]
+	public void SectionListTest2()
+	{
+		var i = """
+		        [canvas]
+		        x = 20
+		        y = 30
+		        rect 0 y+30 x y
+
+		        """;
+		var t = Tokenize(i);
+		var p = ShapeParser.Section.Invoke(t);
+		if (!p.HasValue)
+		{
+			Assert.Fail(p.ToString());
+		}
+
+		Assert.That(p.Value.Header.Title == "canvas");
+		Assert.That(p.Value.Statements.Length == 3);
+	}
 	
 	
 	[Test]

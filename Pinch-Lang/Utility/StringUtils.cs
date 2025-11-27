@@ -4,10 +4,9 @@ namespace ShapesDeclare.Utility;
 
 public static class StringUtils
 {
-	private static StringBuilder _tsdelimSB = new StringBuilder();
 	public static string ToStringDelimited(this object[] list, string sep)
 	{
-		_tsdelimSB.Clear();
+		var tsdelimSB = new StringBuilder();
 
 		if (list.Length == 0)
 		{
@@ -16,13 +15,13 @@ public static class StringUtils
 		
 		for (int i = 0; i < list.Length; i++)
 		{
-			_tsdelimSB.Append(list[i].ToString());
+			tsdelimSB.Append(list[i].ToString());
 			if (i < list.Length - 1)
 			{
-				_tsdelimSB.Append(sep);
+				tsdelimSB.Append(sep);
 			}
 		}
 
-		return _tsdelimSB.ToString();
+		return tsdelimSB.ToString();
 	}
 }

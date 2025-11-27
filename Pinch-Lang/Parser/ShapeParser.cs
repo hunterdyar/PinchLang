@@ -16,7 +16,6 @@ public static class ShapeParser
 	// 	select e;
 	
 	//Expressions
-	
 	static TokenListParser<SToken, Expression> NormalIdentifier { get; } =
 		from id in Token.EqualTo(SToken.Identifier)
 		select (Expression)new Identifier(id.Span);
@@ -64,7 +63,7 @@ public static class ShapeParser
 		select (Expression)new KeyValueTuple((Identifier)a, (Expression)b); 
 
 	private static TokenListParser<SToken, Expression> FunctionExprCall { get; } =
-		from id in NormalIdentifier
+		from id in NormalIdentifier.Try()
 		from lp in Token.EqualTo(SToken.LParen)
 		from args in (Superpower.Parse.Ref(() => Expression)).ManyDelimitedBy(OptionalComma)
 		from rp in Token.EqualTo(SToken.RParen)
@@ -73,8 +72,8 @@ public static class ShapeParser
 	public static TokenListParser<SToken, Expression> Expression { get; }=
 		from x in (TokenListParser<SToken, Expression>)
 			ExprParser.Expr
-			.Or(FunctionExprCall)
-			.Or(ExpressionIdentifier) //the subset of identifiers that can be used as values (_ or no prefix)
+			.Or(FunctionExprCall.Try())
+			.Or(ExpressionIdentifier.Try()) //the subset of identifiers that can be used as values (_ or no prefix)
 			.Or(KeyValueTuple)
 			//we do NOT consume newlines when evaluating Expression.Many()
 			select x;
@@ -116,14 +115,18 @@ public static class ShapeParser
 		from _ in Token.EqualTo(SToken.Global)
 		from ids in Identifier.Many()
 		select (Statement)new GlobalsDeclaration(ids);
-
+	
+	public static TokenListParser<SToken, Statement> TrailingComma { get; } =
+		from _ in Token.EqualTo(SToken.Comma)
+		from __ in NewLine.AtLeastOnce()
+		select new Statement();
 	public static TokenListParser<SToken, Statement> OptionalComma { get; } =
 		from _ in Token.EqualTo(SToken.Comma).Optional()
 		select new Statement();
 
 	public static TokenListParser<SToken, (Identifier id, Expression[] args)> ModuleCallFirstPart { get; } =
 		from id in Identifier
-		from exprs in Expression.ManyDelimitedBy(OptionalComma)
+		from exprs in Expression.ManyDelimitedBy(OptionalComma)//or trailing comm
 		select ((Identifier)id, exprs);
 		
 	public static TokenListParser<SToken, Statement> ModuleCallWithBlock { get; } =
@@ -131,9 +134,12 @@ public static class ShapeParser
 		from sb in StackBlock.Try()
 		select (Statement)new ModuleCall(fn.id, fn.args, (StackBlock)sb);
 
+	
 	public static TokenListParser<SToken, Statement> ModuleCallNoBlock { get; } =
 		from fn in ModuleCallFirstPart
-		from _ in NewLine!.OptionalOrDefault(null)
+		from _ in NewLine.AtLeastOnce()
+		//at end OR newline? there has to be a better way to do this....
+			.Or(NewLine.Many().AtEnd())//zero or more, since the newlines have already been consumed but we don't care... at end!
 		select (Statement)new ModuleCall(fn.id, fn.args);
 	
 	//'pushable' right now is just declarations i guess. groups and stuff later?
