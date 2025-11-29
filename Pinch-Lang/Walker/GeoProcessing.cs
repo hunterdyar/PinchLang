@@ -137,6 +137,48 @@ public static class GeoProcessing
 			throw new Exception("Invalid number of stack items provided to Instance. need 2: points and instance to copy.");
 		}
 	}
+
+	public static void Array(Environment env, ValueItem[] args, List<StackItem> items)
+	{
+		Builtins.ValidateArgumentCount("array", args.Length, [["count","offsetX", "offsetY"]]);
+
+		var list = items.Cast<Shape>().ToArray();
+		var count = args[0].AsNumber();
+		var dx = args[1].AsNumber();
+		var dy = args[2].AsNumber();
+
+		Geometry instance;
+		if (list.Length == 0)
+		{
+			instance = (env.CurrentFrame.PopStackItem() as Shape)?.GetGeometry() ?? throw new InvalidOperationException("top of stack is not a shape.");
+		}
+		else if(list.Length != 1){
+			throw new Exception("Invalid number of stack items provided to Array. need 1: instance to copy.");
+		}
+		else
+		{
+			//is 1
+			instance = list[0].GetGeometry();
+		}
+
+		var cx = instance.Centroid.X;
+		var cy = instance.Centroid.Y;
+		var geos = new List<Geometry>();
+		
+		//array
+		for (int i = 0; i < count; i++)
+		{
+			var ins = instance.Copy();
+			var ddx = cx + dx*i;
+			var ddy = cy + dy*i;
+			var t = AffineTransformation.TranslationInstance(ddx, ddy);
+			ins = t.Transform(ins);
+			geos.Add(ins);
+		}
+
+		var group = new GeometryCollection(geos.ToArray());
+		PushGeometryToStack(env, group);
+}
 	
 	public static void PushGeometryToStack(Environment env, Geometry geo)
 	{

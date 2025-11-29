@@ -24,7 +24,8 @@ public static class Builtins
 		{ "intersect", GeoProcessing.Intersect },
 		{ "buffer", GeoProcessing.Buffer },
 		{ "instance", GeoProcessing.Instance },
-		
+		{ "array", GeoProcessing.Array },
+
 		//GeoTransformations.cs functions
 		{ "translate", GeoTransformations.Translate },
 		{ "t", GeoTransformations.Translate },
