@@ -71,6 +71,10 @@
                     <MenuItem Header="Paste" InputGesture="ctrl+V" Command="{Binding PasteMouseCommand}"
                               CommandParameter="{Binding #Editor.TextArea}">
                     </MenuItem>
+                    <MenuItem Header="Suggestions" InputGesture="ctrl+Space" Command="{Binding RequestCodeComplete}"
+                              CommandParameter="{Binding #Editor.TextArea}">
+                    </MenuItem>
+                    
                     <!-- <MenuItem Header="Increase Font Size" InputGesture="ctrl+OemPlus" Command="{Binding FontSizeIncreaseCommand}" -->
                     <!--           CommandParameter="{Binding #Editor}"> -->
                     <!-- </MenuItem> -->

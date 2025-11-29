@@ -47,7 +47,7 @@
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eda3d1a6_002De973_002D45d3_002D8b21_002D4e7568286d5c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Walker1 #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eda3d1a6_002De973_002D45d3_002D8b21_002D4e7568286d5c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Walker1 #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.Walker1&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.ShapesNoPushPop&lt;/TestId&gt;&#xD;

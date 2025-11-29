@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Avalonia.Controls.PanAndZoom;
 using Avalonia.Platform.Storage;
 using AvaloniaEdit;
+using AvaloniaEdit.CodeCompletion;
 using AvaloniaEdit.Editing;
 using Pinch_Lang.Engine;
 
@@ -15,7 +17,19 @@ public class WindowModel
 	
 	public string SvgSource { get; set; } = "";
 	public ObservableCollection<ResultMessage> Console { get; set; } = new ObservableCollection<ResultMessage>();
-
+	CompletionWindow completionWindow;
+	public void RequestCodeComplete(TextArea textArea)
+	{
+		completionWindow = new CompletionWindow(textArea);
+		IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
+		data.Add(new SimpleCompletionData("Item1"));
+		data.Add(new SimpleCompletionData("Item2"));
+		data.Add(new SimpleCompletionData("Item3"));
+		completionWindow.Show();
+		completionWindow.Closed += delegate { completionWindow = null; };
+	}
+  
+	
 	public void CopyMouseCommand(TextArea textArea)
 	{
 		ApplicationCommands.Copy.Execute(null, textArea);

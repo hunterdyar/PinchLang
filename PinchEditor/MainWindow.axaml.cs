@@ -7,11 +7,13 @@ using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Platform.Storage;
 using AvaloniaEdit;
+using AvaloniaEdit.TextMate;
 using Pinch_Lang.Engine;
 using PinchEditor.ViewModels;
 using ShapesDeclare;
 using ShapesDeclare.AST;
 using ShapesDeclare.Utility;
+using TextMateSharp.Grammars;
 
 namespace PinchEditor;
 
@@ -20,6 +22,9 @@ public partial class MainWindow : Window
 	private readonly TextEditor _textEditor;
 	private readonly Avalonia.Svg.Skia.Svg _svg;
 	private readonly ZoomBorder _zoom;
+
+	private readonly RegistryOptions _registryOptions;
+	private readonly TextMate.Installation _textMateInstall;
 	WindowModel _wm => DataContext as WindowModel;
 	public MainWindow()
 	{
@@ -36,6 +41,11 @@ public partial class MainWindow : Window
 		_textEditor.Options.ShowTabs = true;
 		_textEditor.Options.ShowSpaces = true;
 		_textEditor.Text = "[canvas]\nrect 0 0 50 50";
+
+		_registryOptions = new RegistryOptions(ThemeName.Monokai);
+		_textMateInstall = _textEditor.InstallTextMate(_registryOptions);
+		_textMateInstall.SetGrammar(
+			_registryOptions.GetScopeByLanguageId(_registryOptions.GetLanguageByExtension(".cs").Id));
 		
 		_svg.Stretch = Stretch.Fill;
 		_svg.EnableCache = false;
