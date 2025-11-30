@@ -88,17 +88,18 @@ public class Environment
 
 	public void SetSection(string title)
 	{
-		if (_currentSection == "canvas")
+		title = title.ToLowerInvariant();
+
+		if (CanvasProperties.IsCanvasSection(title))
 		{
 			var add = CurrentFrame.GetStack();
 			_canvas.AddRange(add);
 		}
 
-		title = title.ToLowerInvariant();
-		if (title == "ignore")
+		if (CanvasProperties.IsIgnoreSection(title))
 		{
 			_sectionType = SectionType.Ignore;
-		}else if (title == "properties")
+		}else if (title == "properties" || title == "meta")
 		{
 			_sectionType = SectionType.CanvasProperties;
 		}
@@ -146,6 +147,11 @@ public class Environment
 			case "height":
 				CanvasProperties.Height = val.AsNumber();
 				break;
+			case "canvasSection":
+				CanvasProperties.CanvasSection = val.AsStringOrID();
+				break;
+			case "ignoreSection":
+				throw new NotImplementedException("can't set ignore section override");
 			default:
 				throw new Exception($"Unknown Meta Property '{prop}'");
 		}

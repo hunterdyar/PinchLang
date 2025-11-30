@@ -47,7 +47,7 @@
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eda3d1a6_002De973_002D45d3_002D8b21_002D4e7568286d5c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Walker1 #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eda3d1a6_002De973_002D45d3_002D8b21_002D4e7568286d5c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Walker1 #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.Walker1&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.ShapesNoPushPop&lt;/TestId&gt;&#xD;
@@ -70,17 +70,5 @@
     &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ExprTests.BinaryOperatorTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ExprTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.Tests.ModDecAndRunTest&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f600a70c_002D4a1a_002D4515_002Db19e_002D8105392369d8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="SectionListTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.SectionListTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.SectionListTest2&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.SectionListTest1&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.ModuleWithBlockDecTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.StackBlockTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.StackBlockSingleTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.ModuleCallTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::D3E2FEA1-9CB6-4E07-AD86-21F0E6E0943F::net9.0::PinchLangTests.ParserTests.ModuleCallWithExpressionsTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

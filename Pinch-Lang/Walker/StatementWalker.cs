@@ -17,14 +17,14 @@ public class StatementWalker
 	public void Walk(Root root)
 	{
 		//why not be allowed to declare a [shapes] then a [metadata] then a [shapes] again? just treat them as in one order....
-		foreach (var sections in root.Sections)
+		foreach (var section in root.Sections)
 		{
-			_environment.SetSection(sections.Header.Title);
+			_environment.SetSection(section.Header.Title);
 			switch (_environment.SectionType)
 			{
 				case SectionType.Regular:
 				{
-					foreach (var statement in sections.Statements)
+					foreach (var statement in section.Statements)
 					{
 						WalkStatement(statement);
 					}
@@ -33,7 +33,7 @@ public class StatementWalker
 				}
 				case SectionType.CanvasProperties:
 				{
-					foreach (var statement in sections.Statements)
+					foreach (var statement in section.Statements)
 					{
 						WalkPropertiesStatement(statement);
 					}

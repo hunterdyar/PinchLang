@@ -1,6 +1,7 @@
 using System.Text;
 using ShapesDeclare.Utility;
 using Superpower.Model;
+using Environment = Pinch_Lang.Engine.Environment;
 
 namespace ShapesDeclare.AST;
 
