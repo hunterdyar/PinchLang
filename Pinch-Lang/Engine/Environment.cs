@@ -89,12 +89,14 @@ public class Environment
 	public void SetSection(string title)
 	{
 		title = title.ToLowerInvariant();
-
-		if (CanvasProperties.IsCanvasSection(title))
+		//update the 'old' section, as the current frame is that. .. this... thatthis.
+		if (CanvasProperties.IsCanvasSection(_currentSection))
 		{
 			var add = CurrentFrame.GetStack();
 			_canvas.AddRange(add);
 		}
+		
+		//now, make sure the new section is set correctly.
 
 		if (CanvasProperties.IsIgnoreSection(title))
 		{

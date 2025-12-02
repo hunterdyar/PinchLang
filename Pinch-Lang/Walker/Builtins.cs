@@ -17,6 +17,8 @@ public static class Builtins
 		//shape prims
 		{ "circle", Circle},
 		{ "rect", Rect},
+		{ "crect", CenterRect},
+		{ "mmrect", MinMaxRect},
 
 		//GeoProcessing.cs functions
 		{ "convex_hull", Walker.GeoProcessing.ConvexHull},
@@ -161,8 +163,8 @@ public static class Builtins
 		var circle = new Circle(env, new Coordinate(cx, cy), radius);
 		env.Push(circle);
 	}
-
-	public static void Rect(Environment env, ValueItem[] args, List<StackItem> context)
+	
+	public static void MinMaxRect(Environment env, ValueItem[] args, List<StackItem> context)
 	{
 		ValidateArgumentCount("rect", args.Length, [
 			["minX", "minY", "maxX", "maxY"],
@@ -173,6 +175,57 @@ public static class Builtins
 		double maxY = args[3].AsNumber();
 
 		var rect = new Rect(env, new Coordinate(minx, minY), new Coordinate(maxX, maxY));
+		env.Push(rect);
+	}
+
+	public static void Rect(Environment env, ValueItem[] args, List<StackItem> context)
+	{
+		ValidateArgumentCount("rect", args.Length, [
+			["minX", "minY", "width", "height"],
+		]);
+		double minx = args[0].AsNumber();
+		double minY = args[1].AsNumber();
+		double width = args[2].AsNumber();
+		double height = args[3].AsNumber();
+
+		if (width < 0)
+		{
+			minx -= width;
+			width = Math.Abs(width);
+		}
+		if (height < 0)
+		{
+			minY -= height;
+			height = Math.Abs(height);
+		}
+		
+		var rect = new Rect(env, new Coordinate(minx, minY), new Coordinate(minx+width, minY+height));
+		env.Push(rect);
+	}
+	
+	public static void CenterRect(Environment env, ValueItem[] args, List<StackItem> context)
+	{
+		ValidateArgumentCount("center_rect", args.Length, [
+			["minX", "minY", "width", "height"],
+		]);
+		double cx = args[0].AsNumber();
+		double cy = args[1].AsNumber();
+		double width = args[2].AsNumber();
+		double height = args[3].AsNumber();
+
+		if (width < 0)
+		{
+			width = Math.Abs(width);
+		}
+		if (height < 0)
+		{
+			height = Math.Abs(height);
+		}
+
+		width = width / 2;
+		height = height / 2;
+		
+		var rect = new Rect(env, new Coordinate(cx-width,cy-height), new Coordinate(cx+width, cx+height));
 		env.Push(rect);
 	}
 
