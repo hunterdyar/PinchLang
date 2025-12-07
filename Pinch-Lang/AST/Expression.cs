@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using ShapesDeclare.Utility;
 using Superpower.Model;
+using Environment = Pinch_Lang.Engine.Environment;
 
 namespace ShapesDeclare.AST;
 
@@ -13,9 +14,9 @@ public enum IdentPrefix
 	Bang,
 	Octothorpe
 }
-public class Expression
+public abstract class Expression
 {
-	
+
 }
 
 public class Identifier : Expression
@@ -111,6 +112,30 @@ public class StringLiteral : Literal
 	}
 }
 
+public class ListLiteral : Literal
+{
+	public Expression[] Items;
+
+	public ListLiteral(Expression[] items)
+	{
+		Items = items;
+	}
+
+	override public string ToString()
+	{
+		return "[" + Items.ToStringDelimited(" ")+"]";
+	}
+
+	public bool IsPoint()
+	{
+		if (Items.Length == 2)
+		{
+			
+		}
+	
+		return false;
+	}
+}
 
 public class FunctionExpressionCall : Expression
 {

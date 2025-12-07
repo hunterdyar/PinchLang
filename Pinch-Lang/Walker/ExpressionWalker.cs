@@ -22,6 +22,9 @@ public class ExpressionWalker
 				return new NumberValue(numberLiteral.Value);
 			case StringLiteral stringLiteral:
 				return new StringValue(stringLiteral.Value);
+			case ListLiteral listLiteral:
+				var items = listLiteral.Items.Select(x=>WalkExpression(x)).ToArray();
+				return new ListValue(items);
 			case Identifier id:
 				if (_environment.CurrentFrame.TryGetValueItem(id.Value.ToString(), out var vi))
 				{

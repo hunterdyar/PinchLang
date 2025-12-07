@@ -23,11 +23,18 @@ public static class ExprParser
 		from str in Token.EqualTo(SToken.String)
 		select (Expression)new StringLiteral(str.Span);
 
+		public static TokenListParser<SToken, Expression> ListLiteral { get; } =
+			from lb in Token.EqualTo(SToken.LBrace)
+			from exprs in Parse.Ref(() => Expr).ManyDelimitedBy(Token.EqualTo(SToken.Comma).Optional())
+			from rb in Token.EqualTo(SToken.RBrace)
+			select (Expression)new ListLiteral(exprs);
+
 		private static TokenListParser<SToken, Expression> Literal { get; } =
 			from literal in
 				NumberLiteral
 					.Or(StringLiteral)
 					//.Or(ShapeParser.ExpressionIdentifier)
+					.Or(ListLiteral)
 			select literal;
 
         static readonly TokenListParser<SToken, Expression> Factor =

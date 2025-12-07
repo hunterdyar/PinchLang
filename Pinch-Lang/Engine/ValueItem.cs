@@ -1,4 +1,5 @@
-﻿using Superpower.Model;
+﻿using System.Linq.Expressions;
+using Superpower.Model;
 
 namespace Pinch_Lang.Engine;
 
@@ -28,7 +29,7 @@ public abstract class ValueItem
 				throw new InvalidCastException($"Cannot convert {this} to name or string");
 		}
 	}
-	
+	public abstract bool IsNumeric(Pinch_Lang.Engine.Environment env);
 }
 
 public class NumberValue : ValueItem
@@ -43,6 +44,12 @@ public class NumberValue : ValueItem
 	{
 		get { return _value; }
 	}
+
+	public override bool IsNumeric(Environment env)
+	{
+		return true;
+	}
+
 	private double _value;
 
 	public NumberValue(double val)
@@ -63,7 +70,12 @@ public class StringValue : ValueItem
 	{
 		get { return _value; }
 	}
-	
+
+	public override bool IsNumeric(Environment env)
+	{
+		return false;
+	}
+
 	private string _value;
 
 	public StringValue(TextSpan value)
@@ -73,6 +85,26 @@ public class StringValue : ValueItem
 	public StringValue(string value)
 	{
 		_value = value;
+	}
+}
+
+public class ListValue : ValueItem
+{
+	public ValueItem[] Items;
+	public ListValue(ValueItem[] values)
+	{
+		Items = values;
+	}
+
+	public override object NativeValue => Items.Select(x=>x.NativeValue).ToArray();
+	public override bool IsNumeric(Environment env)
+	{
+		return false;
+	}
+
+	public bool IsPoint(Environment env)
+	{
+		return Items.Length == 2 && Items[0].IsNumeric(env) && Items[1].IsNumeric(env);
 	}
 }
 
@@ -87,6 +119,16 @@ public class IdentifierValue : ValueItem
 	public override object NativeValue
 	{
 		get { return _value; }
+	}
+
+	public override bool IsNumeric(Environment env)
+	{
+		if (env.CurrentFrame.TryGetValueItem(Value, out var item))
+		{
+			return item.IsNumeric(env);
+		}
+
+		return false;
 	}
 
 	private string _value;
