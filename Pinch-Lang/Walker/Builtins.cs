@@ -51,6 +51,10 @@ public static class Builtins
 
 	public static bool ValidateArgumentCount(string funcName, int providedCount, string[][] signatures)
 	{
+		if (providedCount == 0 && signatures.Length == 0)
+		{
+			return true;
+		}
 		var valid = signatures.Any(x => x.Length == providedCount);
 		if (!valid)
 		{
