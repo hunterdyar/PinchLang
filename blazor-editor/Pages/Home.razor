@@ -1,0 +1,26 @@
+﻿@page "/"
+@using BlazorMonaco.Editor
+
+<style>
+    #my-code-editor{
+        height: 800px;
+    }
+</style>
+
+<PageTitle>Pinch</PageTitle>
+
+<div>
+<StandaloneCodeEditor Id="my-code-editor" ConstructionOptions="EditorConstructionOptions" />
+</div>
+@code {
+
+    private StandaloneEditorConstructionOptions EditorConstructionOptions(StandaloneCodeEditor editor)
+    {
+        return new StandaloneEditorConstructionOptions
+        {
+            AutomaticLayout = true,
+            Language = "javascript",
+            Value = "function xyz() {\n" + "   console.log(\"Hello world!\");\n" + "}"
+        };
+    }
+}
